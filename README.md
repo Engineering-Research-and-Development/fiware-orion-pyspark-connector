@@ -63,8 +63,8 @@ python3 connector_start.py
 
 To obtain a stream of NGSI Events:
 
-- **Optional** modify the `{}_Primer.py` file to set up the spark configuration
-- **Optional** import the `{}_Primer.py` file (where {} indicates the name prefix of the file, i.e: NGSIV2) in your custom spark job and save both the event stream and the stream socket with the following code:
+- **Optional** modify the `{}_primer.py` file to set up the spark configuration
+- **Optional** import the `{}_primer.py` file (where {} indicates the name prefix of the file, i.e: NGSIV2) in your custom spark job and save both the event stream and the stream socket with the following code:
 
 ```python
 import {}_primer as NGSI
