@@ -81,7 +81,7 @@ class ServerThread(Thread):
         
     def run(self):
         try:
-            print('Executing Connection Socket...')
+            print('Starting HTTP Server...')
             self.server.serve_forever()
         except KeyboardInterrupt: 
             print('Server Stopped')
