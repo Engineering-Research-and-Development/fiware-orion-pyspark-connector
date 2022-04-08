@@ -6,7 +6,6 @@
 -   [What is this connector](#what-is-this-connector)
 -   [Requirements and installation](#requirements-and-installation)
 -   [Usage](#usage)
--   [Maintainers](#maintainers)
 -   [Roadmap](#roadmap)
 -   [License](#license)
 
@@ -72,3 +71,5 @@ event, ssc = NGSI.Prime()
 #event variable contains the parsed stream, ssc is the stream itself. 
 #Apply the pyspark algorithm on the event variable, then run the stream using ssc.run()
 ```
+
+## Roadmap
