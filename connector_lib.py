@@ -89,19 +89,19 @@ class ServerThread(Thread):
 
 class ConnectionThread(Thread):
     
-    def __init__(self, serv, cli, cliaddress, clilist):
+    def __init__(self, serv, cli, cliaddress, firstcli):
         Thread.__init__(self)
         self.sock = serv
         self.cli = cli
         self.cliaddress = cliaddress
-        #TODO: Find an elegant way to save the first client only
-        self.clilist = clilist
+
+        self.firstcli = firstcli
     
     
     def run(self):
         
         print("Connection Open from: {}".format(self.cliaddress))
-        if self.cli == self.clilist[0]:
+        if self.cli == self.firstcli:
             
             try:
                 while True:
@@ -116,10 +116,10 @@ class ConnectionThread(Thread):
                 while True:
                     data = self.cli.recv(2048)
                     if data:
-                        self.clilist[0].sendall(data)
+                        self.firstcli.sendall(data)
                     else:
                         print("Received all from: {}".format(self.cliaddress))
-                        if self.clilist[0] != self.cli:
+                        if self.firstcli != self.cli:
                             self.cli.close()
                             raise KeyboardInterrupt
 
@@ -136,8 +136,7 @@ class SocketThread(Thread):
         Thread.__init__(self)
         self.sock = sock
         self.address = address
-        #TODO: Find an elegant way to save the first client only
-        self.clilist = []
+        self.firstcli = None
         
         
     def run(self):
@@ -148,8 +147,9 @@ class SocketThread(Thread):
 
             while True:    
                 (cli, cliadd) = self.sock.accept();
-                if len(self.clilist) == 0:
-                    self.clilist.append(cli)
+                if self.firstcli == None:
+                    if cliadd[1] != connectorconf.HTTPSOCKETPORT
+                    	self.firstcli = cli
                 tr = ConnectionThread(self.sock, cli, cliadd, self.clilist)
                 tr.start()
 
@@ -211,6 +211,8 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 	    
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        socket_to_send .setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        socket_to_send.connect((connectorconf.HTTPSOCKETADDRESS, connectorconf.HTTPSOCKETPORT))
         socket_to_send.connect((connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT))
         socket_to_send.send(msg.encode("utf-8"))
         #socket_to_send.shutdown(socket.SHUT_RDWR)
