@@ -17,8 +17,10 @@ The orion-pyspark connector is currently a custom tool capable of receiving HTTP
 The tool is represented in the following diagram and it is made of:
 
 <p align="center">
-  <img width="460" height="300" src="http://https://user-images.githubusercontent.com/103200695/162401586-22396bb7-6589-45f6-b7cc-0882af7d6c61.png>
+  <img width="460" height="300" src="http://https://user-images.githubusercontent.com/103200695/162401586-22396bb7-6589-45f6-b7cc-0882af7d6c61.png">
 </p>
+                                     
+
 
 
 -   **`Connector Library & NGSI classes`**: Set of functions and class definition for NGSI Events
