@@ -45,7 +45,7 @@ pip3 install -r requirements.txt
 ```
 
 Now every required library to run the connector is ready. <br />
-**`N.B:`** The requirements files contains requirement for the connector and the primer. Spark itself is omitted since it is assumed that this library is already installed. If spark is needed, use the following guide:
+**N.B:** The requirements files contains requirement for the connector and the primer. Spark itself is omitted since it is assumed that this library is already installed. If spark is needed, use the following guide:
 
 [Install Spark](https://towardsdatascience.com/installing-pyspark-with-java-8-on-ubuntu-18-04-6a9dea915b5b)
 
