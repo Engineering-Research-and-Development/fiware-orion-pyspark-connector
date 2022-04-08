@@ -34,8 +34,16 @@ On linux terminal:
 ```console
 sudo apt update
 sudo apt-get install python3.8
+sudo apt-get install python3-pip
 ```
 
-In the `requirements.txt` file there is a serie of dependencies useful to
+In the `requirements.txt` found in this repository file there is a serie of dependencies useful to load every library used in the connector.
+Once downloaded this file, open the terminal in the repository folder and run the following commands:
 
+```console
+pip3 install -r requirements.txt
+```
+
+Now every required library to run the connector is ready.
+*N.B:* in the requirement file pyspark is omitted since it is assumed that this library is already installed. If pyspark is needed, move to: https://towardsdatascience.com/installing-pyspark-with-java-8-on-ubuntu-18-04-6a9dea915b5b and follow the guide.
 
