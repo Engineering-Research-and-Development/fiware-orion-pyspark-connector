@@ -20,14 +20,22 @@ The tool is represented in the following diagram and it is made of:
 ![Connector-diagram](https://user-images.githubusercontent.com/103200695/162405802-3bc222df-63aa-41d9-a347-3c270d8ab8a4.png)
 
 
-                                     
-
-
-
 -   **`Connector Library & NGSI classes`**: Set of functions and class definition for NGSI Events
 -   **`Connector start`**: Python 3.8 code to start the connector.
--   **`* Primers`**: Python 3.8 code to implement in a pyspark job to obtain .
+-   **`* Primers (OPTIONAL)`**: Python 3.8 code to implement in a pyspark job to obtain a stream of NGSI Event objects
 
-# Installation
+
+
+# Requirements and installation
+
+The tool source code is written in Python 3.8 and this python version should be installed on the machine running the connector
+On linux terminal:
+
+```console
+sudo apt update
+sudo apt-get install python3.8
+```
+
+In the `requirements.txt` file there is a serie of dependencies useful to
 
 
