@@ -97,19 +97,8 @@ It is important to underline that currently this connector support a single-inpu
 
 ## License
 
-## License
-
 This software is licensed under [GNU General Public License (GPL) version 3](./LICENSE.txt).
 
-### Are there any legal issues with GPL 3.0? Is it safe for me to use?
-
-There is absolutely no problem in using a product licensed under GPL 3.0. Issues with GPL (or AGPL) licenses are mostly
-related with the fact that different people assign different interpretations on the meaning of the term “derivate work”
-used in these licenses. Due to this, some people believe that there is a risk in just _using_ software under GPL or AGPL
-licenses (even without _modifying_ it).
-
-For the avoidance of doubt, the owners of this software licensed under an AGPL-3.0 license wish to make a clarifying
-public statement as follows:
 
 > Please note that software derived as a result of modifying the source code of this software in order to fix a bug or
 > incorporate enhancements is considered a derivative work of the product. Software that merely uses or aggregates (i.e.
