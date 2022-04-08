@@ -148,9 +148,10 @@ class SocketThread(Thread):
             while True:    
                 (cli, cliadd) = self.sock.accept();
                 if self.firstcli == None:
-                    if cliadd[1] != connectorconf.HTTPSOCKETPORT
+                    print("Saving streaming connector address")
+                    if cliadd[1] != connectorconf.HTTPSOCKETPORT:
                     	self.firstcli = cli
-                tr = ConnectionThread(self.sock, cli, cliadd, self.clilist)
+                tr = ConnectionThread(self.sock, cli, cliadd, self.firstcli)
                 tr.start()
 
         except KeyboardInterrupt:
