@@ -11,5 +11,5 @@ ssc = StreamingContext(sc, 10)
 record = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=StorageLevel.MEMORY_AND_DISK_2)
 
 
-l = record.map(lambda x: ParseToNGSIv2(x))
+event_stream = record.map(lambda x: ParseToNGSIv2(x))
 
