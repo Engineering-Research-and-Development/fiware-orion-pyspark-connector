@@ -1,4 +1,4 @@
-# fiware-orion-pyspark-connector
+# FIWARE Orion pyspark connector
 
 
 ## Table of Contents
@@ -75,7 +75,7 @@ event, ssc = NGSI.Prime()
 
 ## Actual Version Limits
 
-It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <\br>
+It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <br />
 It is strongly reccomended to use this connector in local: a future version implementing security will be provided
 
 
