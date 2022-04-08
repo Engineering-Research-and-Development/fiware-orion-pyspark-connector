@@ -99,7 +99,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ## License
 
-This software is licensed under [GNU General Public License (GPL) version 3](./LICENSE.txt).
+This software is licensed under [Affero GNU General Public License (GPL) version 3](./LICENSE.txt).
 
 
 > Please note that software derived as a result of modifying the source code of this software in order to fix a bug or
