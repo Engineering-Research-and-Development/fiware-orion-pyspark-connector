@@ -6,6 +6,7 @@
 -   [What is this connector](#what-is-this-connector)
 -   [Requirements and installation](#requirements-and-installation)
 -   [Usage](#usage)
+-   [Actual Version Limits](#actual-version-limits)
 -   [Roadmap](#roadmap)
 -   [License](#license)
 
@@ -72,4 +73,23 @@ event, ssc = NGSI.Prime()
 #Apply the pyspark algorithm on the event variable, then run the stream using ssc.run()
 ```
 
+## Actual Version Limits
+
+It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses. 
+
+
 ## Roadmap
+
+### Short Term
+
+- Efficiency improvements
+- Better Socket management (automatic ports)
+- Adding NGSI-LD support
+
+### Medium Term
+
+- Subscribing tool
+- Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
+
+### Long Term
+- Adding a Sink to write back to the broker.
