@@ -45,5 +45,6 @@ pip3 install -r requirements.txt
 ```
 
 Now every required library to run the connector is ready.
-*N.B:* in the requirement file pyspark is omitted since it is assumed that this library is already installed. If pyspark is needed, move to: https://towardsdatascience.com/installing-pyspark-with-java-8-on-ubuntu-18-04-6a9dea915b5b and follow the guide.
+*N.B:* in the requirement file pyspark is omitted since it is assumed that this library is already installed. If pyspark is needed, use the following guide: `https://towardsdatascience.com/installing-pyspark-with-java-8-on-ubuntu-18-04-6a9dea915b5b`
+
 
