@@ -61,3 +61,14 @@ Once installed the requirements, the connector is easy to use:
 python3 connector_start.py
 ```
 
+To obtain a stream of NGSI Events:
+
+- **OPTIONAL** modify the `{}_Primer.py` file to set up the spark configuration
+- **OPTIONAL** import the `{}_Primer.py` file (where {} indicates the name prefix of the file, i.e: NGSIV2) in your custom spark job with the following code:
+- 
+```python
+import {}_primer as NGSI
+event, ssc = NGSI.Prime()
+#event variable contains the parsed stream, ssc is the stream itself. 
+#Apply the pyspark algorithm on the event variable, then run the stream using ssc.run()
+```
