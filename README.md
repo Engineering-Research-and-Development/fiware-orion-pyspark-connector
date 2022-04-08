@@ -75,7 +75,8 @@ event, ssc = NGSI.Prime()
 
 ## Actual Version Limits
 
-It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses. 
+It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <\br>
+It is strongly reccomended to use this connector in local: a future version implementing security will be provided
 
 
 ## Roadmap
@@ -93,6 +94,7 @@ It is important to underline that currently this connector support a single-inpu
 
 ### Long Term
 - Adding a Sink to write back to the broker.
+- Adding security to connections
 
 
 ## License
