@@ -56,7 +56,8 @@ Once installed the requirements, the connector is easy to use:
 - Load files on the same machine running the spark job
 - Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. **Don't use the same address and port for the HTPP Server and the Socket Server**
 - Make a subscription to the Orion Broker, inserting the HTTP server address and port
-- Run the connector using ```console
+- Run the connector using 
+```console
 python3 connector_start.py
 ```
 
