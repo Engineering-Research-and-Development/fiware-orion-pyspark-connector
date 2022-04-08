@@ -212,7 +212,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 	    
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        socket_to_send .setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        socket_to_send.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         socket_to_send.connect((connectorconf.HTTPSOCKETADDRESS, connectorconf.HTTPSOCKETPORT))
         socket_to_send.connect((connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT))
         socket_to_send.send(msg.encode("utf-8"))
