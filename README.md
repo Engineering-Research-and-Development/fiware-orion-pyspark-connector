@@ -16,8 +16,9 @@
 The orion-pyspark connector is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a pyspark job.
 The tool is represented in the following diagram and it is made of:
 
-{center}
-![Connector-diagram](https://user-images.githubusercontent.com/103200695/162405802-3bc222df-63aa-41d9-a347-3c270d8ab8a4.png)
+<div style="text-align:center">
+  ![Connector-diagram](https://user-images.githubusercontent.com/103200695/162405802-3bc222df-63aa-41d9-a347-3c270d8ab8a4.png)
+</div>
 
                                      
 
