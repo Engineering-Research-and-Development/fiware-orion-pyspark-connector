@@ -170,18 +170,14 @@ def StructureNGSIv2Request(request, body, timestamp):
     
     message = "{"
     
-    #ts = timestamp.strftime("YYYY-MM-DDThh:mm:ss.sssZ")
     ts = timestamp.isoformat()
     
     message = message + '"{}":"{}",'.format("timestamp", ts)
     
-    content_lenght = int(request.headers['Content-Length'])
-
-    
     for field in request.headers:
         message = message + '"{}":"{}",'.format(field,request.headers[field])
     
-    message = message + '"Body":{}'.format(body[1:-1])
+    message = message + '"Body":{}'.format(body[2:-1])
     message = message + "}\n"
     
     return message
@@ -207,9 +203,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         ts = datetime.now()
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-        #print(self.headers)
-        #print(post_data)
-        msg = StructureNGSIv2Request(self, str(post_data)[1:], ts)
+        msg = StructureNGSIv2Request(self, str(post_data), ts)
 	    
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
