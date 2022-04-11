@@ -84,7 +84,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 ### Short Term
 
 - Efficiency improvements
-- Find an elegant way to save Spark Client
+- Find an elegant way to keep Spark socket in memory
 - Better Socket management (automatic ports)
 - Adding NGSI-LD support
 
