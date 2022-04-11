@@ -85,6 +85,7 @@ class ServerThread(Thread):
             self.server.serve_forever()
         except KeyboardInterrupt: 
             print('Server Stopped')
+            
 
 
 class ConnectionThread(Thread):
@@ -136,30 +137,30 @@ class SocketThread(Thread):
         Thread.__init__(self)
         self.sock = sock
         self.address = address
+        #TODO: Fix apache client socket saving.
         self.firstcli = None
         
         
     def run(self):
         try:
             self.sock.listen(10)
-            #self.sock.connect(self.address)
             print('server socket opened')
 
             while True:    
                 (cli, cliadd) = self.sock.accept();
                 if self.firstcli == None:
-                    print("Saving streaming connector address")
+                    
                     if cliadd[1] != connectorconf.HTTPSOCKETPORT:
                     	self.firstcli = cli
-                tr = ConnectionThread(self.sock, cli, cliadd, self.firstcli)
-                tr.start()
+                    	print("Saving streaming connector address")
+                else:
+                    tr = ConnectionThread(self.sock, cli, cliadd, self.firstcli)
+                    tr.start()
 
         except KeyboardInterrupt:
-            #self.sock.shutdown(socket.SHUT_RDWR)
             self.sock.close()
             print('socket closed')
         finally:
-            #self.sock.shutdown(socket.SHUT_RDWR)
             self.sock.close()
             print('socket closed')
 
@@ -213,10 +214,11 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_to_send.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        socket_to_send.bind((connectorconf.HTTPSOCKETADDRESS, connectorconf.HTTPSOCKETPORT))
+        #TODO: Currently it is impossible to bind a fixed address since broker sends data too fast
+        #socket_to_send.bind((connectorconf.HTTPSOCKETADDRESS, connectorconf.HTTPSOCKETPORT))
         socket_to_send.connect((connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT))
         socket_to_send.send(msg.encode("utf-8"))
-        #socket_to_send.shutdown(socket.SHUT_RDWR)
+
         socket_to_send.close()
         
         self.send_response(200)
