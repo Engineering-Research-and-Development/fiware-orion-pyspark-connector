@@ -106,7 +106,7 @@ class ConnectionThread(Thread):
             
             try:
                 while True:
-                    data = self.cli.recv(2048)
+                    data = self.cli.recv(connectorconf.SOCKET_BUFFER)
             
             except KeyboardInterrupt:
                 print('Closed Connection')
@@ -115,7 +115,7 @@ class ConnectionThread(Thread):
         else:    
             try:
                 while True:
-                    data = self.cli.recv(2048)
+                    data = self.cli.recv(connectorconf.SOCKET_BUFFER)
                     if data:
                         self.firstcli.sendall(data)
                     else:
@@ -168,17 +168,27 @@ class SocketThread(Thread):
 
 def StructureNGSIv2Request(request, body, timestamp):
     
-    message = "{"
     
-    ts = timestamp.isoformat()
     
-    message = message + '"{}":"{}",'.format("timestamp", ts)
+    if connectorconf.REQUEST_COMPLETENESS: #HEADERS + BODY
     
-    for field in request.headers:
-        message = message + '"{}":"{}",'.format(field,request.headers[field])
+        message = "{"
+        ts = timestamp.isoformat()
     
-    message = message + '"Body":{}'.format(body[2:-1])
-    message = message + "}\n"
+        message = message + '"{}":"{}",'.format("timestamp", ts)
+    
+        for field in request.headers:
+            message = message + '"{}":"{}",'.format(field,request.headers[field])
+    
+        message = message + '"Body":{}'.format(body[2:-1])
+        message = message + "}\n"
+        
+    else: #BODY ONLY
+        message = '{}\n'.format(body[2:-1])
+    
+    
+    
+    
     
     return message
     
@@ -204,6 +214,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         msg = StructureNGSIv2Request(self, str(post_data), ts)
+        #print(msg)
 	    
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
