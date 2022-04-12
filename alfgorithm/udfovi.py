@@ -50,7 +50,7 @@ print("Configuration completed")
 #    .selectExpr("CAST(value AS STRING)")
 
 ### ADDING PYSPARK STREAMING CONTEXT
-ssc = spark.StreamingContext(spark.SparkContext(), 10)
+ssc = StreamingContext(spark.SparkContext(), 10)
 df = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=StorageLevel.MEMORY_AND_DISK_2)
 
 
@@ -87,15 +87,17 @@ NumberUDF = df.map(lambda x: Converter(x)) \
 #     .option("truncate", True) \
 #     .start()
 
-query = df.withColumn("Concentration", NumberUDF("value")) \
-        .select("Concentration") \
-        .selectExpr("CAST('Concentration' AS STRING)", "to_json(struct(*)) AS value") \
-        .writeStream \
-        .format("kafka") \
-        .option("kafka.bootstrap.servers", "kafka:9092") \
-        .option("topic", "spark.out") \
-        .option("checkpointLocation", "./testdir") \
-        .option("truncate", True) \
-        .start()
+#query = df.withColumn("Concentration", NumberUDF("value")) \
+#        .select("Concentration") \
+#        .selectExpr("CAST('Concentration' AS STRING)", "to_json(struct(*)) AS value") \
+#        .writeStream \
+#        .format("kafka") \
+#        .option("kafka.bootstrap.servers", "kafka:9092") \
+#        .option("topic", "spark.out") \
+#        .option("checkpointLocation", "./testdir") \
+#        .option("truncate", True) \
+#        .start()
 
-query.awaitTermination()
+#query.awaitTermination()
+ssc.start()
+ssc.awaitTermination()
