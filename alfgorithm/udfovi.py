@@ -11,6 +11,7 @@ import pybaselines
 ### IMPORTING FILES
 import conf as connectorconf
 import connector_start
+from pyspark.streaming import StreamingContext
 
 
 
@@ -18,6 +19,11 @@ spark = SparkSession.builder.appName('CPS1 Streaming Kafka').master("yarn").getO
 # sc = spark.sparkContext
 spark.sparkContext.setLogLevel("ERROR")
 # ssc = StreamingContext(sc, 20)
+
+
+### ADDING PYSPARK STREAMING CONTEXT
+ssc = StreamingContext(spark.SparkContext, 10)
+df = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=StorageLevel.MEMORY_AND_DISK_2)
 
 KAFKA_BOOTSTRAP_SERVERS_CONS="kafka:9092"
 
@@ -49,9 +55,7 @@ print("Configuration completed")
 #    .load() \
 #    .selectExpr("CAST(value AS STRING)")
 
-### ADDING PYSPARK STREAMING CONTEXT
-ssc = StreamingContext(spark.SparkContext, 10)
-df = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=StorageLevel.MEMORY_AND_DISK_2)
+
 
 
 def datachange_notification(val):
@@ -76,7 +80,8 @@ def Converter(str):
 ###Commenting this line
 #NumberUDF = udf(lambda m: Converter(m))
 
-NumberUDF = df.map(lambda x: Converter(x)) \
+numberUDF = df.map(lambda x: Converter(x)) 
+numberUDF.pprint()
 
 
 
