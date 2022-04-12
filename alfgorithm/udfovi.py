@@ -10,7 +10,7 @@ import pybaselines
 
 ### IMPORTING FILES
 import conf as connectorconf
-import connector_start.py
+import connector_start
 
 
 
