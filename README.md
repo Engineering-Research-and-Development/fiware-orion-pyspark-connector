@@ -22,7 +22,7 @@ The tool is represented in the following diagram and it is made of:
 
 -   **`Connector Library & NGSI classes`**: Set of functions and class definition for NGSI Events
 -   **`Connector start`**: Python 3.8 code to start the connector.
--   **`Primers (OPTIONAL)`**: Python 3.8 code to implement in a pyspark job to obtain a stream of NGSI Event objects
+-   **`Primers (OPTIONAL)`**: Python 3.8 pyspark streaming to implement in an own pyspark job to obtain a stream of NGSI Event objects
 
 
 
