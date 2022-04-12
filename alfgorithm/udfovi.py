@@ -50,7 +50,7 @@ print("Configuration completed")
 #    .selectExpr("CAST(value AS STRING)")
 
 ### ADDING PYSPARK STREAMING CONTEXT
-ssc = StreamingContext(spark.SparkContext(), 10)
+ssc = StreamingContext(spark.SparkContext, 10)
 df = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=StorageLevel.MEMORY_AND_DISK_2)
 
 
