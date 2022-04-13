@@ -115,7 +115,7 @@ event, ssc = NGSI.Prime()
 
 ### Replier
 
-The replier is much more easier to use. <br \>
+The replier is much more easier to use.  <br />
 As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
 - Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH"
 - Run the JSONBlueprinter using:
