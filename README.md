@@ -27,6 +27,9 @@ The tool is represented in the following diagram and it is made of:
 -   **`Primers (OPTIONAL)`**: Python 3.8 pyspark streaming to implement in an own pyspark job to obtain a stream of NGSI Event objects
 
 
+### Replier Side
+
+
 
 ## Requirements and installation
 
@@ -56,7 +59,7 @@ Now every required library to run the connector is ready. <br />
 
 ### Receiver
 
-Once installed the requirements, the connector is easy to use:
+Once installed the requirements, it is possible to use the connector by following these steps:
 - Load files on the same machine running the spark job
 - Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. **Don't use the same address and port for the HTPP Server and the Sockets**
 - Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
@@ -110,6 +113,18 @@ event, ssc = NGSI.Prime()
 #Apply the pyspark algorithm on the event variable, then run the stream using ssc.run()
 ```
 
+### Replier
+
+The replier is much more easier to use. As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
+- Run the JSONBlueprinter using:
+```console
+python3 JSONBlueprinter.py
+```
+and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects.
+Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton, keeping in mind some additional rules as:
+
+
+
 ## Actual Version Limits
 
 It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <br />
@@ -120,20 +135,20 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Short Term
 
-- ~~Adding a Sink to write back to the broker.~~
-- Efficiency improvements
-- Find an elegant way to keep Spark socket in memory
-- Better Socket management (automatic ports)
+- [x] Adding a Sink to write back to the broker.
+- [ ] Efficiency improvements
+- [ ] Find an elegant way to keep Spark socket in memory
+- [ ] Better Socket management (automatic ports)
 
 
 ### Medium Term
 
-- Adding NGSI-LD support
-- Subscribing tool
-- Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
+- [ ] Adding NGSI-LD support
+- [ ] Subscribing tool
+- [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
 
 ### Long Term
-- Adding security to connections
+- [ ] Adding security to connections
 
 
 ## License
