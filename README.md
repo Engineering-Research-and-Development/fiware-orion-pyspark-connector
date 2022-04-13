@@ -29,6 +29,9 @@ The tool is represented in the following diagram and it is made of:
 
 ### Replier Side
 
+The orion-pyspark replier is currently a set of tools composed by:
+- **`JSON Blueprinter`**: Python 3.8 little program to write a JSON Skeleton for the Replier
+- **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a JSON (based on the blueprint generated in with the previous tool) and sends it with a API request.
 
 
 ## Requirements and installation
