@@ -80,7 +80,7 @@ import conf as connectorconf #This is the configuration file
 - Obtain a SparkContext by configuring a SparkSession
 ```python
 from pyspark.sql import SparkSession
-spark = SparkSession.builder.appName("test").getOrCreate()
+spark = SparkSession.builder.appName("YOURAPPNAME").getOrCreate()
 sc = spark.SparkContext
 ```
 Alternatively, you can create a new SparkContext with your custom configuration
