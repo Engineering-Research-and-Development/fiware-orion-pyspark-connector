@@ -123,7 +123,7 @@ As mentioned above, to ensure a more user friendly customization, a JSON-Bluepri
 python3 JSONBlueprinter.py
 ```
 and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects.
-Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton. <br \>
+Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton.  <br />
   - Additional rules to JSON composing:
     - Select the *String* type to write string
     - Select the *Nested Object* type to open a nested object **THAT NEEDS TO BE COMPLETED FIELD BY FIELD**
