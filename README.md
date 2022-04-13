@@ -160,7 +160,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Medium Term
 
-- [ ] Adding NGSI-LD support to Receiver **Work in progress**
+- [ ] Adding NGSI-LD support to Receiver **(Work in progress)**
 - [ ] Adding NGSI-LD support to Sink
 - [ ] Subscribing tool
 - [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
