@@ -120,7 +120,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Short Term
 
-- Adding a Sink to write back to the broker.
+- ~~Adding a Sink to write back to the broker.~~
 - Efficiency improvements
 - Find an elegant way to keep Spark socket in memory
 - Better Socket management (automatic ports)
