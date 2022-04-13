@@ -156,20 +156,24 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Short Term
 
+- [ ] Adding NGSI-LD support to Receiver **(Almost Done)**
+- [ ] Adding NGSI-LD support to Sink
+- [ ] Subscribing tool
+
+
+
+### Medium Term
+
 - [x] Adding a Sink to write back to the broker.
 - [ ] Efficiency improvements
 - [ ] Find an elegant way to keep Spark socket in memory
 - [ ] Better Socket management (automatic ports)
 
 
-### Medium Term
-
-- [ ] Adding NGSI-LD support to Receiver **(Work in progress)**
-- [ ] Adding NGSI-LD support to Sink
-- [ ] Subscribing tool
-- [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
 
 ### Long Term
+
+- [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
 - [ ] Adding security to connections
 
 
