@@ -129,7 +129,7 @@ and follow the instructions of the tool. It will ask for the number of fields of
 Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton.  <br />
   - Additional rules to JSON composing:
     - Select the *String* type to write string
-    - Select the *Nested Object* type to open a nested object **THAT NEEDS TO BE COMPLETED FIELD BY FIELD**
+    - Select the *Nested Object* type to open a nested object **That needs to be completed field by field**
     - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
     - The total number of fields inserted (summing every nested field) have to match the total number of values produced by your pyspark algorithm
 - In you pyspark job import the receiver library
