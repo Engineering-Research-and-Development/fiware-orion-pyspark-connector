@@ -138,7 +138,7 @@ import replier_lib as replier
 ```
 - Process the stream of data and send back to the Orion broker using:
 ```python
-response = record.map(lambda x: replier.ReplyToBroker(x)
+response = record.map(lambda x: replier.ReplyToBroker(x))
 response.pprint()
 ```
 
