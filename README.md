@@ -27,11 +27,11 @@ The tool is represented in the following diagram and it is made of:
 -   **`Primers (OPTIONAL)`**: Python 3.8 pyspark streaming to implement in an own pyspark job to obtain a stream of NGSI Event objects
 
 
-### Replyer Side
+### Replier Side
 
-The orion-pyspark replyer is currently a set of tools composed by:
-- **`JSON Blueprinter`**: Python 3.8 little program to write a JSON Skeleton for the Replyer
-- **`Replyer Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a JSON (based on the blueprint generated in with the previous tool) and sends it with a API request.
+The orion-pyspark replier is currently a set of tools composed by:
+- **`JSON Blueprinter`**: Python 3.8 little program to write a JSON Skeleton for the Replier
+- **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a JSON (based on the blueprint generated in with the previous tool) and sends it with a API request.
 
 
 ## Requirements and installation
@@ -116,9 +116,9 @@ event, ssc = NGSI.Prime()
 #Apply the pyspark algorithm on the event variable, then run the stream using ssc.run()
 ```
 
-### Replyer
+### Replier
 
-The replyer is much more easier to use.  <br />
+The replier is much more easier to use.  <br />
 As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
 - Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH"
 - Run the JSONBlueprinter using:
