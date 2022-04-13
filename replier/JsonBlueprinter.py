@@ -4,7 +4,7 @@ def ChooseType(types, n):
     
     while True:
         try:
-            n = int(input("Select a type for the field under the root {}_:\n 0: String\n 1: Number\n 2: Nested Object\n 3: List of Strings\n 4: List of Numbers\n 5: List of Nested Object\n".format(n)))
+            n = int(input("Select a type for the field under the root {}_:\n 0: String\n 1: Other Field\n 2: Nested Object\n".format(n)))
             if n >= 0 or n<len(types):
                 break
             else:
@@ -38,7 +38,7 @@ def ComposeLine(t, name):
     
     if t == "S":
         string =  '{} {}:'.format(t, name) + '"{}"\n'
-    elif t == "N" or t =="LS" or t =="LN":
+    elif t == "O":
         string = '{} {}:'.format(t, name) + '{}\n'
         
     return string
@@ -60,7 +60,7 @@ def WriteFields(fields_numb, types, file, root = ""):
             except:
                 print("Please, insert a correct name without spaces")
         
-        if t == "S" or t == "N" or t =="LS" or t =="LN":
+        if t == "S" or t == "O":
             line = ComposeLine(t, name)
             file.write(line)
             print("Inserting field: {}".format(name))
@@ -70,7 +70,7 @@ def WriteFields(fields_numb, types, file, root = ""):
 
 def BlueprintJSON():
     
-    types = ["S", "N", "D", "LS", "LN", "LD"]
+    types = ["S", "O", "NEST"]
     f = open(rconf.BLUEPRINTFILE, "w")
     fields_numb = []
     
