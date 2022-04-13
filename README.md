@@ -115,15 +115,29 @@ event, ssc = NGSI.Prime()
 
 ### Replier
 
-The replier is much more easier to use. As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
+The replier is much more easier to use. <br \>
+As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
+- Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH"
 - Run the JSONBlueprinter using:
 ```console
 python3 JSONBlueprinter.py
 ```
 and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects.
-Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton, keeping in mind some additional rules as:
-
-
+Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton. <br \>
+  - Additional rules to JSON composing:
+    - Select the *String* type to write string
+    - Select the *Nested Object* type to open a nested object **THAT NEEDS TO BE COMPLETED FIELD BY FIELD**
+    - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
+    - The total number of fields inserted (summing every nested field) have to match the total number of values produced by your pyspark algorithm
+- In you pyspark job import the receiver library
+```python
+import replier_lib as replier
+```
+- Process the stream of data and send back to the Orion broker using:
+```python
+response = record.map(lambda x: replier.ReplyToBroker(x)
+response.pprint()
+```
 
 ## Actual Version Limits
 
