@@ -13,7 +13,7 @@ import time
 from datetime import datetime
 
 import conf as connectorconf
-import NGSIv2
+import NGSIv2, NGSILD
 
 from py4j.java_gateway import java_import, is_instance_of
 
@@ -67,6 +67,46 @@ def ParseToNGSIv2(API):
             
     
     event = NGSIv2.NGSIEventv2(timestamp, service, servicepath, entitylist)
+    
+    return event
+    
+    
+def ParseToNGSILD(API):
+    
+    json = ParseToJSON(API)
+    timestamp = json['timestamp']
+    service = json['Fiware-Service']
+    servicepath= json['Fiware-Servicepath']
+    context = json['Link']
+    body = json['Body']
+    entities = body['data']
+
+
+    entitylist = []
+    
+    for ent in entities:
+        keys = list(ent)
+        attrs = {}
+        
+        ID = ent['id']
+        typ = ent ['type']
+        
+        for i in range (2, len(keys)):
+            att = ent[keys[i]]
+            atttype = att['type']
+            attval = att['value']
+            try:
+            	attmeta = att['metadata']
+            except:
+            	attmeta = {}
+            attribute = NGSILD.AttributeLD(atttype, attval, attmeta)
+            attrs[keys[i]] = attribute
+       
+        entity = NGSILD.EntityLD(ID, typ, attrs, context)
+        entitylist.append(entity)
+            
+    
+    event = NGSILD.NGSIEventLD(timestamp, service, servicepath, entitylist)
     
     return event
 
@@ -186,13 +226,44 @@ def StructureNGSIv2Request(request, body, timestamp):
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
     
+    return message
     
     
     
+    
+def StructureNGSILDRequest(request, body):
+
+
+    if connectorconf.REQUEST_COMPLETENESS: #HEADERS + BODY
+    
+        message = "{"
+        
+        for line in body.split(","):
+            if "notifiedAt" in line:
+                tsline = line
+        
+        ts = tsline.split('"')[3]
+
+            
+    
+        message = message + '"{}":"{}",'.format("timestamp", ts)
+    
+        for field in request.headers:
+            message = message + '"{}":"{}",'.format(field,request.headers[field].replace('"', "'"))
+    
+        message = message + '"Body":{}'.format(body[2:-1])
+        message = message + "}\n"
+        
+    else: #BODY ONLY
+        message = '{}\n'.format(body[2:-1])
+        
     
     return message
     
     
+
+
+
 
 class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
@@ -210,10 +281,13 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         
        
     def do_POST(self):
-        ts = datetime.now()
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-        msg = StructureNGSIv2Request(self, str(post_data), ts)
+        
+        if "Link" in self.headers:
+            msg=StructureNGSILDRequest(self, str(post_data))
+        else:
+            msg = StructureNGSIv2Request(self, str(post_data), datetime.now())
         #print(msg)
 	    
 	    
