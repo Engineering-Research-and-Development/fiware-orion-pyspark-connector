@@ -149,7 +149,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Known Issues
 
-- If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with an escape character \ which is not allowed by the JSON Decoder. This will rise an exception.
+- If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *"\"* which is not allowed by the JSON Decoder. This will rise an exception.
 
 
 ## Roadmap
