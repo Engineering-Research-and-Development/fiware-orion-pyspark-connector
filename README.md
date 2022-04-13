@@ -147,6 +147,10 @@ response.pprint()
 It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <br />
 It is strongly reccomended to use this connector in local: a future version implementing security will be provided
 
+### Known Issues
+
+- If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with an escape character \ which is not allowed by the JSON Decoder. This will rise an exception.
+
 
 ## Roadmap
 
