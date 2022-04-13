@@ -13,7 +13,9 @@
 
 ## What is this connector
 
-The orion-pyspark connector is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a pyspark job.
+### Receiver Side
+
+The orion-pyspark receiver is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a pyspark job.
 The tool is represented in the following diagram and it is made of:
 
 
