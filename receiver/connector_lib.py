@@ -77,7 +77,13 @@ def ParseToNGSILD(API):
     timestamp = json['timestamp']
     service = json['Fiware-Service']
     servicepath= json['Fiware-Servicepath']
-    context = json['Link']
+    try:
+    	context = json['Link']
+    except:
+        try:
+            context = json['Body']['@context']
+        except:
+            context = ""
     body = json['Body']
     entities = body['data']
 
@@ -284,7 +290,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         
-        if "Link" in self.headers:
+        if "Link" in self.headers or '@context' in self.headers:
             msg=StructureNGSILDRequest(self, str(post_data))
         else:
             msg = StructureNGSIv2Request(self, str(post_data), datetime.now())
