@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import json
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from pyspark import SparkContext, SparkConf
@@ -123,10 +124,17 @@ class ServerThread(Thread):
     def __init__(self, server):
         Thread.__init__(self)
         self.server = server
+        self.awaken = False
+        
+    def Awake(self):
+        self.awaken = True
         
         
     def run(self):
         try:
+            print(not self.awaken)
+            while not self.awaken:
+                pass
             print('Starting HTTP Server...')
             self.server.serve_forever()
         except KeyboardInterrupt: 
@@ -143,6 +151,8 @@ class ConnectionThread(Thread):
         self.cliaddress = cliaddress
 
         self.firstcli = firstcli
+        
+
     
     
     def run(self):
@@ -153,6 +163,7 @@ class ConnectionThread(Thread):
             try:
                 while True:
                     data = self.cli.recv(connectorconf.SOCKET_BUFFER)
+
             
             except KeyboardInterrupt:
                 print('Closed Connection')
@@ -179,12 +190,15 @@ class ConnectionThread(Thread):
 class SocketThread(Thread):
     
     
-    def __init__(self, sock, address):
+    def __init__(self, sock, address, serverthread):
         Thread.__init__(self)
         self.sock = sock
         self.address = address
         #TODO: Fix apache client socket saving.
+        self.serverthread = serverthread
         self.firstcli = None
+        
+           
         
         
     def run(self):
@@ -195,10 +209,9 @@ class SocketThread(Thread):
             while True:    
                 (cli, cliadd) = self.sock.accept();
                 if self.firstcli == None:
-                    
-                    if cliadd[1] != connectorconf.HTTPSOCKETPORT:
-                    	self.firstcli = cli
-                    	print("Saving streaming connector address")
+                    self.firstcli = cli
+                    print("Awakening Server")
+                    self.serverthread.Awake()
                 else:
                     tr = ConnectionThread(self.sock, cli, cliadd, self.firstcli)
                     tr.start()
@@ -212,9 +225,10 @@ class SocketThread(Thread):
 
 
 
+
+
 def StructureNGSIv2Request(request, body, timestamp):
-    
-    
+
     
     if connectorconf.REQUEST_COMPLETENESS: #HEADERS + BODY
     

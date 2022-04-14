@@ -13,10 +13,6 @@ s.bind(socket_address)
 
 
 
-threadsocket = SocketThread(s, socket_address)
-threadsocket.start()
-
-
 server_address = (connectorconf.HTTPADDRESS, connectorconf.HTTPPORT)
 print(server_address)
 
@@ -27,5 +23,8 @@ httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
 
 threadserver = ServerThread(httpd)
 threadserver.start()
+
+threadsocket = SocketThread(s, socket_address, threadserver)
+threadsocket.start()
 
 
