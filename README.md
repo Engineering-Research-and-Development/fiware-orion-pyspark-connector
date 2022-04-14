@@ -157,9 +157,11 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Short Term
 
-- [ ] Adding NGSI-LD support to Receiver **(Almost Done)**
-- [ ] Adding NGSI-LD support to Sink
+- [x] Adding NGSI-LD support to Receiver
+- [ ] Adding NGSI-LD support to Sink **Working On**
+- [ ] Write a definitive JSON structurer tool
 - [ ] Subscribing tool
+- [ ] Find an elegant way to keep Spark socket in memory
 
 
 
@@ -167,7 +169,6 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 - [x] Adding a Sink to write back to the broker.
 - [ ] Efficiency improvements
-- [ ] Find an elegant way to keep Spark socket in memory
 - [ ] Better Socket management (automatic ports)
 
 
