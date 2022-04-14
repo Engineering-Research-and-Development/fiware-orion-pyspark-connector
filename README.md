@@ -121,18 +121,19 @@ event, ssc = NGSI.Prime()
 The replier is much more easier to use.  <br />
 As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
 - Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path.
-- To generate a JSON blueprint, simply JSONBlueprinter using:
+- Generate a JSON Blueprint
+  - Additional rules to JSON composing:
+   - The generated skeleton will have the following structure: TYPE_OF_FIELD "Fieldname": {} and the replier library knows how to decode it.
+   - Select the *String* type to write string
+   - Select the *Nested Object* type to open a nested object **That needs to be completed field by field**
+   - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
+   - The total number of fields inserted (summing every nested field) have to match the total number of values produced by your pyspark algorithm
 ```console
 python3 JSONBlueprinter.py
 ```
 and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects. This tool will generate a *.txt* file with the name provided in the configuration file.
 Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton.  <br />
-  - Additional rules to JSON composing:
-    - The generated skeleton will have the following structure: TYPE_OF_FIELD "Fieldname": {} and the replier library knows how to decode it.
-    - Select the *String* type to write string
-    - Select the *Nested Object* type to open a nested object **That needs to be completed field by field**
-    - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
-    - The total number of fields inserted (summing every nested field) have to match the total number of values produced by your pyspark algorithm
+
 - In you pyspark job import the receiver library
 ```python
 import replier_lib as replier
@@ -151,6 +152,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 ### Known Issues
 
 - If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *\\* which is not allowed by the JSON Decoder. This will rise an exception.
+- If the Orion Broker is continuously streaming while the connector is configuring, the multi-thread socket will save the HTTP Server socket as Apache Client, blocking the execution of the whole program.
 
 
 ## Roadmap
