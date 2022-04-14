@@ -151,8 +151,8 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Known Issues
 
-- If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *\\* which is not allowed by the JSON Decoder. This will rise an exception.
-- If the Orion Broker is continuously streaming while the connector is configuring, the multi-thread socket will save the HTTP Server socket as Apache Client, blocking the execution of the whole program.
+- [ ] If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *\\* which is not allowed by the JSON Decoder. This will rise an exception.
+- [x] If the Orion Broker is continuously streaming while the connector is configuring, the multi-thread socket will save the HTTP Server socket as Apache Client, blocking the execution of the whole program.
 
 
 ## Roadmap
@@ -163,7 +163,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 - [ ] Adding NGSI-LD support to Sink **Working On**
 - [ ] Write a definitive JSON structurer tool
 - [ ] Subscribing tool
-- [ ] Find an elegant way to keep Spark socket in memory **Working On**
+- [x] Find an elegant way to keep Spark socket in memory 
 
 
 
@@ -172,6 +172,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 - [x] Adding a Sink to write back to the broker.
 - [ ] Efficiency improvements
 - [ ] Better Socket management (automatic ports)
+- [ ] Find a **more elegant** way to keep only Spark sockets in memory without blocking the server
 
 
 
