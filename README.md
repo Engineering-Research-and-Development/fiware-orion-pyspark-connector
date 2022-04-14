@@ -120,14 +120,15 @@ event, ssc = NGSI.Prime()
 
 The replier is much more easier to use.  <br />
 As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
-- Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH"
-- Run the JSONBlueprinter using:
+- Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path.
+- To generate a JSON blueprint, simply JSONBlueprinter using:
 ```console
 python3 JSONBlueprinter.py
 ```
-and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects.
+and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects. This tool will generate a *.txt* file with the name provided in the configuration file.
 Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton.  <br />
   - Additional rules to JSON composing:
+    - The generated skeleton will have the following structure: TYPE_OF_FIELD "Fieldname": {} and the replier library knows how to decode it.
     - Select the *String* type to write string
     - Select the *Nested Object* type to open a nested object **That needs to be completed field by field**
     - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
