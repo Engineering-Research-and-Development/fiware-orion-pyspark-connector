@@ -121,13 +121,13 @@ event, ssc = NGSI.Prime()
 The replier is much more easier to use.  <br />
 As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
 - Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path.
-- Generate a JSON Blueprint
-  - Additional rules to JSON composing:
+- Generate a JSON Blueprint keeping the following rules **This step is needed only once per JSON format**
    - The generated skeleton will have the following structure: TYPE_OF_FIELD "Fieldname": {} and the replier library knows how to decode it.
    - Select the *String* type to write string
    - Select the *Nested Object* type to open a nested object **That needs to be completed field by field**
    - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
    - The total number of fields inserted (summing every nested field) have to match the total number of values produced by your pyspark algorithm
+To launch the Blueprinter, simply run:
 ```console
 python3 JSONBlueprinter.py
 ```
@@ -163,7 +163,7 @@ It is strongly reccomended to use this connector in local: a future version impl
 - [ ] Adding NGSI-LD support to Sink **Working On**
 - [ ] Write a definitive JSON structurer tool
 - [ ] Subscribing tool
-- [ ] Find an elegant way to keep Spark socket in memory
+- [ ] Find an elegant way to keep Spark socket in memory **Working On**
 
 
 
