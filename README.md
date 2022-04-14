@@ -95,7 +95,7 @@ conf = SparkConf().setAppName("YOURAPPNAME").set(YOURRESOURCEMANAGER, YOURMASTER
 sc = spark.SparkContext(conf = conf)
 ```
 with *n_nodes > 1*
-- Start a StreamingContext , passing the SparkContext and the number of second of your sliding window
+- Start a StreamingContext , passing the SparkContext and the number of seconds of your sliding window
 ```python
 ssc = StreamingContext(sc, YOUR_NSECONDS)
 ```
