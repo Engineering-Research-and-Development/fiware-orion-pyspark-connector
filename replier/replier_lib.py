@@ -92,7 +92,7 @@ def EncodeMsgFromBlueprint(values):
         
 def ReplyToBroker(values, apiURL=rconf.API_URL, apiMethod=rconf.METHOD):
     msg = EncodeMsgFromBlueprint(values)
-    headers= {"Content-Type": "application/json; charset=utf-8"}
+    headers= {"Content-Type": rconf.CONTENT_TYPE, "Fiware-Service" : rconf.FIWARE_SERVICE, "Fiware-Servicepath": rconf.FIWARE_SERVICEPATH}
     
     try:
         if apiMethod == "POST":
