@@ -290,7 +290,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         
-        if "Link" in self.headers or '@context' in self.headers:
+        if "Link" in self.headers or 'ld+json' in self.headers['Content-Type']:
             msg=StructureNGSILDRequest(self, str(post_data))
         else:
             msg = StructureNGSIv2Request(self, str(post_data), datetime.now())
