@@ -122,12 +122,20 @@ def Parse(API):
         attrs = {}
         
         ID = ent['id']
-        typ = ent ['type']
+        keys.remove('id')
+        typ = ent['type']
+        keys.remove('type')
         
-        for i in range (2, len(keys)):
+        for i in range (0, len(keys)):
             att = ent[keys[i]]
             atttype = att['type']
-            attval = att['value']
+            
+            if atttype == "Relationship":
+                attval = att['object']
+            else:
+                attval = att['value']
+            
+            
             try:
             	attmeta = att['metadata']
             except:
