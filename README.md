@@ -120,6 +120,10 @@ event, ssc = NGSI.Prime()
 
 The replier is much more easier to use.  <br />
 As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
+- Install the requirements for the replier:
+```console
+pip3 install requests
+```
 - Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path.
 - Generate a JSON Blueprint keeping the following rules **This step is needed only once per JSON format**
    - The generated skeleton will have the following structure: TYPE_OF_FIELD "Fieldname": {} and the replier library knows how to decode it.
