@@ -58,13 +58,18 @@ Now every required library to run the connector is ready. <br />
 [Install Spark](https://towardsdatascience.com/installing-pyspark-with-java-8-on-ubuntu-18-04-6a9dea915b5b)
 
 
+
 ## Usage
 
 ### Receiver
 
 Once installed the requirements, it is possible to use the connector by following these steps:
 - Load files on the same machine running the spark job
-- Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. **Don't use the same address and port for the HTPP Server and the Sockets**
+- Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. 
+   - If your pyspark job is running in a docker container, make sure that both the server and multi-thread socket *IP addresses* are the same of that container
+   - **Don't use the same (address, port) couple for the HTPP Server and the Sockets**
+   -  Currently, the user has to make sure that the chosen ports are free. In future versions, automatic port setting is evaluated for the multi-thread socket.
+   -  The "REQUEST_COMPLETENESS" field in this file allow the user to choose if obtain a raw body (JSON Format) or the whole request (with HTTP Headers) to work with a NGSIEvent Object
 - Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
 - Import all pyspark functions needed for starting the Spark Streaming:
 ```python
