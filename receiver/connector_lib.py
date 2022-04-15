@@ -4,9 +4,9 @@
 import json
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
 from pyspark import SparkContext, SparkConf
-from pyspark.streaming import StreamingContext, listener
+from pyspark.streaming import StreamingContext
+from pyspark.storagelevel import StorageLevel
 
 from threading import Thread
 import socket
@@ -14,17 +14,62 @@ import time
 from datetime import datetime
 
 import conf as connectorconf
-import NGSIv2, NGSILD
 
+'''
 from py4j.java_gateway import java_import, is_instance_of
 
 from pyspark import RDD, SparkConf
 from pyspark.serializers import NoOpSerializer, UTF8Deserializer, CloudPickleSerializer
 from pyspark.context import SparkContext
-from pyspark.storagelevel import StorageLevel
+
 from pyspark.streaming.dstream import DStream
 from pyspark.streaming.util import TransformFunction, TransformFunctionSerializer
+'''
 
+
+class NGSIAttribute():
+    
+    def __init__(self, attrype, value, metadata):
+        self.type = attrype
+        self.value = value
+        self.metadata = metadata
+        
+
+class NGSIEntityv2():
+    
+    def __init__(self, entityid, nodetype, attributes):
+        self.id = entityid
+        self.type = nodetype
+        self.attrs = attributes
+
+
+
+class NGSIEntityLD():
+    
+    def __init__(self, entityid, nodetype, attributes, context):
+        self.id = entityid
+        self.type = nodetype
+        self.attrs = attributes
+        self.context = context
+        
+        
+class NGSIEventLD():
+    
+    def __init__(self, timestamp, svc, svcpath, entities):
+        self.creationtime = timestamp
+        self.service = svc
+        self.servicePath = svcpath
+        self.entities = entities
+        
+
+class NGSIEventv2():
+    
+    def __init__(self, timestamp, svc, svcpath, entities):
+        self.creationtime = timestamp
+        self.service = svc
+        self.servicePath = svcpath
+        self.entities = entities
+        
 
 
 def ParseToJSON(API):
@@ -34,63 +79,44 @@ def ParseToJSON(API):
     return j
 
     
-
-def ParseToNGSIv2(API):
+def Parse(API):
+    
+    isLD = False
     
     json = ParseToJSON(API)
-    timestamp = json['timestamp']
-    service = json['User-Agent']
-    servicepath= json['Fiware-Servicepath']
     
-    body = json['Body']
-    entities = body['data']
-
-
-    entitylist = []
-    
-    for ent in entities:
-        keys = list(ent)
-        attrs = {}
+    try:
+        timestamp = json['timestamp']
+    except:
+        return json
         
-        ID = ent['id']
-        typ = ent ['type']
+    
+    try :
+        service = json['Fiware-Service']
+    except:
+        service = ""
         
-        for i in range (2, len(keys)):
-            att = ent[keys[i]]
-            atttype = att['type']
-            attval = att['value']
-            attmeta = att['metadata']
-            attribute = NGSIv2.Attributev2(atttype, attval, attmeta)
-            attrs[keys[i]] = attribute
-       
-        entity = NGSIv2.Entityv2(ID, typ, attrs)
-        entitylist.append(entity)
-            
-    
-    event = NGSIv2.NGSIEventv2(timestamp, service, servicepath, entitylist)
-    
-    return event
-    
-    
-def ParseToNGSILD(API):
-    
-    json = ParseToJSON(API)
-    timestamp = json['timestamp']
-    service = json['Fiware-Service']
-    servicepath= json['Fiware-Servicepath']
+    try:
+        servicepath= json['Fiware-Servicepath']
+    except:
+        servicepath = ""
+        
     try:
     	context = json['Link']
+    	isLD = True
     except:
         try:
             context = json['Body']['@context']
+            isLD = True
         except:
             context = ""
+            
+    
     body = json['Body']
     entities = body['data']
 
 
     entitylist = []
-    
     for ent in entities:
         keys = list(ent)
         attrs = {}
@@ -106,20 +132,28 @@ def ParseToNGSILD(API):
             	attmeta = att['metadata']
             except:
             	attmeta = {}
-            attribute = NGSILD.AttributeLD(atttype, attval, attmeta)
+            attribute = NGSIAttribute(atttype, attval, attmeta)
             attrs[keys[i]] = attribute
        
-        entity = NGSILD.EntityLD(ID, typ, attrs, context)
+        if isLD:
+            entity = NGSIEntityLD(ID, typ, attrs, context)
+        else:
+            entity = NGSIEntityv2(ID, typ, attrs)
+        
         entitylist.append(entity)
             
+    if isLD:
+        event = NGSIEventLD(timestamp, service, servicepath, entitylist)
+    else:
+        event = NGSIEventv2(timestamp, service, servicepath, entitylist)
     
-    event = NGSILD.NGSIEventLD(timestamp, service, servicepath, entitylist)
     
     return event
 
 
+
+
 class ServerThread(Thread):
-    
     
     def __init__(self, server):
         Thread.__init__(self)
@@ -224,34 +258,10 @@ class SocketThread(Thread):
             print('socket closed')
 
 
-
-
-
-def StructureNGSIv2Request(request, body, timestamp):
-
-    
-    if connectorconf.REQUEST_COMPLETENESS: #HEADERS + BODY
-    
-        message = "{"
-        ts = timestamp.isoformat()
-    
-        message = message + '"{}":"{}",'.format("timestamp", ts)
-    
-        for field in request.headers:
-            message = message + '"{}":"{}",'.format(field,request.headers[field])
-    
-        message = message + '"Body":{}'.format(body[2:-1])
-        message = message + "}\n"
-        
-    else: #BODY ONLY
-        message = '{}\n'.format(body[2:-1])
-    
-    return message
+  
     
     
-    
-    
-def StructureNGSILDRequest(request, body):
+def StructureNGSIRequest(request, body, timestamp):
 
 
     if connectorconf.REQUEST_COMPLETENESS: #HEADERS + BODY
@@ -261,8 +271,9 @@ def StructureNGSILDRequest(request, body):
         for line in body.split(","):
             if "notifiedAt" in line:
                 tsline = line
-        
-        ts = tsline.split('"')[3]
+                ts = tsline.split('"')[3]
+            else:
+                ts = timestamp.isoformat()
 
             
     
@@ -276,11 +287,11 @@ def StructureNGSILDRequest(request, body):
         
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
+        print(message)
         
     
     return message
-    
-    
+ 
 
 
 
@@ -301,14 +312,13 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         
        
     def do_POST(self):
+        ts = datetime.now()
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         
-        if "Link" in self.headers or 'ld+json' in self.headers['Content-Type']:
-            msg=StructureNGSILDRequest(self, str(post_data))
-        else:
-            msg = StructureNGSIv2Request(self, str(post_data), datetime.now())
-        #print(msg)
+      
+        msg=StructureNGSIRequest(self, str(post_data), ts)
+        
 	    
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -325,7 +335,47 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         
         self.wfile.write("<html><body><h1>POST!</h1></body></html>".encode("utf-8"))
+        
+        
+        
+def StartConnector():
+
+    socket_address = (connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+    s.bind(socket_address)
 
 
+
+    server_address = (connectorconf.HTTPADDRESS, connectorconf.HTTPPORT)
+    print(server_address)
+
+
+    httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
+
+
+
+    threadserver = ServerThread(httpd)
+    threadserver.start()
+
+    threadsocket = SocketThread(s, socket_address, threadserver)
+    threadsocket.start()
+
+
+
+
+
+def Prime(sparkcontext, sliding_window_seconds, storage):
+
+    StartConnector()
+    ssc = StreamingContext(sparkcontext, sliding_window_seconds)
+    record = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=storage)
+
+
+    NGSI_event = record.map(lambda x: Parse(x))
+    return NGSI_event, ssc
+	
+	
 
 
