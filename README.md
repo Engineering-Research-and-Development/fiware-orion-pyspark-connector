@@ -66,22 +66,12 @@ Once installed the requirements, it is possible to use the connector by followin
 - Load files on the same machine running the spark job
 - Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. **Don't use the same address and port for the HTPP Server and the Sockets**
 - Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
-- Run the connector using 
-```console
-python3 connector_start.py
-```
-Alternatively, you can import the connector start using the following importing line:
-```python
-import connector_start
-```
-
 - Import all pyspark functions needed for starting the Spark Streaming:
 ```python
 from pyspark import SparkContext
 from pyspark import SparkConf
-from pyspark.streaming import StreamingContext
 from pyspark import StorageLevel
-import conf as connectorconf #This is the configuration file
+import connector_lib as connector
 ```
 - Obtain a SparkContext by configuring a SparkSession
 ```python
@@ -95,25 +85,15 @@ conf = SparkConf().setAppName("YOURAPPNAME").set(YOURRESOURCEMANAGER, YOURMASTER
 sc = spark.SparkContext(conf = conf)
 ```
 with *n_nodes > 1*
-- Start a StreamingContext , passing the SparkContext and the number of seconds of your sliding window
+- Run the connector, passing the SparkContext, the number of seconds of your sliding window and the desired storage level:
 ```python
-ssc = StreamingContext(sc, YOUR_NSECONDS)
+streamdata, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, storagelevel =StorageLevel.MEMORY_AND_DISK_2)
 ```
-- In the end, you can start your SocketTextStream
+The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via pyspark mapping) and the streaming context itself.
+- Run the streaming context:
 ```python
-record = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=StorageLevel.MEMORY_AND_DISK_2)
-```
-
-The previous steps are implemented in the optional snipped of code which allow you also the conversion from a JSON format to the NGSI Events
-To obtain a stream of NGSI Events:
-- **Optional** modify the `{}_primer.py` file to set up the spark configuration
-- **Optional** import the `{}_primer.py` file (where {} indicates the name prefix of the file, i.e: NGSIV2) in your custom spark job and save both the event stream and the stream socket with the following code:
-
-```python
-import {}_primer as NGSI
-event, ssc = NGSI.Prime()
-#event variable contains the parsed stream, ssc is the stream itself. 
-#Apply the pyspark algorithm on the event variable, then run the stream using ssc.run()
+# (YOUR ALGORITHM TO PROCESS streamdata)
+ssc.start()
 ```
 
 ### Replier
