@@ -144,17 +144,21 @@ It is strongly reccomended to use this connector in local: a future version impl
 
 ### Short Term
 
-- [x] Adding NGSI-LD support to Receiver
-- [ ] Adding NGSI-LD support to Sink **Working On**
+- [x] Use tests for Receiver. **Completed on 12/04/22**
+- [x] Adding a Replier to write back to the broker. **Completed on 13/04/22**
+- [x] Adding NGSI-LD support to Receiver **Completed on 13/04/22**
+- [x] Use test for Replier **Completed on 14/04/22**
+- [x] Find an elegant way to keep Spark socket in memory **Completed on 14/04/22**
+- [x] Improve usability for the Receiver **Completed on 15/04/22**
+- [ ] Adding NGSI-LD support to Replier **Working On**
+- [ ] Tests for NGSI-LD Support for both receiver and replier side.
 - [ ] Write a definitive JSON structurer tool
-- [ ] Subscribing tool
-- [x] Find an elegant way to keep Spark socket in memory 
 
 
 
 ### Medium Term
 
-- [x] Adding a Sink to write back to the broker.
+- [ ] Subscribing tool
 - [ ] Efficiency improvements
 - [ ] Better Socket management (automatic ports)
 - [ ] Find a **more elegant** way to keep only Spark sockets in memory without blocking the server
