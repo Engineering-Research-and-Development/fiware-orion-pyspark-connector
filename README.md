@@ -103,8 +103,6 @@ ssc.awaitTermination()
 
 ### Replier
 
-The replier is much more easier to use.  <br />
-
 - Install the requirements for the replier:
 ```console
 pip3 install requests
