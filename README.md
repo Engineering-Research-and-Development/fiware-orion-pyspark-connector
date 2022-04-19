@@ -141,9 +141,10 @@ response.pprint()
    - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes.
    - Have particular care in constructing the request, making sure that no value is escaped
    - Make sure that every value x from the algorithm is casted to string by using the str() keyword
+   - This method fits well when the algorithm returns very complex structures (i.e: an entire NGSI Entity) to insert in very small requests
    - This method is the fastest one, but it fits for small request bodies and is more error prone that the others
 ```python
-response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"example" :' + str(x) +' }'))
+response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }'))
 response.pprint()
 ```
 
