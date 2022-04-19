@@ -1,4 +1,4 @@
-# FIWARE Orion pyspark connector
+# FIWARE Orion PySpark Connector
 
 
 ## Table of Contents
@@ -15,7 +15,7 @@
 
 ### Receiver Side
 
-The orion-pyspark receiver is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a pyspark job.
+The Orion-PySpark receiver is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a PySpark job.
 The tool is represented in the following diagram and it is made of:
 
 
@@ -28,7 +28,7 @@ The tool is represented in the following diagram and it is made of:
 
 ### Replier Side
 
-The orion-pyspark replier is currently a library composed by:
+The Orion-PySpark replier is currently a library composed by:
 - **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a Http request body and sends it with a API request.
 - **`Replier configuration file`**: a configuration file to set the API URL, method, some fundamental HTTP headers and the placeholder character for the request body blueprint
 
@@ -65,12 +65,12 @@ Now every required library to run the connector is ready. <br />
 Once installed the requirements, it is possible to use the connector by following these steps:
 - Load files on the same machine running the spark job
 - Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. 
-   - If your pyspark job is running in a docker container, make sure that both the server and multi-thread socket *IP addresses* are the same of that container
+   - If your PySpark job is running in a docker container, make sure that both the server and multi-thread socket *IP addresses* are the same of that container
    - **Don't use the same (address, port) couple for the HTPP Server and the Sockets**
    -  Currently, the user has to make sure that the chosen ports are free. In future versions, automatic port setting is evaluated for the multi-thread socket.
    -  The "REQUEST_COMPLETENESS" field in this file allow the user to choose if obtain a raw body (JSON Format) or the whole request (with HTTP Headers) to work with a NGSIEvent Object
 - Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
-- Import all pyspark functions needed for starting the Spark Streaming:
+- Import all PySpark functions needed for starting the Spark Streaming:
 ```python
 from pyspark import SparkContext
 from pyspark import SparkConf
@@ -93,7 +93,7 @@ with *n_nodes > 1*
 ```python
 record, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, storagelevel =StorageLevel.MEMORY_AND_DISK_2)
 ```
-The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via pyspark mapping) and the streaming context itself.
+The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself.
 - Run the streaming context:
 ```python
 # (YOUR ALGORITHM TO PROCESS record)
@@ -109,14 +109,14 @@ pip3 install requests
 ```
 - Modify the `replyconf.py` file to change the Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path. Moreover, in this configuration file it is possible to write a custom *placeholder string* to use in the request body blueprint
 
-- In you pyspark job import the receiver library
+- In you PySpark job import the receiver library
 ```python
 import replier_lib as replier
 ```
 - **The replier can be used in three different modes: structured, unstructured and semi-structured.**
 
 - *Structured mode*:
-   - Create a .txt file with the wanted request body, using the placeholder string decided in the configuration file every time a field has to be completed by the output of the pyspark algorithm
+   - Create a .txt file with the wanted request body, using the placeholder string decided in the configuration file every time a field has to be completed by the output of the PySpark algorithm
    - If the algorithm produces more than one value, make sure that the incoming values are ordered with respect to the wanted fields
    - Take in account that this method is slower than the others (since files are read from disk) and it fits well when completing large bodies
    - Use the ReplyToBroker function passing the values from the algorithm
