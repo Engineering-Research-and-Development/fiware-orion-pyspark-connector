@@ -172,7 +172,8 @@ Currently, receiver supports only subscriptions with **Normalized Format**
 - [x] Find an elegant way to keep Spark socket in memory **Completed on 14/04/22**
 - [x] Improve usability for the Receiver **Completed on 15/04/22**
 - [x] Adding NGSI-LD support to Replier **Completed on 19/04/22**
-- [x] ~~Write a definitive JSON structurer tool~~ Made a flexible request body constructor **Completed on 19/04/22**
+- [x] ~~Write a definitive JSON structurer tool~~ **Objective changed on 19/04/22**
+- [x] Made a flexible request body constructor **Completed on 19/04/22**
 - [ ] Tests for NGSI-LD Support for both receiver and replier side. **Tests ASAP**
 - [ ] Test for performances **Tests ASAP**
 
