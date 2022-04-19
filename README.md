@@ -142,9 +142,10 @@ response.pprint()
    - Use the UnstructuredReplyToBroker function, passing only a complete request body (without placeholder)
    - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes.
    - Have particular care in constructing the request, making sure that no value is escaped
+   - Make sure that every value x from the algorithm is casted to string by using the str() keyword
    - This method is the fastest one, but it fits for small request bodies and is more error prone that the others
 ```python
-response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"example" :' + x +' }'))
+response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"example" :' + str(x) +' }'))
 response.pprint()
 ```
 
