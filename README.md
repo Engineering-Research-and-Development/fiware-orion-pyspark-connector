@@ -22,16 +22,15 @@ The tool is represented in the following diagram and it is made of:
 ![Connector-diagram drawio](https://user-images.githubusercontent.com/103200695/162898368-dc378146-4705-42ec-a4d5-98220ece0382.png)
 
 
--   **`Connector Library & NGSI classes`**: Set of functions and class definition for NGSI Events
--   **`Connector start`**: Python 3.8 code to start the connector.
--   **`Primers (OPTIONAL)`**: Python 3.8 pyspark streaming to implement in an own pyspark job to obtain a stream of NGSI Event objects
+-   **`Connector Library`**: Set of functions and class definition for NGSI Events
+-   **`Connector configuration file`**: Configuration file to configure the connector servers and mode.
 
 
 ### Replier Side
 
-The orion-pyspark replier is currently a set of tools composed by:
-- **`JSON Blueprinter`**: Python 3.8 little program to write a JSON Skeleton for the Replier
-- **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a JSON (based on the blueprint generated in with the previous tool) and sends it with a API request.
+The orion-pyspark replier is currently a library composed by:
+- **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a JSON body (based on a blueprint) and sends it with a API request.
+- **`Replier configuration file`**: a configuration file to set the API URL, method, some fundamental HTTP headers and the placeholder character for the JSON blueprint
 
 
 ## Requirements and installation
@@ -105,34 +104,53 @@ ssc.awaitTermination()
 ### Replier
 
 The replier is much more easier to use.  <br />
-As mentioned above, to ensure a more user friendly customization, a JSON-Blueprint tool is provided. **This tool is still a prototype and may undergo changes in future versions**. For simpler cases, it works properly.
+
 - Install the requirements for the replier:
 ```console
 pip3 install requests
 ```
-- Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path.
-- Generate a JSON Blueprint keeping the following rules **This step is needed only once per JSON format**
-   - The generated skeleton will have the following structure: TYPE_OF_FIELD "Fieldname": {} and the replier library knows how to decode it.
-   - Select the *String* type to write string
-   - Select the *Nested Object* type to open a nested object **That needs to be completed field by field**
-   - Select the *Other Field* type to write Integers, Floats, Lists, Dictionaries, Completed Nested "JSONS"
-   - The total number of fields inserted (summing every nested field) have to match the total number of values produced by your pyspark algorithm
-To launch the Blueprinter, simply run:
-```console
-python3 JSONBlueprinter.py
-```
-and follow the instructions of the tool. It will ask for the number of fields of the whole JSON, allowing the customization of the file with nested objects. This tool will generate a *.txt* file with the name provided in the configuration file.
+- Modify the `replyconf.py` file to change the JSON Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path. Moreover, in this configuration file it is possible to write a custom *placeholder string* to use in the request body blueprint
 Since the JSON skeleton is the core of this customization, particular attention is reccomended while componing the skeleton.  <br />
 
 - In you pyspark job import the receiver library
 ```python
 import replier_lib as replier
 ```
-- Process the stream of data and send back to the Orion broker using:
+
+- Using the replier library in structured mode, using a pre-made JSON skeleton:
+   - Create a .txt file with the wanted request body
+   - Use the placeholder string decided in the configuration file every time you need the field to be completed by the algorithm
+   - If the algorithm produces more than one value, make sure that the incoming values are ordered with respect to the JSON fields
+   - Take in account that this method is slower than the others (since files are read from disk) and it fits well when completing large JSONs
+   - Once everything is correctly prepared, just use the following snippet to complete the JSON and send it back to the broker
 ```python
 response = record.map(lambda x: replier.ReplyToBroker(x))
 response.pprint()
 ```
+
+- Using the replier library in a semi-structured mode, hardcoding the JSON body in the function interface:
+   - Use the SemistructuredReplyToBroker function passing both values and a small JSON body with placeholders
+   - Since properties in JSONs should be expressed in double quotes, make sure that the body is enclosed in single quotes (to avoid the string to be closed by double quotes)
+   - If the algorithm produces more than one value, make sure that the incoming values are ordered with respect to the body fields
+   - This method is faster than the structured one, but it fits for small request bodies
+   - Use the following code to use the replier in semi-structured way
+```python
+response = record.map(lambda x: replier.SemistructuredReplyToBroker(x, '{"example" : %%PLACEHOLDER%% }'))
+response.pprint()
+```
+
+
+- Using the replier library in a unstructured mode, hardcoding the JSON body in the function interface:
+   - Use the UnstructuredReplyToBroker function, passing only the JSON body
+   - Since properties in JSONs should be expressed in double quotes, make sure that the body is enclosed in single quotes (to avoid the string to be closed by double quotes)
+   - Have particular care in constructing the request, making sure that no value is escaped
+   - This method is the fastest one, but it fits for small request bodies and requires an higher care
+   - Use the following code to use the replier in unstructured way
+```python
+response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"example" :' + x +' }'))
+response.pprint()
+```
+
 
 ## Actual Version Limits
 
