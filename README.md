@@ -131,7 +131,7 @@ response.pprint()
    - Use the SemistructuredReplyToBroker function passing both values and request body with placeholders decided in the configuration file
    - If the algorithm produces more than one value, make sure that the incoming values are ordered with respect to the body fields
    - This method is faster than the structured one, but it fits for small request bodies
-   - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes like in the following example:
+   - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes like in the following example (i.e: the replace string configured is %%PLACEHOLDER%%):
 ```python
 response = record.map(lambda x: replier.SemistructuredReplyToBroker(x, '{"example" : %%PLACEHOLDER%% }'))
 response.pprint()
