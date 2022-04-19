@@ -54,13 +54,35 @@ def ReplyToBroker(values, apiURL=rconf.API_URL, apiMethod=rconf.METHOD):
     
     
 
-def UnstructuredReplyToBroker(values, body, apiURL=rconf.API_URL, apiMethod=rconf.METHOD):
+def SemistructuredReplyToBroker(values, body, apiURL=rconf.API_URL, apiMethod=rconf.METHOD):
     
     headers= {"Content-Type": rconf.CONTENT_TYPE, "Fiware-Service" : rconf.FIWARE_SERVICE, "Fiware-Servicepath": rconf.FIWARE_SERVICEPATH}
 
     values = Listify(values)
     for v in values:
         body = body.replace(rconf.PLACEHOLDER, str(v), 1)
+    
+    
+    try:
+        if apiMethod == "POST":
+            reply = requests.post(apiURL, body, headers=headers)
+        elif apiMethod == "PUT":
+            reply = requests.put(apiURL, body, headers=headers)
+        elif apiMethod == "PATCH":
+            reply = requests.patch(apiURL, body, headers=headers)
+        else:
+            print("Method not allowed")
+        reply = reply.text
+    except Exception as e:
+        reply = e
+        
+    return reply
+   
+    
+def UnstructuredReplyToBroker(body, apiURL=rconf.API_URL, apiMethod=rconf.METHOD):
+    
+    
+    headers= {"Content-Type": rconf.CONTENT_TYPE, "Fiware-Service" : rconf.FIWARE_SERVICE, "Fiware-Servicepath": rconf.FIWARE_SERVICEPATH}
     
     
     try:
