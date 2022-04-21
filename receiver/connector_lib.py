@@ -47,10 +47,11 @@ class NGSIEntityv2():
 class NGSIEntityLD():
     
     def __init__(self, entityid, nodetype, attributes, context):
+        self.context = context
         self.id = entityid
         self.type = nodetype
         self.attrs = attributes
-        self.context = context
+        
         
         
 class NGSIEventLD():
@@ -83,7 +84,10 @@ def Parse(API):
     
     isLD = False
     
-    json = ParseToJSON(API)
+    if connectorconf.REQUEST_COMPLETENESS:
+        json = ParseToJSON(API)
+    else:
+        return API
     
     try:
         timestamp = json['timestamp']
@@ -295,7 +299,7 @@ def StructureNGSIRequest(request, body, timestamp):
         
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
-        print(message)
+
         
     
     return message
