@@ -201,6 +201,7 @@ Currently, receiver supports only subscriptions with **Normalized Format**
 
 ### Medium Term
 
+- [ ] Make the connector available with a docker image **Working**
 - [ ] Subscribing tool
 - [ ] Efficiency improvements
 - [ ] Better Socket management (automatic ports)
