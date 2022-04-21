@@ -6,6 +6,7 @@
 -   [What is this connector](#what-is-this-connector)
 -   [Requirements and installation](#requirements-and-installation)
 -   [Usage](#usage)
+-   [Docker](#docker)
 -   [Actual Version Limits](#actual-version-limits)
 -   [Roadmap](#roadmap)
 -   [License](#license)
@@ -148,6 +149,7 @@ response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"price" :' +
 response.pprint()
 ```
 
+## Docker
 
 ## Actual Version Limits
 
