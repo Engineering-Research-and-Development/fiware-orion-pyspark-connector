@@ -149,8 +149,24 @@ response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"price" :' +
 response.pprint()
 ```
 
-## Docker (W.i.P.)
+## Docker
+#### THIS SECTION IS STILL WORK IN PROGRESS
 
+This connector is available with a docker image containing a working pyspark environment. <br />
+The docker image is available downloading it with the command:
+```console
+docker pull IMAGE_TO_PUBLISH
+```
+Then run the docker image with the following command
+```console
+docker run -it --name CHOOSEACONTAINERNAME --mount src="PathToAnExistingDirectory",dst=/PySpark,type=bind IMAGENAME
+```
+By running this command, docker creates a container with the chosen name. Then it is possible to mount the connector by simply passing connector files the chosen source directory, findable inside the docker in the /PySpark directory. In this way, it is easy to change connector configuration files and it is possible to easily edit the custom pyspark algorithm from your local machine. <br />
+Since the docker container has its own ip address, it is suggested to change the HTTP Server address in the configuration files. To check the ip address of your docker, run the following command *inside* the container:
+```console
+hostname -I
+```
+then change the HTTPServerAddress variable in the configuration file with the output of the command
 
 ## Actual Version Limits
 
