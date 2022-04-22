@@ -168,6 +168,20 @@ hostname -I
 ```
 then change the HTTPServerAddress variable in the configuration file with the output of the command
 
+### If the orion broker runs on another docker container
+
+To allow communication between docker containers it is necessary to start a bridge and connect. Type in terminal:
+```console
+docker network create NETNAME
+docker network connect NETNAME CONNECTORCONTAINERNAME
+docker network connect NETNAME BROKERCONTAINERNAME
+```
+Once connected the two containers to the network, type in terminal:
+```console
+docker network inspect NETNAME
+```
+to see the IP addresses of the two containers. Then, just change the IP address of the HTTPServer in the receiver `conf.py` file and start the algorithm.
+
 ## Actual Version Limits
 
 It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <br />
