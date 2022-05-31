@@ -92,7 +92,7 @@ sc = spark.SparkContext(conf = conf)
 with *n_nodes > 1*
 - Run the connector, passing the SparkContext, the number of seconds of your sliding window and the desired storage level:
 ```python
-record, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, storagelevel =StorageLevel.MEMORY_AND_DISK_2)
+record, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, StorageLevel.MEMORY_AND_DISK_2)
 ```
 The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself.
 - Run the streaming context:
