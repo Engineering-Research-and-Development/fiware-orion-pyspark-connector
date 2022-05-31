@@ -20,7 +20,8 @@ The Orion-PySpark receiver is currently a custom tool capable of receiving HTTP 
 The tool is represented in the following diagram and it is made of:
 
 
-![Connector-diagram drawio](https://user-images.githubusercontent.com/103200695/162898368-dc378146-4705-42ec-a4d5-98220ece0382.png)
+![Pysparkconnector drawio](https://user-images.githubusercontent.com/103200695/171157871-a3904c76-e961-45d5-ad01-507604944ad2.png)
+
 
 
 -   **`Connector Library`**: Set of functions and class definition for NGSI Events
