@@ -14,14 +14,13 @@
 
 ## What is this connector
 
+![Pysparkconnector drawio](https://user-images.githubusercontent.com/103200695/171157871-a3904c76-e961-45d5-ad01-507604944ad2.png)
+
+
 ### Receiver Side
 
 The Orion-PySpark receiver is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a PySpark job.
 The tool is represented in the following diagram and it is made of:
-
-
-![Pysparkconnector drawio](https://user-images.githubusercontent.com/103200695/171157871-a3904c76-e961-45d5-ad01-507604944ad2.png)
-
 
 
 -   **`Connector Library`**: Set of functions and class definition for NGSI Events
