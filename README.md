@@ -69,87 +69,16 @@ Now every required library to run the connector is ready. <br />
 ## Usage
 
 This connector is thought to work as a library component. Information on usage found at: 
-[readthedocs.org](docs/usage.md)
+[Orion PySpark Connector Usage](docs/quick_start.md)
 
 ## Docker
-#### THIS SECTION IS STILL WORK IN PROGRESS
+#### This section is still work in progress
 
-This connector is available with a docker image containing a working pyspark environment. <br />
-The docker image is available downloading it with the command:
-```console
-docker pull IMAGE_TO_PUBLISH
-```
-Then run the docker image with the following command
-```console
-docker run -it --name CHOOSEACONTAINERNAME --mount src="PathToAnExistingDirectory",dst=/PySpark,type=bind IMAGENAME
-```
-By running this command, docker creates a container with the chosen name. Then it is possible to mount the connector by simply passing connector files the chosen source directory, findable inside the docker in the /PySpark directory. In this way, it is easy to change connector configuration files and it is possible to easily edit the custom pyspark algorithm from your local machine. <br />
-Since the docker container has its own ip address, it is suggested to change the HTTP Server address in the receiver `conf.py` file. To check the ip address of your docker, run the following command *inside* the container:
-```console
-hostname -I
-```
-then change the HTTPServerAddress variable in the configuration file with the output of the command
-
-### If the orion broker runs on another docker container
-
-To allow communication between docker containers it is necessary to start a bridge and connect. Type in terminal:
-```console
-docker network create NETNAME
-docker network connect NETNAME CONNECTORCONTAINERNAME
-docker network connect NETNAME BROKERCONTAINERNAME
-```
-Once connected the two containers to the network, type in terminal:
-```console
-docker network inspect NETNAME
-```
-to see the IP addresses of the two containers. Then, just change the IP address of the HTTPServer in the receiver `conf.py` file and start the algorithm.
-
-## Actual Version Limits
-
-It is important to underline that currently this connector support a single-input single-output connection, limiting to **1** the number of supported spark job per connector. To implement multiple connectors, it is necessary to run another spark job with different addresses.  <br />
-It is strongly reccomended to use this connector in local: a future version implementing security will be provided <br />
-Currently, receiver supports only subscriptions with **Normalized Format**
-
-### Known Issues
-
-- [x] If the Orion Broker is continuously streaming while the connector is configuring, the multi-thread socket will save the HTTP Server socket as Apache Client, blocking the execution of the whole program. **Fixed on 14/04/22**
-- [ ] If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *\\* which is not allowed by the JSON Decoder. This will rise an exception. **Working On**
-
+The component is available also as a docker image. Useful information on deployment mode are found here: [Roadmap](docs/docker.md)
 
 ## Roadmap
 
-### Short Term
-
-- [x] Use tests for Receiver. **Completed on 12/04/22**
-- [x] Adding a Replier to write back to the broker. **Completed on 13/04/22**
-- [x] Adding NGSI-LD support to Receiver **Completed on 13/04/22**
-- [x] Use test for Replier **Completed on 14/04/22**
-- [x] Find an elegant way to keep Spark socket in memory **Completed on 14/04/22**
-- [x] Improve usability for the Receiver **Completed on 15/04/22**
-- [x] Adding NGSI-LD support to Replier **Completed on 19/04/22**
-- [x] ~~Write a definitive JSON structurer tool~~ **Objective changed on 19/04/22**
-- [x] Made a flexible request body constructor **Completed on 19/04/22**
-- [ ] Tests for NGSI-LD Support for both receiver and replier side. **Tests ASAP**
-- [ ] Test for performances **Tests ASAP**
-
-
-
-
-### Medium Term
-
-- [ ] Make the connector available with a docker image **Working**
-- [ ] Subscribing tool
-- [ ] Efficiency improvements
-- [ ] Better Socket management (automatic ports)
-- [ ] Find a **more elegant** way to keep only Spark sockets in memory without blocking the server
-
-
-
-### Long Term
-
-- [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
-- [ ] Adding security to connections
-
+Information about the component features to be implemented and current version issues are found here: [Roadmap](docs/roadmap.md)
 
 ## License
 
