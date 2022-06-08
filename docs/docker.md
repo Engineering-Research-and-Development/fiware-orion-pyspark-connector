@@ -1,3 +1,4 @@
+## Docker
 #### THIS SECTION IS STILL WORK IN PROGRESS
 
 This connector is available with a docker image containing a working pyspark environment. <br />
