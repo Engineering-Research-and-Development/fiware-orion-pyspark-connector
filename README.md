@@ -5,8 +5,8 @@ The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a d
 
 ## Table of Contents
 
--   [What Is Orion PySpark Connector](#what-is)
--   [Why Use Orion PySpark Connector](#why-use)
+-   [What Is Orion PySpark Connector](#what-is-orion-pyspark-connector)
+-   [Why Use Orion PySpark Connector](#why-use-orion-pyspark-connector)
 -   [Component Architecture](#component-architecture)
 -   [Requirements and installation](#requirements-and-installation)
 -   [Usage](#usage)
