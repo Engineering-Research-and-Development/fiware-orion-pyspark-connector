@@ -82,7 +82,7 @@ This connector is thought to work as a library component. Information on usage f
 ## Docker
 #### This section is still work in progress
 
-The component is available also as a docker image. Useful information on deployment mode are found here: [Roadmap](docs/docker.md)
+The component is available also as a docker image. Useful information on deployment mode are found here: [Docker](docs/docker.md)
 
 ## Roadmap
 
