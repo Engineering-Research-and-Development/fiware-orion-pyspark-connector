@@ -1,6 +1,6 @@
 site_name: FIWARE Orion PySpark Connector
-site_url: https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/
-repo_url: https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector
+site_url: https://fiware-orion-pyspark-connector.readthedocs.org
+repo_url: https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector.git
 site_description: FIWARE Orion PySpark Connector Documentation
 docs_dir: docs
 site_dir: html
@@ -14,7 +14,7 @@ extra_css:
   ]
 google_analytics: ["UA-198735649-1", "fiware-orion-pyspark-connector.readthedocs.io"]
 pages:
-  - "Home - Getting Started": "index.md"
+  - "Home": "index.md"
   - "User & Programmers Manual": "quick_start.md"
   - "Docker": "docker.md"
   - "Roadmap": "roadmap.md"
