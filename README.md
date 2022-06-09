@@ -1,11 +1,14 @@
 # FIWARE Orion PySpark Connector 
 [![License: AGPL](https://img.shields.io/github/license/Engineering-Research-and-Development/iotagent-opcua.svg)](https://opensource.org/licenses/AGPL-3.0)
-[![Support badge](https://img.shields.io/badge/support-stackoverflow-orange)](https://stackoverflow.com/questions/tagged/fiware+iot)<br/>
+[![Support badge](https://img.shields.io/badge/support-stackoverflow-orange)](https://stackoverflow.com/questions/tagged/fiware+iot)
+[![Documentation badge](https://readthedocs.org/projects/fiware-true-connector/badge/?version=latest)](https://fiware-true-connector.readthedocs.io/en/latest/)
+<br/>
 
 
 The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Orion Context Broker and PySpark
 
-
+| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | :whale: [Docker Hub](https://hub.docker.com/u/rdlabengpa) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 
 ## Table of Contents
 
@@ -90,10 +93,22 @@ Information about the component features to be implemented and current version i
 
 ## License
 
-This software is licensed under [Affero GNU General Public License (GPL) version 3](./LICENSE.txt).
+The FIWARE Orion PySpark Connector is licensed under [Affero General Public License (GPL) version 3](./LICENSE).
+
+© 2022 Engineering Ingegneria Informatica S.p.A.
 
 
-> Please note that software derived as a result of modifying the source code of this software in order to fix a bug or
-> incorporate enhancements is considered a derivative work of the product. Software that merely uses or aggregates (i.e.
-> links to) an otherwise unmodified version of existing software is not considered a derivative work, and therefore it
-> does not need to be released as under the same license, or even released as open source.
+### Are there any legal issues with AGPL 3.0? Is it safe for me to use?
+
+No problem in using a product licensed under AGPL 3.0. Issues with GPL (or AGPL) licenses are mostly related with the
+fact that different people assign different interpretations on the meaning of the term “derivate work” used in these
+licenses. Due to this, some people believe that there is a risk in just _using_ software under GPL or AGPL licenses
+(even without _modifying_ it).
+
+For the avoidance of doubt, the owners of this software licensed under an AGPL 3.0 license wish to make a clarifying
+public statement as follows:
+
+"Please note that software derived as a result of modifying the source code of this software in order to fix a bug or
+incorporate enhancements is considered a derivative work of the product. Software that merely uses or aggregates (i.e.
+links to) an otherwise unmodified version of existing software is not considered a derivative work, and therefore it
+does not need to be released as under the same license, or even released as open source."
