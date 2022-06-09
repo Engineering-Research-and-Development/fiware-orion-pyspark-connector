@@ -4,7 +4,7 @@
 This connector is available with a docker image containing a working pyspark environment. <br />
 The docker image is available downloading it with the command:
 ```console
-docker pull IMAGE_TO_PUBLISH
+docker pull rdenglabpa/fiware-orion-pyspark-connector
 ```
 Then run the docker image with the following command
 ```console
