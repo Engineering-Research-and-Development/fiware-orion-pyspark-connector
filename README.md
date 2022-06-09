@@ -16,7 +16,7 @@ The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a d
 -   [Why Use Orion PySpark Connector](#why-use-orion-pyspark-connector)
 -   [Component Architecture](#component-architecture)
 -   [Requirements and installation](docs/requirements.md)
--   [Usage](#usage)
+-   [Quick start](docs/quick_start.md)
 -   [Docker](docs/docker.md)
 -   [Roadmap](docs/roadmap.md)
 
@@ -48,12 +48,6 @@ The tool is represented in the following diagram and it is made of:
 The Orion-PySpark replier is currently a library composed by:
 - **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a Http request body and sends it with a API request.
 - **`Replier configuration file`**: a configuration file to set the API URL, method, some fundamental HTTP headers and the placeholder character for the request body blueprint
-
-
-## Usage
-
-This connector is thought to work as a library component. Information on usage found at: 
-[Orion PySpark Connector Usage](docs/quick_start.md)
 
 ## License
 

@@ -14,7 +14,7 @@ extra_css:
   ]
 google_analytics: ["UA-198735649-1", "fiware-orion-pyspark-connector.readthedocs.io"]
 pages:
-  - "Home - Getting Started": "README.md"
+  - "Home - Getting Started": "index.md"
   - "User & Programmers Manual": "quick_start.md"
   - "Docker": "docker.md"
   - "Roadmap": "roadmap.md"
