@@ -13,7 +13,7 @@ import socket
 import time
 from datetime import datetime
 
-import conf as connectorconf
+import connectorconf
 
 '''
 from py4j.java_gateway import java_import, is_instance_of
