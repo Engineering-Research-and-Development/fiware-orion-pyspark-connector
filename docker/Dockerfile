@@ -9,7 +9,9 @@ RUN cd /
 RUN yum update -y
 
 RUN yum install -y python3
-RUN pip3 install -r requirements.txt
+RUN pip3 install requests
+RUN pip3 install py4j >= 0.10.9.3
+RUN pip3 install pyspark >= 3.2.1
 
 RUN yum install -y java-11-openjdk-devel -y
 RUN yum install -y wget
@@ -20,3 +22,18 @@ RUN mv spark-3.2.1-bin-hadoop3.2/ /opt/spark
 RUN export SPARK_HOME=/opt/spark
 RUN export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
+RUN wget https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/archive/refs/heads/main.zip
+RUN unzip main.zip
+RUN cd fiware-orion-pyspark-connector-readme-branch
+
+
+RUN mkdir ../PySpark/
+
+RUN mv ./receiver/connector_lib.py ../PySpark/
+RUN mv ./receiver/conf.py ../PySpark/
+RUN mv ./replier/replier_lib.py ../PySpark/
+RUN mv ./replier/replyconf.py ../PySpark/
+
+RUN cd ..
+RUN rm -r fiware-orion-pyspark-connector-readme-branch
+RUN rm main.zip
