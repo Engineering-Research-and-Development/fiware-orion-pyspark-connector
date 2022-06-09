@@ -14,12 +14,7 @@ extra_css:
   ]
 google_analytics: ["UA-198735649-1", "fiware-orion-pyspark-connector.readthedocs.io"]
 pages:
--   [What Is Orion PySpark Connector](#what-is-orion-pyspark-connector)
--   [Why Use Orion PySpark Connector](#why-use-orion-pyspark-connector)
--   [Component Architecture](#component-architecture)
--   [Requirements and installation](#requirements-and-installation)
--   [Usage](#usage)
--   [Docker](#docker)
--   [Roadmap](#roadmap)
--   [License](#license)
-  
+  - "Home - Getting Started": "README.md"
+  - "User & Programmers Manual": "quick_start.md"
+  - "Docker": "docker.md"
+  - "Roadmap": "roadmap.md"
