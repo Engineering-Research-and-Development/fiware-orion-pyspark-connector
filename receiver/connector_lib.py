@@ -84,10 +84,7 @@ def Parse(API):
     
     isLD = False
     
-    if connectorconf.REQUEST_COMPLETENESS:
-        json = ParseToJSON(API)
-    else:
-        return API
+    json = ParseToJSON(API)
     
     try:
         timestamp = json['timestamp']
@@ -299,7 +296,7 @@ def StructureNGSIRequest(request, body, timestamp):
         
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
-
+        print(message)
         
     
     return message
