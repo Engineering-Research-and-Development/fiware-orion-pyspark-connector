@@ -1,5 +1,5 @@
 site_name: FIWARE Orion PySpark Connector
-site_url: https://fiware-orion-pyspark-connector.readthedocs.io/en/latest
+site_url: https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/
 repo_url: https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector
 site_description: FIWARE Orion PySpark Connector Documentation
 docs_dir: docs
