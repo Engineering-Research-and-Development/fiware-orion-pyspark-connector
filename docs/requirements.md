@@ -9,11 +9,11 @@ sudo apt-get install python3.8
 sudo apt-get install python3-pip
 ```
 
-In the `docs/requirements.txt` found in this repository file there is a serie of dependencies useful to load every library used in the connector.
+In the `docs/conn_requirements.txt` found in this repository file there is a serie of dependencies useful to load every library used in the connector.
 Once downloaded this file, open the terminal in the repository folder and run the following commands:
 
 ```console
-pip3 install -r requirements.txt
+pip3 install -r conn_requirements.txt
 ```
 
 Now every required library to run the connector is ready. <br />
