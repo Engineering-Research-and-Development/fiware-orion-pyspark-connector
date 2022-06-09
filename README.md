@@ -15,7 +15,7 @@ The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a d
 -   [What Is Orion PySpark Connector](#what-is-orion-pyspark-connector)
 -   [Why Use Orion PySpark Connector](#why-use-orion-pyspark-connector)
 -   [Component Architecture](#component-architecture)
--   [Requirements and installation](#requirements-and-installation)
+-   [Requirements and installation](docs/requirements.md)
 -   [Usage](#usage)
 -   [Docker](#docker)
 -   [Roadmap](#roadmap)
@@ -50,31 +50,6 @@ The tool is represented in the following diagram and it is made of:
 The Orion-PySpark replier is currently a library composed by:
 - **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a Http request body and sends it with a API request.
 - **`Replier configuration file`**: a configuration file to set the API URL, method, some fundamental HTTP headers and the placeholder character for the request body blueprint
-
-
-## Requirements and installation
-
-The tool source code is written in Python 3.8 and this python version should be installed on the machine running the connector
-On linux terminal:
-
-```console
-sudo apt update
-sudo apt-get install python3.8
-sudo apt-get install python3-pip
-```
-
-In the `requirements.txt` found in this repository file there is a serie of dependencies useful to load every library used in the connector.
-Once downloaded this file, open the terminal in the repository folder and run the following commands:
-
-```console
-pip3 install -r requirements.txt
-```
-
-Now every required library to run the connector is ready. <br />
-**N.B:** The requirements files contains requirement for the connector and the primer. Spark itself is omitted since it is assumed that this library is already installed. If spark is needed, use the following guide:
-
-[Install Spark](https://towardsdatascience.com/installing-pyspark-with-java-8-on-ubuntu-18-04-6a9dea915b5b)
-
 
 
 ## Usage
