@@ -93,7 +93,7 @@ Information about the component features to be implemented and current version i
 
 ## License
 
-The FIWARE Orion PySpark Connector is licensed under [Affero General Public License (GPL) version 3](./LICENSE).
+The FIWARE Orion PySpark Connector is licensed under [Affero General Public License (GPL) version 3](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/LICENSE.txt).
 
 © 2022 Engineering Ingegneria Informatica S.p.A.
 
