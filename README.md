@@ -1,12 +1,12 @@
 # FIWARE Orion PySpark Connector 
 [![License: AGPL](https://img.shields.io/github/license/Engineering-Research-and-Development/iotagent-opcua.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![Support badge](https://img.shields.io/badge/support-stackoverflow-orange)](https://stackoverflow.com/questions/tagged/fiware+iot)
-[![Documentation badge](https://readthedocs.org/projects/fiware-orion-pyspark-connector/badge/?version=latest)](https://fiware-orion-pyspark-connector.readthedocs.io/en/main/)
+[![Documentation badge](https://readthedocs.org/projects/fiware-orion-pyspark-connector/badge/?version=latest)](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/)
 <br/>
 
 The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Orion Context Broker and PySpark
 
-| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/main/) | :whale: [Docker Hub](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
+| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | :whale: [Docker Hub](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 
 ## Table of Contents
