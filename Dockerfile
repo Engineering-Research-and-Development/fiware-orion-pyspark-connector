@@ -9,8 +9,7 @@ RUN cd /
 RUN yum update -y
 
 RUN yum install -y python3
-RUN pip3 install pyspark
-RUN pip3 install requests
+RUN pip3 install -r requirements.txt
 
 RUN yum install -y java-11-openjdk-devel -y
 RUN yum install -y wget
