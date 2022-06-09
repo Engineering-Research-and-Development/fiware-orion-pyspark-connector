@@ -4,7 +4,7 @@
 
 Once installed the requirements, it is possible to use the connector by following these steps:
 - Load files on the same machine running the spark job
-- Modify the `conf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. 
+- Modify the `connectorconf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. 
    - If your PySpark job is running in a docker container, make sure that both the server and multi-thread socket *IP addresses* are the same of that container
    - **Don't use the same (address, port) couple for the HTPP Server and the Sockets**
    -  Currently, the user has to make sure that the chosen ports are free. In future versions, automatic port setting is evaluated for the multi-thread socket.
