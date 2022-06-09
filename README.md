@@ -6,7 +6,7 @@
 
 The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Orion Context Broker and PySpark
 
-| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | :whale: [Docker Hub](https://hub.docker.com/u/rdlabengpa) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
+| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | :whale: [Docker Hub](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 
 ## Table of Contents
