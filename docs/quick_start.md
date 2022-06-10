@@ -9,6 +9,8 @@ Once installed the requirements, it is possible to use the connector by followin
    - **Don't use the same (address, port) couple for the HTPP Server and the Sockets**
    -  Currently, the user has to make sure that the chosen ports are free. In future versions, automatic port setting is evaluated for the multi-thread socket.
    -  The "REQUEST_COMPLETENESS" field in this file allow the user to choose if obtain a raw body (JSON Format) or the whole request (with HTTP Headers) to work with a NGSIEvent Object
+   -  The SOCKET_BUFFER field allow the user to increment the socket buffer to match his needs.
+   -  The MAX_CONCURRENT_CONNECTIONS field allow the user to set the maximum concurrent connections of the main socket. It is suggested to keep this number sufficiently high. **Please, remember that the number of effective concurrent connections is MAX_CONCURRENT_CONNECTIONS - 1 since 1 connection is reserved by the pyspark socket.**
 - Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
 - Import all PySpark functions needed for starting the Spark Streaming:
 ```python
