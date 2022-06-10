@@ -246,7 +246,7 @@ class SocketThread(Thread):
         
     def run(self):
         try:
-            self.sock.listen(connectorconf.MAXCONCURRENTCONNECTIONS)
+            self.sock.listen(connectorconf.MAX_CONCURRENT_CONNECTIONS)
             print('server socket opened')
 
             while True:    
