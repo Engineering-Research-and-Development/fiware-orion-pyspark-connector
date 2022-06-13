@@ -19,6 +19,9 @@ jobs:
 
     steps:
     
+      - name: Git Checkout
+        uses: actions/checkout@v3
+    
       - name: Building Python Environment
         run: ./ci/env_setup.sh
 
