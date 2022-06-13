@@ -45,7 +45,15 @@ jobs:
           docker compose up -d
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
-
+  run:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      
+      - name: Raw test
+        uses: ./ci/raw_test/raw_test.yml
+ 
 
 
 # Runs a set of commands using the runners shell
