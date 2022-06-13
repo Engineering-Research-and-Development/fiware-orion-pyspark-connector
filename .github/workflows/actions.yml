@@ -27,7 +27,9 @@ jobs:
         run: echo Hello, world!
     
       - name: Building Python Environment
-        run: ./ci/env_setup.sh
+        run: |
+          chmod 700 /ci/env_setup.sh
+          ./ci/env_setup.sh
 
 
 
