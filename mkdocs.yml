@@ -12,7 +12,7 @@ theme: readthedocs
 extra_css:
   [
     "https://www.fiware.org/style/fiware_readthedocs.css",
-    "https://www.fiware.org/style/fiware_readthedocs_iot.css",
+    "https://www.fiware.org/style/fiware_readthedocs_core.css",
   ]
 google_analytics: ["UA-198735649-1", "fiware-orion-pyspark-connector.readthedocs.io"]
 pages:
