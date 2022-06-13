@@ -32,11 +32,11 @@ echo "downloading repository"
 wget https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/archive/refs/heads/main.zip
 unzip main.zip
 echo "repository downloaded and unzipped"
-mkdir ../PySpark/
-mv fiware-orion-pyspark-connector-main/receiver/connector_lib.py ../PySpark/
-mv fiware-orion-pyspark-connector-main/receiver/connectorconf.py ../PySpark/
-mv fiware-orion-pyspark-connector-main/replier/replier_lib.py ../PySpark/
-mv fiware-orion-pyspark-connector-main/replier/replyconf.py ../PySpark/
+mkdir ci/PySpark/
+mv fiware-orion-pyspark-connector-main/receiver/connector_lib.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/receiver/connectorconf.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/replier/replier_lib.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/replier/replyconf.py ./ci/PySpark/
 rm -r fiware-orion-pyspark-connector-main
 rm main.zip
 echo "connector succesfully imported"
