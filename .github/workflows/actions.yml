@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
     
       - name: Building Python Environment
-        run: sudo ./ci/env_setup.sh
+        run: ./ci/env_setup.sh
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
