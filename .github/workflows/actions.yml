@@ -37,10 +37,11 @@ jobs:
       
       - name: Running Docker Compose Orion-v2
         run: |
-          cd /ci/orion/
+          
+          cd ./ci/orion/
           docker compose up
-          cd /
-          pwd
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
 
 
 
