@@ -39,7 +39,7 @@ jobs:
         run: |
           
           cd ./ci/orion/
-          docker compose up
+          docker compose up -d
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
 
