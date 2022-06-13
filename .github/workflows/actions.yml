@@ -28,7 +28,7 @@ jobs:
     
       - name: Building Python Environment
         run: |
-          chmod 700 /ci/env_setup.sh
+          chmod 700 ./ci/env_setup.sh
           ./ci/env_setup.sh
 
 
