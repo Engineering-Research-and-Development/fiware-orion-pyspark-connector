@@ -47,7 +47,7 @@ jobs:
           
 
       - name: Run Raw Test
-        uses: ./ci/raw_test/raw_test.yml
+        uses: ./ci/raw_test/actions.yml
  
 
 
