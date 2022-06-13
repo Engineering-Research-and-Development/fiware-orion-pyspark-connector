@@ -26,7 +26,7 @@ echo "installing python requirements: py4j"
 pip3 install 'py4j==0.10.9.3'
 echo "installing python requirements: pyspark"
 pip3 install 'pyspark==3.2.1'
-echo "installed every python dependency
+echo "installed every python dependency"
 echo "installing the connector"
 echo "downloading repository"
 wget https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/archive/refs/heads/main.zip
