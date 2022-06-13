@@ -46,9 +46,16 @@ jobs:
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
 
-      - name: Run Raw Test
-        uses: ./ci/raw_test/
- 
+      - name: Raw Test
+        run: |
+          mv ./ci/raw_test/connectorconf.py ./ci/PySpark/connectorconf.py
+          mv ./ci/raw_test/start.py ./ci/PySpark/
+          python3 ./ci/PySpark/start.py &
+          variable=$!
+          ./ci/raw_test/RapidPUT.sh
+          sleep 10
+          kill $variable
+
 
 
 # Runs a set of commands using the runners shell
