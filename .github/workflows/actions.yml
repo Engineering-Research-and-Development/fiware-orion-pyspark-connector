@@ -14,7 +14,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build_and_run:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,16 +45,8 @@ jobs:
           docker compose up -d
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
-  run:
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-    
-      - name: Control Folders
-        run: ls -l ci
-      
-      - name: Raw test
+
+      - name: Run Raw Test
         uses: ./ci/raw_test/raw_test.yml
  
 
