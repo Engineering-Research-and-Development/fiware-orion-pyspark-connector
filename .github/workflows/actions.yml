@@ -21,10 +21,6 @@ jobs:
     
       - name: Git Checkout
         uses: actions/checkout@v3
-        
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
     
       - name: Building Python Environment
         run: |
@@ -37,6 +33,14 @@ jobs:
           ls -l
           echo "seeing into ci"
           ls -l ci
+          
+      
+      - name: Running Docker Compose Orion-v2
+        run: |
+          cd /ci/orion/
+          docker compose up
+          cd /
+          pwd
 
 
 
