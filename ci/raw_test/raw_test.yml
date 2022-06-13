@@ -1,0 +1,29 @@
+name: RawTest
+
+jobs: 
+
+  run:
+    runs-on: ubuntu-latest
+    
+    
+    steps:
+    
+      - name: Moving Files
+        run: |
+          mv ./ci/raw_test/connectorconf.py ./ci/PySpark/connectorconf.py
+          mv ./ci/raw_test/start.py ./ci/PySpark/
+          
+      - name: Starting Connector
+        run: |
+          python3 ./ci/PySpark/start.py &
+          variable=$!
+        
+      - name: Starting Script
+        run: ./ci/raw_test/RapidPUT.sh
+        
+      - name: Waiting
+        run: sleep 10
+        
+      - name: Killing process
+        run: kill $variable
+        
