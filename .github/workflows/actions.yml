@@ -50,6 +50,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    
+      - name: Control Folders
+        run: ls -l ci
       
       - name: Raw test
         uses: ./ci/raw_test/raw_test.yml
