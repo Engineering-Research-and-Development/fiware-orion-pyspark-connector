@@ -32,7 +32,11 @@ jobs:
           ./ci/env_setup.sh
           
       - name: Seeing output folders
-        run: ls -l
+        run: |
+          pwd
+          ls -l
+          echo "seeing into ci"
+          ls -l ci
 
 
 
