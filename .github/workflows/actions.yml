@@ -34,6 +34,9 @@ jobs:
           echo "seeing into ci"
           ls -l ci
           
+      - name: Seeing hostname
+        run: hostname -I
+          
       
       - name: Running Docker Compose Orion-v2
         run: |
