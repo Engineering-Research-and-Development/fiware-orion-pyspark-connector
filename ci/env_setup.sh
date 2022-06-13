@@ -27,6 +27,8 @@ echo "installing python requirements: py4j"
 pip3 install 'py4j==0.10.9.3'
 echo "installing python requirements: pyspark"
 pip3 install 'pyspark==3.2.1'
+echo "installing python requirements: psutil"
+pip3 install psutil
 echo "installed every python dependency"
 echo "installing the connector"
 echo "downloading repository"
@@ -41,3 +43,4 @@ mv fiware-orion-pyspark-connector-main/replier/replyconf.py ./ci/PySpark/
 rm -r fiware-orion-pyspark-connector-main
 rm main.zip
 echo "connector succesfully imported"
+ 
