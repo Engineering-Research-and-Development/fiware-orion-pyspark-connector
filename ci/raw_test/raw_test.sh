@@ -14,7 +14,9 @@ chmod 700 ./ci/raw_test/RapidPUT.sh
 sleep 20
 echo "reading output file"
 cat ./ci/PySpark/out.txt
+rm ./ci/PySpark/out.txt
 echo "reading error file"
 cat ./ci/PySpark/err.txt
+rm ./ci/PySpark/err.txt
 ps -e | grep $variable
 kill $variable
