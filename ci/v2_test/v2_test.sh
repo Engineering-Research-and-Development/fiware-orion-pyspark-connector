@@ -5,7 +5,7 @@ mv ./ci/v2_test/connectorconf.py ./ci/PySpark/connectorconf.py
 mv ./ci/v2_test/start.py ./ci/PySpark/
 mv ./ci/v2_test/Test.txt ./ci/PySpark/
 cd ./ci/PySpark/
-python3 start.py 1> out.txt  2> err.txt &
+python3 start.py &
 variable=$!
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
 sleep 120
