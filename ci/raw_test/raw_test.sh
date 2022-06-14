@@ -10,7 +10,7 @@ sed -i "s/0.0.0.0/$hostname/g" ./ci/raw_test/connectorconf.py
 cat ./ci/raw_test/connectorconf.py
 mv ./ci/raw_test/connectorconf.py ./ci/PySpark/connectorconf.py
 mv ./ci/raw_test/start.py ./ci/PySpark/
-python3 ./ci/PySpark/start.py &
+spark-submit --py-files ./ci/PySpark/start.py ./ci/PySpark/connectorconf.py ./ci/PySpark/connector_lib.py ./ci/PySpark/replier_lib.py ./ci/PySpark/replyconf.py &
 variable=$!
 sleep 60
 chmod 700 ./ci/raw_test/RapidPUT.sh
