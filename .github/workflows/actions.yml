@@ -48,6 +48,7 @@ jobs:
 
       - name: Raw Test
         run: |
+          sleep 10
           chmod 700 ./ci/raw_test/raw_test.sh
           ./ci/raw_test/raw_test.sh
 
