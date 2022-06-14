@@ -8,11 +8,11 @@ cd ./ci/PySpark/
 python3 start.py &
 variable=$!
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-sleep 120
+sleep 30
 echo "exit sleeping"
 chmod 700 ./ci/v2_test/RapidPUT.sh
 ./ci/v2_test/RapidPUT.sh 1> /dev/null 2> /dev/null
-sleep 20
+sleep 50
 echo "reading output file"
 cat ./ci/PySpark/out.txt
 echo "reading error file"
