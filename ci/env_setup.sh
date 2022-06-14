@@ -1,9 +1,5 @@
 #!/bin/bash
 
-echo "installing CURL"
-sudo apt-get install curl
-echo "installed CURL"
-
 echo "installing python 3.8"
 sudo apt update -y
 sudo apt-get install python3.8 -y
