@@ -16,4 +16,4 @@ sleep 60
 chmod 700 ./ci/raw_test/RapidPUT.sh
 ./ci/raw_test/RapidPUT.sh > /dev/null 2> /dev/null
 sleep 10
-kill $variable
+
