@@ -46,8 +46,8 @@ jobs:
           sleep 30
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
           sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
-          curl -X POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
-          curl -X POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
           cat ./ci/subscription.json
           
           
