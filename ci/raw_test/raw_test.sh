@@ -10,9 +10,11 @@ cd ./ci/PySpark/
 python3 start.py &
 #spark-submit --py-files ./ci/PySpark/start.py ./ci/PySpark/connectorconf.py ./ci/PySpark/connector_lib.py ./ci/PySpark/replier_lib.py ./ci/PySpark/replyconf.py 
 variable=$!
-sleep 120
+cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+sleep 90
+echo "exit sleeping"
 chmod 700 ./ci/raw_test/RapidPUT.sh
 ./ci/raw_test/RapidPUT.sh > /dev/null 2> /dev/null
 sleep 10
-#ps -e | grep $variable
-#kill $variable
+ps -e | grep $variable
+kill $variable
