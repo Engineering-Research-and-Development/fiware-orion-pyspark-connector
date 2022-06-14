@@ -20,7 +20,7 @@ event = event.flatMap(lambda x: x.entities).map(lambda x: x.attrs['price'].value
 #response = event.map(lambda x : replier.UnstructuredReplyToBroker('{ "value" :' + str(x) +' }'))
 response2 = event.map(lambda x: replier.SemistructuredReplyToBroker(x, '{"value" : %%TOREPLACE%% }'))
 #response3 = event.map(lambda x : replier.ReplyToBroker(x))
-#event.pprint()
+event.pprint()
 #response.pprint()
 response2.pprint()
 #response3.pprint()
