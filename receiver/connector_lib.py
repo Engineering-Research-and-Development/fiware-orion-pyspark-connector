@@ -296,7 +296,7 @@ def StructureNGSIRequest(request, body, timestamp):
         
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
-        print(message)
+        #print(message)
         
     
     return message
