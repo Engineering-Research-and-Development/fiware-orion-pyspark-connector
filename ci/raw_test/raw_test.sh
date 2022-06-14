@@ -16,5 +16,6 @@ echo "exit sleeping"
 chmod 700 ./ci/raw_test/RapidPUT.sh
 ./ci/raw_test/RapidPUT.sh  /dev/null
 sleep 20
+cat out.txt
 ps -e | grep $variable
 kill $variable
