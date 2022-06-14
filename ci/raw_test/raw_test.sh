@@ -14,6 +14,6 @@ python3 ./ci/PySpark/start.py &
 variable=$!
 sleep 60
 chmod 700 ./ci/raw_test/RapidPUT.sh
-./ci/raw_test/RapidPUT.sh
+./ci/raw_test/RapidPUT.sh > /dev/null
 sleep 10
 kill $variable
