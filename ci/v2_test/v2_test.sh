@@ -11,7 +11,7 @@ cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connect
 sleep 90
 echo "exit sleeping"
 chmod 700 ./ci/v2_test/RapidPUT.sh
-./ci/v2_test/RapidPUT.sh
+./ci/v2_test/RapidPUT.sh 1> /dev/null 2> /dev/null
 sleep 20
 echo "reading output file"
 cat ./ci/PySpark/out.txt
