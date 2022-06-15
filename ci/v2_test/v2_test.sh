@@ -24,3 +24,5 @@ cat ./ci/PySpark/err.txt
 rm ./ci/PySpark/err.txt
 ps -e | grep $variable
 kill $variable
+
+ls ./ci/PySpark
