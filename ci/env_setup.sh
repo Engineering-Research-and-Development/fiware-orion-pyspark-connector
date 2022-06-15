@@ -12,6 +12,13 @@ sudo apt-get install -y wget
 sudo apt-get install -y unzip
 echo "installed Java 11"
 
+
+echo "Installing Newman CLI..."
+sudo npm set strict-ssl false
+sudo npm install -g newman@5.2.2
+newman --version
+echo "Newman installed, READY TO TEST..."
+
 echo "installing Spark 3.2.1"
 wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
 tar xvf spark-3.2.1-bin-hadoop3.2.tgz
