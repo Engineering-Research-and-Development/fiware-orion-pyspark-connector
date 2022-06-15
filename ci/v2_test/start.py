@@ -15,7 +15,7 @@ sc = SparkContext(conf=conf)
 
 def PrintToFile(x):
 	f = open("testout.txt", "a")
-	f.write(x)
+	f.write(str(x))
 	f.close()
 	return x
 
