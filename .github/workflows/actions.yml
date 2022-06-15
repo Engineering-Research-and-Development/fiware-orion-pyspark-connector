@@ -45,10 +45,24 @@ jobs:
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           sleep 30
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
-          #sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
-          #curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
-          #curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
-          
+          sed -i "s/0.0.0.0/$hostname/g" ./ci/ld_subscription.json
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./ci/new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./ci/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      - name: Stopping LD Container
+        run: |
+          cd ./ci/orion-ld/
+          docker compose down
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+      
       
       - name: Running Docker Compose Orion-v2
         run: |
@@ -60,16 +74,7 @@ jobs:
           sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
           curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
           curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
-        
-        
-        
-      - name: Stopping LD Container
-        run: |
-          cd ./ci/orion-ld/
-          docker compose down
-          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-        
-          
+
 
       - name: Raw Test
         run: |
