@@ -14,7 +14,7 @@ sleep 30
 echo "exit sleeping"
 chmod 700 ./ci/v2_test/RapidPUT.sh
 ./ci/v2_test/RapidPUT.sh
-sleep 90
+sleep 20
 
 echo "reading created output"
 cat ./ci/PySpark/testout.txt
