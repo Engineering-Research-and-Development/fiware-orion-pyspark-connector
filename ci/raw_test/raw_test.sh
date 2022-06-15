@@ -6,12 +6,14 @@ cd ./ci/PySpark/
 python3 start.py 1> out.txt  2> err.txt &
 #spark-submit --py-files ./ci/PySpark/start.py ./ci/PySpark/connectorconf.py ./ci/PySpark/connector_lib.py ./ci/PySpark/replier_lib.py ./ci/PySpark/replyconf.py 
 variable=$!
+
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-sleep 90
+sleep 30
 echo "exit sleeping"
-chmod 700 ./ci/raw_test/RapidPUT.sh
-./ci/raw_test/RapidPUT.sh 1> /dev/null 2> /dev/null
+chmod 700 ./ci/v2_test/RapidPUT.sh
+./ci/v2_test/RapidPUT.sh
 sleep 20
+
 echo "reading output file"
 cat ./ci/PySpark/out.txt
 rm ./ci/PySpark/out.txt
