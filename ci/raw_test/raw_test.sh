@@ -14,8 +14,7 @@ chmod 700 ./ci/v2_test/RapidPUT.sh
 ./ci/v2_test/RapidPUT.sh
 sleep 20
 
-echo "reading output file"
-cat ./ci/PySpark/out.txt
+
 rm ./ci/PySpark/out.txt
 echo "reading error file"
 cat ./ci/PySpark/err.txt
