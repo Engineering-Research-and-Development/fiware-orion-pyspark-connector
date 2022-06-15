@@ -89,6 +89,9 @@ jobs:
           chmod 700 ./ci/v2_test/v2_test.sh
           ./ci/v2_test/v2_test.sh
           
+      - name: Run Test Newman
+        run: newman run ./ci/v2_test/Test.json --timeout-request 120000 --insecure --bail --verbose
+          
           
       - name: Stopping v2 Container
         run: |
