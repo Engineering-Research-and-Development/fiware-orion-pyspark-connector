@@ -27,7 +27,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{orion}}/v2/entities/urn:ngsi-ld:Product:010/attrs/price/value",
+					"raw": "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/value",
 					"protocol": "http",
 					"host": [
 						"{{orion}}"
