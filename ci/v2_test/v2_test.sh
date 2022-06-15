@@ -9,17 +9,12 @@ cd ./ci/PySpark/
 python3 start.py 1> out.txt  2> err.txt &
 variable=$!
 
-cat connectorconf.py
-cat start.py
-
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
 sleep 30
 echo "exit sleeping"
 chmod 700 ./ci/v2_test/RapidPUT.sh
 ./ci/v2_test/RapidPUT.sh
-sleep 50
-
-
+sleep 90
 
 echo "reading output file"
 cat ./ci/PySpark/out.txt
