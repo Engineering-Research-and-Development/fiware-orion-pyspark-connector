@@ -6,11 +6,11 @@ mv ./ci/v2_test/start.py ./ci/PySpark/
 mv ./ci/v2_test/Test.txt ./ci/PySpark/
 cd ./ci/PySpark/
 
-python3 start.py 1> out.txt  2> err.txt &
+python3 start.py  &
 variable=$!
 
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-sleep 30
+sleep 10
 echo "exit sleeping"
 chmod 700 ./ci/v2_test/RapidPUT.sh
 ./ci/v2_test/RapidPUT.sh
@@ -25,6 +25,3 @@ rm ./ci/PySpark/err.txt
 ps -e | grep $variable
 kill $variable
 
-find ./ci/PySpark/print/ -type f
-find ./ci/PySpark/print/ -type f | grep part 
-find ./ci/PySpark/print/ -type f | grep part | xargs cat 
