@@ -16,6 +16,8 @@ chmod 700 ./ci/v2_test/RapidPUT.sh
 ./ci/v2_test/RapidPUT.sh
 sleep 90
 
+echo "reading created output"
+cat ./ci/PySpark/testout.txt
 echo "reading output file"
 cat ./ci/PySpark/out.txt
 rm ./ci/PySpark/out.txt
