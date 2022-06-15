@@ -16,7 +16,7 @@
 							"pm.test(\"Response check\", function(){",
 							"",
 							"    pm.response.to.have.status(200);",
-							"    pm.response.to.have.body('22')",
+							"    pm.response.to.have.body('10')",
 							"})"
 						],
 						"type": "text/javascript"
