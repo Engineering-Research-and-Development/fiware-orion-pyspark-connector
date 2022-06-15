@@ -15,7 +15,7 @@ sc = SparkContext(conf=conf)
 
 
 event, ssc = connector.Prime(sc, 5 , StorageLevel.MEMORY_AND_DISK_2)
-event = event.flatMap(lambda x: x.entities).map(lambda x: x.attrs['Category'].type)
+event = event.flatMap(lambda x: x.entities).map(lambda x: x.attrs['category'].type)
 
 event.pprint()
 
