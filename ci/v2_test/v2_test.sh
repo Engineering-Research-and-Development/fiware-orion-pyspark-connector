@@ -26,3 +26,4 @@ ps -e | grep $variable
 kill $variable
 
 ls ./ci/PySpark
+ls -l ./ci/PySpark/print
