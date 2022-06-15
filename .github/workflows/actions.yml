@@ -36,6 +36,18 @@ jobs:
           
       - name: Seeing hostname
         run: hostname -I
+        
+      
+      - name: Running Docker Compose Orion-LD
+        run: |
+          cd ./ci/orion-ld/
+          docker compose up -d
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          sleep 30
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          #sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
+          #curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
+          #curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
           
       
       - name: Running Docker Compose Orion-v2
@@ -48,15 +60,22 @@ jobs:
           sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
           curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
           curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
-          
-          
+        
+        
+        
+      - name: Stopping LD Container
+        run: |
+          cd ./ci/orion-ld/
+          docker compose down
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+        
           
 
-#      - name: Raw Test
-#        run: |
-#          sleep 10
-#          chmod 700 ./ci/raw_test/raw_test.sh
-#          ./ci/raw_test/raw_test.sh
+      - name: Raw Test
+        run: |
+          sleep 10
+          chmod 700 ./ci/raw_test/raw_test.sh
+          ./ci/raw_test/raw_test.sh
           
           
       - name: V2 Tests
@@ -64,6 +83,14 @@ jobs:
           sleep 10
           chmod 700 ./ci/v2_test/v2_test.sh
           ./ci/v2_test/v2_test.sh
+          
+          
+      - name: Stopping v2 Container
+        run: |
+          cd ./ci/orion/
+          docker compose down 
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
 
 
 
