@@ -46,8 +46,8 @@ jobs:
           sleep 30
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
           sed -i "s/0.0.0.0/$hostname/g" ./ci/ld_subscription.json
-          curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./ci/new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion
-          curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./ci/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./ci/new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./ci/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
       
       
       
