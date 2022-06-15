@@ -48,7 +48,7 @@ jobs:
           sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
           curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
           curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
-          cat ./ci/subscription.json
+          
           
           
 
