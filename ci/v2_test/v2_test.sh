@@ -4,22 +4,23 @@ sed -i "s/0.0.0.0/$hostname/g" ./ci/v2_test/connectorconf.py
 mv ./ci/v2_test/connectorconf.py ./ci/PySpark/connectorconf.py
 mv ./ci/v2_test/start.py ./ci/PySpark/
 mv ./ci/v2_test/Test.txt ./ci/PySpark/
+chmod 700 ./ci/v2_test/RapidPUT.sh
 cd ./ci/PySpark/
 
 python3 start.py 1> out.txt 2> err.txt &
+
 variable=$!
 
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-sleep 30
-echo "exit sleeping"
-chmod 700 ./ci/v2_test/RapidPUT.sh
-./ci/v2_test/RapidPUT.sh
-fg 1
 sleep 20
+echo "exit sleeping"
+
+./ci/v2_test/RapidPUT.sh
+sleep 40
 
 ps -e | grep $variable
 kill -SIGINT $variable
-
+kill -SIGINT $variable
 
 echo "reading output file"
 cat ./ci/PySpark/out.txt
