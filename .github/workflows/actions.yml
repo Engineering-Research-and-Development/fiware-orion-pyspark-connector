@@ -50,11 +50,11 @@ jobs:
           curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./ci/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
       
       
-      
-      
-      
-      
-      
+      - name: LD Test
+        run: |
+          sleep 10
+          chmod 700 ./ci/ld_test/ld_test.sh
+          ./ci/ld_test/ld_test.sh
       
       
       - name: Stopping LD Container
