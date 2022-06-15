@@ -27,3 +27,4 @@ kill $variable
 
 ls ./ci/PySpark
 ls -l ./ci/PySpark/print
+find ./ci/PySpark/print/ -type f | grep part | xargs cat 
