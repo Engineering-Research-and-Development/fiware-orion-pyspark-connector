@@ -3,9 +3,10 @@ hostname=$(hostname -I | tr ' ' '\n' | grep 10)
 sed -i "s/0.0.0.0/$hostname/g" ./ci/v2_test/connectorconf.py
 mv ./ci/v2_test/connectorconf.py ./ci/PySpark/connectorconf.py
 mv ./ci/v2_test/start.py ./ci/PySpark/
-#mv ./ci/v2_test/Test.txt ./ci/PySpark/
+mv ./ci/v2_test/ast.txt ./ci/PySpark/
 cd ./ci/PySpark/
-python3 start.py &
+
+python3 start.py 1> out.txt  2> err.txt &
 variable=$!
 
 cat connectorconf.py
