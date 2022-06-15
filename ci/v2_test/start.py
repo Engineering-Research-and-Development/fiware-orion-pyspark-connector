@@ -13,23 +13,16 @@ import time
 conf = SparkConf().setAppName("FIWARE Orion-PySpark Connector Demo").set("spark.hadoop.yarn.resourcemanager.address", "local[2]")
 sc = SparkContext(conf=conf)
 
-def PrintToFile(x):
-	f = open("testout.txt", "a")
-	f.write(str(x))
-	f.close()
-	return x
-
-
 
 event, ssc = connector.Prime(sc, 5 , StorageLevel.MEMORY_AND_DISK_2)
-event = event.flatMap(lambda x: x.entities).map(lambda x: x.attrs['price'].value).map(lambda x: PrintToFile(x))
-#response = event.map(lambda x : replier.UnstructuredReplyToBroker('{ "value" :' + str(x) +' }'))
-#response2 = event.map(lambda x: replier.SemistructuredReplyToBroker(x, '{"value" : %%TOREPLACE%% }'))
-#response3 = event.map(lambda x : replier.ReplyToBroker(x))
+event = event.flatMap(lambda x: x.entities).map(lambda x: x.attrs['price'].value)
+response = event.map(lambda x : replier.UnstructuredReplyToBroker('{ "value" :' + str(x) +' }'))
+response2 = event.map(lambda x: replier.SemistructuredReplyToBroker(x, '{"value" : %%TOREPLACE%% }'))
+response3 = event.map(lambda x : replier.ReplyToBroker(x))
 event.pprint()
-#response.pprint()
-#response2.pprint()
-#response3.pprint()
+response.pprint()
+response2.pprint()
+response3.pprint()
 
 
 ssc.start()
