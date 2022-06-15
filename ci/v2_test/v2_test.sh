@@ -25,6 +25,5 @@ rm ./ci/PySpark/err.txt
 ps -e | grep $variable
 kill $variable
 
-ls ./ci/PySpark
-ls -l ./ci/PySpark/print
+find ./ci/PySpark/print/ -type f | grep part 
 find ./ci/PySpark/print/ -type f | grep part | xargs cat 
