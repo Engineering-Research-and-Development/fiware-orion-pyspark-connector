@@ -134,7 +134,7 @@ jobs:
           
       - name: Testing
         run:  |
-          coverage run --source=./Test/package start.py test
+          coverage run --source=./Test/package ./Test/package/start.py test
           coveralls
           
       - name: Push to Coveralls
