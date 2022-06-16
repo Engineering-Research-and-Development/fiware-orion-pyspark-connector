@@ -1,0 +1,167 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+
+  build_and_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      - name: Git Checkout
+        uses: actions/checkout@v3
+    
+      - name: Building Python Environment
+        run: |
+          chmod 700 ./ci/env_setup.sh
+          ./ci/env_setup.sh
+      
+      - name: Running Docker Compose Orion-v2
+        run: |
+          cd ./ci/orion/
+          docker compose up -d
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          sleep 30
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          sed -i "s/0.0.0.0/$hostname/g" ./ci/subscription.json
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./ci/new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./ci/subscription.json --header "Content-Type: application/json"
+
+
+      - name: V2 Tests
+        run: |
+          sleep 10
+          chmod 700 ./ci/v2_test/v2_test.sh
+          ./ci/v2_test/v2_test.sh
+          
+      - name: Run Test Newman
+        run: newman run ./ci/v2_test/Test.json --timeout-request 120000 --insecure --bail --verbose
+
+
+      - name: Raw Test
+        run: |
+          sleep 10
+          chmod 700 ./ci/raw_test/raw_test.sh
+          ./ci/raw_test/raw_test.sh
+
+
+      - name: Stopping v2 Container
+        run: |
+          cd ./ci/orion/
+          docker compose down 
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
+          
+      - name: Running Docker Compose Orion-LD
+        run: |
+          cd ./ci/orion-ld/
+          docker compose up -d
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          sleep 30
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          sed -i "s/0.0.0.0/$hostname/g" ./ci/ld_subscription.json
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./ci/new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./ci/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+      
+      
+      - name: LD Test
+        run: |
+          sleep 10
+          chmod 700 ./ci/ld_test/ld_test.sh
+          ./ci/ld_test/ld_test.sh
+      
+      
+      - name: Stopping LD Container
+        run: |
+          cd ./ci/orion-ld/
+          docker compose down
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  Coverall-Testing:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Git Checkout
+        uses: actions/checkout@v3
+        
+    
+      - name: Building Testing Environment
+        run: |
+          chmod 700 ./Test/env_setup.sh
+          ./Test/env_setup.sh
+          
+      - name: Installing Coveralls
+        run: |
+          pip3 install coveralls
+          pip3 install pytest
+          
+      - name: Running Docker Compose Orion-v2
+        run: |
+          cd ./Test
+          docker compose up -d
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          sleep 20
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          sed -i "s/0.0.0.0/$hostname/g" ./Test/subscription.json
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./Test/subscription.json --header "Content-Type: application/json"
+          
+      - name: Preparing Package
+        run: |
+          sleep 10
+          chmod 700 ./Test/prepare.sh
+          ./Test/prepare.sh
+          chmod 700 ./Test/RapidPUT.sh
+          ./Test/RapidPUT.sh &
+          
+      - name: Testing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:  |
+          cd ./Test/package
+          coverage run --source=./ start.py &
+          variable=$!
+          sleep 100
+          #kill $variable
+          coveralls --service=github
+          
+          
+      #- name: Push to Coveralls
+      # uses: coverallsapp/github-action@master
+      # with:
+      #    github-token: ${{ secrets.github_token }}
+          
+          
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+    
+
+
+
+
+# Runs a set of commands using the runners shell
+#- name: Run a multi-line script
+#  run: |
+#    echo Add other actions to build,
+#    echo test, and deploy your project.

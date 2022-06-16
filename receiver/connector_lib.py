@@ -15,16 +15,7 @@ from datetime import datetime
 
 import connectorconf
 
-'''
-from py4j.java_gateway import java_import, is_instance_of
 
-from pyspark import RDD, SparkConf
-from pyspark.serializers import NoOpSerializer, UTF8Deserializer, CloudPickleSerializer
-from pyspark.context import SparkContext
-
-from pyspark.streaming.dstream import DStream
-from pyspark.streaming.util import TransformFunction, TransformFunctionSerializer
-'''
 
 
 class NGSIAttribute():
@@ -296,7 +287,7 @@ def StructureNGSIRequest(request, body, timestamp):
         
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
-        print(message)
+        #print(message)
         
     
     return message

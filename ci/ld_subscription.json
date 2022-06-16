@@ -1,0 +1,21 @@
+{
+  "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+  "description": "A test",
+  "type": "Subscription",
+    "entities": [
+      {
+        "id": "urn:ngsi-ld:Building:store001",
+        "type": "Building"
+      }
+    ],
+    "watchedAttributes": ["category"],
+    "q" : "category",
+  "notification": {
+    "attributes": [],
+    "format": "normalized",
+    "endpoint": {
+      "uri": "http://0.0.0.0:8061",
+      "accept": "application/json"
+    }
+  }
+}

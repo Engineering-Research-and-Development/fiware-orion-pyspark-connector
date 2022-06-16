@@ -25,6 +25,7 @@ RUN export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
 RUN pip3 install 'py4j==0.10.9.3'
 RUN pip3 install 'pyspark==3.2.1'
+RUN pip3 install psutil
 
 RUN wget https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/archive/refs/heads/main.zip
 RUN unzip main.zip
