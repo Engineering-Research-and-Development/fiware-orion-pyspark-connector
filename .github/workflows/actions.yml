@@ -135,6 +135,8 @@ jobs:
           ./Test/RapidPUT.sh &
           
       - name: Testing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
           cd ./Test/package
           coverage run --source=./ start.py test &
@@ -145,7 +147,7 @@ jobs:
       - name: Push to Coveralls
         uses: coverallsapp/github-action@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
 
 
