@@ -10,14 +10,16 @@ variable=$!
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
 sleep 30
 echo "exit sleeping"
-chmod 700 ./ci/v2_test/RapidPUT.sh
-./ci/v2_test/RapidPUT.sh
+chmod 700 ./ci/raw_test/RapidPUT.sh
+./ci/raw_test/RapidPUT.sh
 sleep 20
+
+ps -e | grep $variable
+kill $variable
 
 echo "reading output file"
 rm ./ci/PySpark/out.txt
 echo "reading error file"
 cat ./ci/PySpark/err.txt
 rm ./ci/PySpark/err.txt
-ps -e | grep $variable
-kill $variable
+
