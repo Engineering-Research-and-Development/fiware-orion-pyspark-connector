@@ -16,3 +16,5 @@ mv ./ci/PySpark/connector_lib.py ./Test/package
 mv ./ci/PySpark/replier_lib.py ./Test/package
 mv ./ci/PySpark/replyconf.py ./Test/package
 
+ls -l ./Test/package/
+
