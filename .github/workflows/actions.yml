@@ -180,6 +180,7 @@ jobs:
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
           
+          
       - name: Running Docker Compose Orion-LD
         run: |
           cd ./Test/orion-ld/
@@ -190,6 +191,7 @@ jobs:
           curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./Test/new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
           curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./Test/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+
 
       - name: Preparing Test LD Package
         run: |
@@ -216,7 +218,7 @@ jobs:
         run: |
           sleep 10
           coverage combine
-          coveralls  --service=github
+          coveralls --service=github
       
       
       - name: Stopping LD Container
