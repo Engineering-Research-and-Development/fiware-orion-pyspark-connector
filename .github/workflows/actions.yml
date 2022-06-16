@@ -130,7 +130,7 @@ jobs:
         run: |
           sleep 10
           chmod 700 ./Test/prepare.sh
-          ./prepare.sh &
+          ./Test/prepare.sh &
           
       - name: Testing
         run:  |
