@@ -8,15 +8,13 @@ chmod 700 ./ci/v2_test/RapidPUT.sh
 cd ./ci/PySpark/
 
 python3 start.py 1> out.txt 2> err.txt &
-
 variable=$!
 
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-sleep 20
+sleep 30
 echo "exit sleeping"
-
 ./ci/v2_test/RapidPUT.sh
-sleep 40
+sleep 30
 
 ps -e | grep $variable
 kill -SIGINT $variable
