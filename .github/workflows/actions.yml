@@ -140,9 +140,9 @@ jobs:
           coverage run --source=./ start.py test &
           variable=$!
           sleep 100
-          kill $variable
+          #kill $variable
           #coveralls
-          sleep 20
+          sleep 10
           
       - name: Push to Coveralls
         uses: coverallsapp/github-action@master
