@@ -17,8 +17,7 @@ echo "exit sleeping"
 sleep 30
 
 ps -e | grep $variable
-kill -SIGINT $variable
-kill -SIGINT $variable
+kill $variable
 
 echo "reading output file"
 cat ./ci/PySpark/out.txt
