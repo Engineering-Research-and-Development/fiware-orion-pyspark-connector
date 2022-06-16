@@ -2,9 +2,6 @@ import connector_lib as connector
 import replier_lib as replier
 from pyspark import SparkContext, SparkConf, StorageLevel
 
-
-
-
 import os
 import psutil
 import time
