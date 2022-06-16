@@ -21,9 +21,4 @@ event.pprint()
 
 
 ssc.start()
-
-
-try:
-	time.sleep(300)
-except Exception as e:
-	sys.exit(0)
+ssc.awaitTerminationOrTimeout(60)
