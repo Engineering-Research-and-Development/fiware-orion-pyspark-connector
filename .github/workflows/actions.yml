@@ -143,6 +143,7 @@ jobs:
           #kill $variable
           #coveralls
           sleep 10
+          ls -l
           
       - name: Push to Coveralls
         uses: coverallsapp/github-action@master
