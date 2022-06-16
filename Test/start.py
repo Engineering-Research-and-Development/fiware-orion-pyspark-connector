@@ -27,6 +27,6 @@ ssc.start()
 
 
 try:
-	time.sleep(200)
+	time.sleep(180)
 except Exception as e:
 	sys.exit(0)
