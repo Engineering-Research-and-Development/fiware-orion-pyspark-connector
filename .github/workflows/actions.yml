@@ -212,13 +212,9 @@ jobs:
           sleep 100
           kill $variable
           ls -l
-
-          
-      - name: Pushing to Coveralls
-        run: |
-          sleep 10
           coverage combine
           coveralls --service=github
+          
       
       
       - name: Stopping LD Container
