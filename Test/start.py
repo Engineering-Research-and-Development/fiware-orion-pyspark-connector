@@ -24,4 +24,4 @@ response3.pprint()
 
 
 ssc.start()
-ssc.awaitTermination(timeout= 180)
+ssc.awaitTerminationOrTimeout(60)
