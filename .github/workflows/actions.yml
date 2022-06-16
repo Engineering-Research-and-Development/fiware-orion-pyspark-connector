@@ -143,20 +143,20 @@ jobs:
           coverage run --source=./ start.py &
           variable=$!
           sleep 100
-          #kill $variable
+          kill $variable
           #coveralls --service=github
           
       - name: Returning to home
         run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
       
-      - name: Preparing Package
+      - name: Preparing Package for Raw Body Tests
         run: |
           sleep 10
           chmod 700 ./Test/raw_prepare.sh
           ./Test/raw_prepare.sh
           ./Test/RapidPUT.sh &
           
-      - name: Testing
+      - name: Testing Raw Body
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
@@ -164,7 +164,7 @@ jobs:
           coverage run --source=./ raw_start.py &
           variable=$!
           sleep 100
-          #kill $variable
+          kill $variable
           coveralls combine --service=github
           
       - name: Returning to home
