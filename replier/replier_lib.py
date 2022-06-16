@@ -1,14 +1,6 @@
 import replyconf as rconf
 import requests
 
-def ComputeDifferenceInDepth(prev, act):
-    diff = 0
-    for w in act:
-        if w in prev:
-            diff += 1
-            
-    return diff
-
 
 def Listify(values):
     
