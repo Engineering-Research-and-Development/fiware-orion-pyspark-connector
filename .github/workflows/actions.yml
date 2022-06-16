@@ -11,9 +11,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+
+
   build_and_run:
     runs-on: ubuntu-latest
 
@@ -26,17 +26,6 @@ jobs:
         run: |
           chmod 700 ./ci/env_setup.sh
           ./ci/env_setup.sh
-          
-      - name: Seeing output folders
-        run: |
-          pwd
-          ls -l
-          echo "seeing into ci"
-          ls -l ci
-          
-      - name: Seeing hostname
-        run: hostname -I
-      
       
       - name: Running Docker Compose Orion-v2
         run: |
@@ -98,7 +87,54 @@ jobs:
           cd ./ci/orion-ld/
           docker compose down
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+  
+  
+
+  Coverall-Testing:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Git Checkout
+        uses: actions/checkout@v3
+        
+    
+      - name: Building Testing Environment
+        run: |
+          chmod 700 ./Test/env_setup.sh
+          ./Test/env_setup.sh
           
+      - name: Installing Coveralls
+        run: |
+          pip3 install coveralls
+          
+      - name: Running Docker Compose Orion-v2
+        run: |
+          cd ./Test
+          docker compose up -d
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          sleep 5
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          sed -i "s/0.0.0.0/$hostname/g" ./Test/subscription.json
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./Test/subscription.json --header "Content-Type: application/json"
+          
+      - name: Preparing Package
+        run: |
+          sleep 10
+          chmod 700 ./Test/prepare.sh
+          ./prepare.sh &
+          
+      - name: Testing
+        run:  |
+          coverage run --source=./Test/package start.py test
+          coveralls
+          
+      - name: Push to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+    
 
 
 
