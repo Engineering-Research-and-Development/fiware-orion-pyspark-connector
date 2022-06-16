@@ -136,8 +136,11 @@ jobs:
           
       - name: Testing
         run:  |
-          coverage run --source=./Test/package ./Test/package/start.py test
+          cd ./Test/package
+          coverage run --source=./ start.py test &
+          sleep 100
           coveralls
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
       - name: Push to Coveralls
         uses: coverallsapp/github-action@master
