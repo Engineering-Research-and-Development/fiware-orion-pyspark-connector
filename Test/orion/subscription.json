@@ -1,0 +1,30 @@
+
+{
+  "description": "A subscription to get info about Lemonade",
+  "subject": {
+    "entities": [
+      {
+        "id": "urn:ngsi-ld:Product:010",
+        "type": "Product"
+      },
+      {
+        "id": "urn:ngsi-ld:Product:011",
+        "type": "Product"
+      },
+      {
+        "id": "urn:ngsi-ld:Product:012",
+        "type": "Product"
+      }
+    ],
+    "condition": {
+      "attrs": []
+    }
+  },
+  "notification": {
+    "http": {
+      "url": "http://0.0.0.0:8061"
+    },
+    "attrs": []
+  },
+  "expires": "2099-01-01T14:00:00.00Z"
+}
