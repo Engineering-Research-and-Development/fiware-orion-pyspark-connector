@@ -114,6 +114,7 @@ jobs:
       - name: Installing Coveralls
         run: |
           pip3 install coveralls
+          pip3 install pytest
           
       - name: Running Docker Compose Orion-v2
         run: |
@@ -135,20 +136,21 @@ jobs:
           ./Test/RapidPUT.sh &
           
       - name: Testing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
           cd ./Test/package
-          coverage run --source=./ start.py test &
+          coverage run --source=./ -m pytest start.py test &
           variable=$!
           sleep 100
           #kill $variable
-          #coveralls
-          sleep 10
-          ls -l
+          coveralls --service=github
           
-      - name: Push to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
+          
+      #- name: Push to Coveralls
+      # uses: coverallsapp/github-action@master
+      # with:
+      #    github-token: ${{ secrets.github_token }}
           
           
       - name: Returning to home
