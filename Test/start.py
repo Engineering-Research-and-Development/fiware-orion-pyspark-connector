@@ -2,9 +2,6 @@ import connector_lib as connector
 import replier_lib as replier
 from pyspark import SparkContext, SparkConf, StorageLevel
 
-
-
-
 import os
 import psutil
 import time
@@ -30,6 +27,6 @@ ssc.start()
 
 
 try:
-	time.sleep(300)
+	time.sleep(200)
 except Exception as e:
 	sys.exit(0)
