@@ -116,6 +116,8 @@ jobs:
           pip3 install coveralls
           pip3 install pytest
           
+      
+          
       - name: Running Docker Compose Orion-v2
         run: |
           cd ./Test/orion
@@ -167,17 +169,67 @@ jobs:
           sleep 100
           kill $variable
           ls -l
-          coverage combine
-          coveralls  --service=github
           
       - name: Returning to home
         run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
+      - name: Stopping v2 Container
+        run: |
+          cd ./Test/orion/
+          docker compose down 
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
-      #- name: Push to Coveralls
-      # uses: coverallsapp/github-action@master
-      # with:
-      #    github-token: ${{ secrets.github_token }}
+          
+      - name: Running Docker Compose Orion-LD
+        run: |
+          cd ./Test/orion-ld/
+          docker compose up -d
+          sleep 20
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          sed -i "s/0.0.0.0/$hostname/g" ./ld_subscription.json
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./Test/new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./Test/ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+
+      - name: Preparing Test LD Package
+        run: |
+          sleep 10
+          chmod 700 ./Test/ld_prepare.sh
+          ./Test/ld_prepare.sh
+          chmod 700 ./Test/RapidPUTLD.sh
+          ./Test/RapidPUTLD.sh &
+      
+      
+      - name: Testing LD version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:  |
+          cd ./Test/package
+          coverage run -p --source=./ ld_start.py &
+          variable=$!
+          sleep 100
+          kill $variable
+          ls -l
+
+          
+      - name: Pushing to Coveralls
+        run: |
+          sleep 10
+          coverage combine
+          coveralls  --service=github
+      
+      
+      - name: Stopping LD Container
+        run: |
+          cd ./ci/orion-ld/
+          docker compose down
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
+     
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+        
+      
           
           
       
