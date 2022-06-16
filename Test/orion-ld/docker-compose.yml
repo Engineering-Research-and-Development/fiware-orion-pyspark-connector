@@ -1,10 +1,10 @@
 version: "3"
 
 services:
-  
+
   orion:
     hostname: orion
-    image: fiware/orion:latest
+    image: fiware/orion-ld:0.7.0
     networks:
       - hostnet
       - ocbnet
@@ -12,7 +12,7 @@ services:
       - "1026:1026"
     depends_on:
       - orion_mongo
-    command: -statCounters -dbhost orion_mongo -logLevel INFO
+    command: -statCounters -dbhost orion_mongo -logLevel INFO -forwarding
 
   orion_mongo:
     hostname: orion_mongo

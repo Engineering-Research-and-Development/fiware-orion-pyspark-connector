@@ -1,0 +1,31 @@
+{
+    "id": "urn:ngsi-ld:Building:store001",
+    "type": "Building",
+    "category": {
+    	"type": "Property",
+        "value": ["commercial"]
+    },
+    "address": {
+        "type": "Property",
+        "value": {
+            "streetAddress": "Bornholmer St. 65",
+            "addressRegion": "Berlin",
+            "addressLocality": "Prenzlauer Berg",
+            "postalCode": "10439"
+        }
+    },
+    "location": {
+        "type": "GeoProperty",
+        "value": {
+             "type": "Point",
+             "coordinates": [13.3986, 52.5547]
+        }
+    },
+    "name": {
+        "type": "Property",
+        "value": "Bosebrucke Einkauf"
+    },
+    "@context": [
+        "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ]
+}

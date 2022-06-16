@@ -116,18 +116,20 @@ jobs:
           pip3 install coveralls
           pip3 install pytest
           
+      
+          
       - name: Running Docker Compose Orion-v2
         run: |
-          cd ./Test
+          cd ./Test/orion
           docker compose up -d
-          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           sleep 20
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
-          sed -i "s/0.0.0.0/$hostname/g" ./Test/subscription.json
-          curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/new_entity.json --header "Content-Type: application/json"
-          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./Test/subscription.json --header "Content-Type: application/json"
+          sed -i "s/0.0.0.0/$hostname/g" ./subscription.json
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./subscription.json --header "Content-Type: application/json"
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
-      - name: Preparing Package
+      - name: Preparing Test v2 Package
         run: |
           sleep 10
           chmod 700 ./Test/prepare.sh
@@ -135,26 +137,100 @@ jobs:
           chmod 700 ./Test/RapidPUT.sh
           ./Test/RapidPUT.sh &
           
-      - name: Testing
+      - name: Testing V2 version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
           cd ./Test/package
-          coverage run --source=./ start.py &
+          coverage run -p --source=./ start.py &
           variable=$!
           sleep 100
-          #kill $variable
-          coveralls --service=github
-          
-          
-      #- name: Push to Coveralls
-      # uses: coverallsapp/github-action@master
-      # with:
-      #    github-token: ${{ secrets.github_token }}
-          
+          kill $variable
+          #coveralls --service=github
+          ls -l
           
       - name: Returning to home
         run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+      
+      - name: Preparing Package for Raw Body Tests
+        run: |
+          sleep 10
+          chmod 700 ./Test/raw_prepare.sh
+          ./Test/raw_prepare.sh
+          ./Test/RapidPUT.sh &
+          
+      - name: Testing Raw Body
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:  |
+          cd ./Test/package
+          coverage run -p --source=./ raw_start.py &
+          variable=$!
+          sleep 100
+          kill $variable
+          ls -l
+          
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
+      - name: Stopping v2 Container
+        run: |
+          cd ./Test/orion/
+          docker compose down 
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
+          
+          
+      - name: Running Docker Compose Orion-LD
+        run: |
+          cd ./Test/orion-ld/
+          docker compose up -d
+          sleep 20
+          hostname=$(hostname -I | tr ' ' '\n' | grep 10)
+          sed -i "s/0.0.0.0/$hostname/g" ./ld_subscription.json
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/entities/ -d @./new_ld_entity.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+          curl -vX POST http://localhost:1026/ngsi-ld/v1/subscriptions/ -d @./ld_subscription.json --header "Content-Type: application/ld+json" --header "NGSILD-Tenant: orion"
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+
+
+      - name: Preparing Test LD Package
+        run: |
+          sleep 10
+          chmod 700 ./Test/ld_prepare.sh
+          ./Test/ld_prepare.sh
+          chmod 700 ./Test/RapidPUTLD.sh
+          ./Test/RapidPUTLD.sh &
+      
+      
+      - name: Testing LD version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:  |
+          cd ./Test/package
+          coverage run -p --source=./ ld_start.py &
+          variable=$!
+          sleep 100
+          kill $variable
+          ls -l
+          coverage combine
+          coveralls --service=github
+          
+      
+      
+      - name: Stopping LD Container
+        run: |
+          cd ./ci/orion-ld/
+          docker compose down
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
+     
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+        
+      
+          
+          
+      
     
 
 
