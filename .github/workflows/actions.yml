@@ -65,10 +65,6 @@ jobs:
           sleep 10
           chmod 700 ./ci/raw_test/raw_test.sh
           ./ci/raw_test/raw_test.sh
-          
-          
-      - name: Run Test Newman
-        run: newman run ./ci/raw_test/Test.json --timeout-request 120000 --insecure --bail --verbose
 
 
       - name: Stopping v2 Container
