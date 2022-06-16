@@ -132,7 +132,7 @@ jobs:
           chmod 700 ./Test/prepare.sh
           ./Test/prepare.sh
           chmod 700 ./Test/RapidPUT.sh
-          ./Test/Rapidput.sh &
+          ./Test/RapidPUT.sh &
           
       - name: Testing
         run:  |
