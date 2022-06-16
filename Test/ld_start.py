@@ -21,4 +21,4 @@ event.pprint()
 
 
 ssc.start()
-ssc.awaitTerminationOrTimeout(60)
+ssc.awaitTerminationOrTimeout(90)
