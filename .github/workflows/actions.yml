@@ -123,9 +123,9 @@ jobs:
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           sleep 20
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
-          sed -i "s/0.0.0.0/$hostname/g" ./Test/subscription.json
-          curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/new_entity.json --header "Content-Type: application/json"
-          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./Test/subscription.json --header "Content-Type: application/json"
+          sed -i "s/0.0.0.0/$hostname/g" ./Test/orion/subscription.json
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/orion/new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./Test/orion/subscription.json --header "Content-Type: application/json"
           
       - name: Preparing Package
         run: |
