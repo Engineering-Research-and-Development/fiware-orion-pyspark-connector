@@ -147,7 +147,7 @@ jobs:
       - name: Push to Coveralls
         uses: coverallsapp/github-action@master
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
     
 
 
