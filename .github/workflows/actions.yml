@@ -140,7 +140,7 @@ jobs:
           coverage run --source=./ start.py test &
           variable=$!
           sleep 100
-          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          
           kill $variable
           #coveralls
           
@@ -148,6 +148,10 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
+          
+          
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
     
 
 
