@@ -140,7 +140,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
           cd ./Test/package
-          coverage run --source=./ -m pytest start.py test &
+          coverage run --source=./ -m pytest start.py &
           variable=$!
           sleep 100
           #kill $variable
