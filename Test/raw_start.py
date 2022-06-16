@@ -13,10 +13,7 @@ sc = SparkContext(conf=conf)
 
 
 event, ssc = connector.Prime(sc, 10 , StorageLevel.MEMORY_AND_DISK_2)
-#event = event.flatMap(lambda x: x.entities).map(lambda x: x.attrs['price'].value)
-#response = event.map(lambda x : replier.UnstructuredReplyToBroker('{ "value" :' + str(x) +' }'))
 event.pprint()
-#response.pprint()
 
 
 ssc.start()
