@@ -89,6 +89,13 @@ jobs:
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
   
   
+  
+  
+  
+  
+  
+  
+  
 
   Coverall-Testing:
     runs-on: ubuntu-latest
@@ -113,7 +120,7 @@ jobs:
           cd ./Test
           docker compose up -d
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
-          sleep 5
+          sleep 20
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
           sed -i "s/0.0.0.0/$hostname/g" ./Test/subscription.json
           curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/new_entity.json --header "Content-Type: application/json"
