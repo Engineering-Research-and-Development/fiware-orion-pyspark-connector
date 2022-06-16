@@ -24,9 +24,4 @@ response3.pprint()
 
 
 ssc.start()
-
-
-try:
-	time.sleep(180)
-except Exception as e:
-	sys.exit(0)
+ssc.awaitTermination(timeout= 180)
