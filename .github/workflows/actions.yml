@@ -135,19 +135,19 @@ jobs:
           ./Test/RapidPUT.sh &
           
       - name: Testing
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run:  |
           cd ./Test/package
           coverage run --source=./ start.py test &
+          variable=$!
           sleep 100
-          coveralls
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+          kill $variable
+          #coveralls
           
       - name: Push to Coveralls
         uses: coverallsapp/github-action@master
         with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
 
 
