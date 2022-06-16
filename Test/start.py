@@ -25,3 +25,4 @@ response3.pprint()
 
 ssc.start()
 ssc.awaitTerminationOrTimeout(60)
+ssc.stop()
