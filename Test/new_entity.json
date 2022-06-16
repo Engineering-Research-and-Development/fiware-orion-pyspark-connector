@@ -1,6 +1,0 @@
-{
-      "id":"urn:ngsi-ld:Product:010", "type":"Product",
-      "name":{"type":"Text", "value":"Lemonade"},
-      "size":{"type":"Text", "value": "S"},
-      "price":{"type":"Integer", "value": 99}
-}
