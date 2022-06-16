@@ -140,11 +140,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
           cd ./Test/package
-          coverage run --source=./ start.py &
+          coverage run -p --source=./ start.py &
           variable=$!
           sleep 100
           kill $variable
           #coveralls --service=github
+          ls -l
           
       - name: Returning to home
         run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
@@ -161,10 +162,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
           cd ./Test/package
-          coverage run --source=./ raw_start.py &
+          coverage run -p --source=./ raw_start.py &
           variable=$!
           sleep 100
           kill $variable
+          ls -l
           coverage combine
           coveralls  --service=github
           
