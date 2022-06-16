@@ -118,16 +118,16 @@ jobs:
           
       - name: Running Docker Compose Orion-v2
         run: |
-          cd ./Test
+          cd ./Test/orion
           docker compose up -d
-          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           sleep 20
           hostname=$(hostname -I | tr ' ' '\n' | grep 10)
-          sed -i "s/0.0.0.0/$hostname/g" ./Test/orion/subscription.json
-          curl -vX POST http://localhost:1026/v2/entities/ -d @./Test/orion/new_entity.json --header "Content-Type: application/json"
-          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./Test/orion/subscription.json --header "Content-Type: application/json"
+          sed -i "s/0.0.0.0/$hostname/g" ./subscription.json
+          curl -vX POST http://localhost:1026/v2/entities/ -d @./new_entity.json --header "Content-Type: application/json"
+          curl -vX POST http://localhost:1026/v2/subscriptions/ -d @./subscription.json --header "Content-Type: application/json"
+          cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
-      - name: Preparing Package
+      - name: Preparing Test v2 Package
         run: |
           sleep 10
           chmod 700 ./Test/prepare.sh
@@ -135,7 +135,7 @@ jobs:
           chmod 700 ./Test/RapidPUT.sh
           ./Test/RapidPUT.sh &
           
-      - name: Testing
+      - name: Testing V2 version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  |
@@ -144,7 +144,31 @@ jobs:
           variable=$!
           sleep 100
           #kill $variable
-          coveralls --service=github
+          #coveralls --service=github
+          
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+      
+      - name: Preparing Package
+        run: |
+          sleep 10
+          chmod 700 ./Test/raw_prepare.sh
+          ./Test/raw_prepare.sh
+          ./Test/RapidPUT.sh &
+          
+      - name: Testing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:  |
+          cd ./Test/package
+          coverage run --source=./ raw_start.py &
+          variable=$!
+          sleep 100
+          #kill $variable
+          coveralls combine --service=github
+          
+      - name: Returning to home
+        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
           
           
       #- name: Push to Coveralls
@@ -153,8 +177,7 @@ jobs:
       #    github-token: ${{ secrets.github_token }}
           
           
-      - name: Returning to home
-        run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
+      
     
 
 
