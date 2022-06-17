@@ -7,6 +7,7 @@ mkdir package
 sed -i "s/0.0.0.0/$hostname/g" connectorconf.py
 mv connectorconf.py ./package
 mv start.py ./package
+mv v2_replier_start.py ./package
 mv Test.txt ./package
 mv __init__.py ./package
 
