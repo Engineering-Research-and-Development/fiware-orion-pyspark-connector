@@ -5,6 +5,7 @@
 [![Documentation badge](https://readthedocs.org/projects/fiware-orion-pyspark-connector/badge/?version=latest)](https://fiware-orion-pyspark-connector.readthedocs.io)
 ![Status](https://nexus.lab.fiware.org/repository/raw/public/badges/statuses/incubating.svg)
 <br/>
+[![CI](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/workflows/CI/badge.svg)](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/actions?query=workflow%3ACI)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/6113/badge)](https://bestpractices.coreinfrastructure.org/projects/6113)
 [![Coverage Status](https://coveralls.io/repos/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector/badge.svg?branch=increase-coverage-2)](https://coveralls.io/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector?branch=increase-coverage-2)
 
