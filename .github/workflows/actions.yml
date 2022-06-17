@@ -148,6 +148,7 @@ jobs:
           kill $variable
           #coveralls --service=github
           ls -l
+          coverage run -p --source=./ v2_replier_start.py 
           
       - name: Returning to home
         run: cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
