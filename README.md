@@ -5,7 +5,7 @@
 [![Documentation badge](https://readthedocs.org/projects/fiware-orion-pyspark-connector/badge/?version=latest)](https://fiware-orion-pyspark-connector.readthedocs.io)
 ![Status](https://nexus.lab.fiware.org/repository/raw/public/badges/statuses/incubating.svg)
 <br/>
-[![Coverage Status](https://coveralls.io/repos/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector/badge.svg?branch=main)](https://coveralls.io/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector/badge.svg?branch=increase-coverage-2)](https://coveralls.io/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector?branch=increase-coverage-2)
 
 
 The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Orion Context Broker and PySpark
