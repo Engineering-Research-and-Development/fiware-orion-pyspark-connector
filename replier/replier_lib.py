@@ -4,7 +4,7 @@ import requests
 
 def Listify(values):
     
-    if type(values) != type(list):
+    if type(values) != list:
         values = [values]
             
     return values
