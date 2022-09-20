@@ -88,9 +88,28 @@ response.pprint()
 ```
 
 
-### Subscribing Tool
+### Subscription Tool
 
 The subscribing tool is an optional tool capable of making easy subscription to the context broker. It provides a API allowing to browse the entity space in the context broker, select one of them and then selecting the attributes to return in the subscription.
-
 **Currently, conditions are not implemented. Subscriptions with condition will be implemented later**
-To use the subscribing tool, 
+
+- To use the subscribing tool, import it with the following line of code:
+```python
+import subscribing_tool as sub
+```
+- **Remember: the subscription tool will use the connectorconf.py file! Remember to add it in the same folder**
+- Use the following function:
+```python
+sub.SubscribeToEntity(base_url, description)
+```
+   where:
+   - base_url: is the base url of the context broker. Usually, it would be: "http://ipaddress:port/v2/" or "http:ipaddress:port/ngsi-ld/v1/"
+   - description: is the description you would like to use to characterize your subscription
+
+- The algorithm will browse the base url, showing a list of the currently existing entities.
+- Select an entity among the existing ones by typing the name (case insensitive)
+- The algorithm will show a list of attributes
+- Type an attribute name to add it into a list of selected attributes for the subscription (case insensitive)
+   - Type QUIT to exit the selection list
+   - Type ALL to copy the whole list and exit the selection
+- If the algorithm succeeds, it will show the success message and the subscription is posted on the context broker
