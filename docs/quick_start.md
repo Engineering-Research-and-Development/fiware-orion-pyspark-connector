@@ -91,6 +91,7 @@ response.pprint()
 ### Subscription Tool
 
 The subscribing tool is an optional tool capable of making easy subscription to the context broker. It provides a API allowing to browse the entity space in the context broker, select one of them and then selecting the attributes to return in the subscription.
+
 **Currently, conditions are not implemented. Subscriptions with condition will be implemented later**
 
 - To use the subscribing tool, import it with the following line of code:
