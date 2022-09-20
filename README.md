@@ -43,15 +43,10 @@ The Orion-PySpark receiver is currently a custom tool capable of receiving HTTP 
 The tool is represented in the following diagram and it is made of:
 
 
--   **`Connector Library`**: Set of functions and class definition for NGSI Events
--   **`Connector configuration file`**: Configuration file to configure the connector servers and mode.
+-   **`Connector Library`**: Set of functions to receive and reply to the context broker
+-   **`Connector configuration file`**: Configuration file to configure the connector servers and mode, class definition for NGSI Events and Parameter configuration for replier side.
+-   **`Subscribing Tool`**: Optional Library browsing the available entities in the context broker and allowing an easy subscription.
 
-
-### Replier Side
-
-The Orion-PySpark replier is currently a library composed by:
-- **`Replier Lib`**: Python 3.8 library to import and use in a custom spark job that converts a stream of processed data into a Http request body and sends it with a API request.
-- **`Replier configuration file`**: a configuration file to set the API URL, method, some fundamental HTTP headers and the placeholder character for the request body blueprint
 
 ## License
 
