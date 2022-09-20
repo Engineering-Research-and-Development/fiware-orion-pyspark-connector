@@ -12,55 +12,14 @@ from threading import Thread
 import socket
 import time
 from datetime import datetime
+import requests
 
 import connectorconf
+from connectorconf import NGSIAttribute, NGSIEntityv2, NGSIEntityLD, NGSIEventv2, NGSIEventLD
 
 
 
-
-class NGSIAttribute():
-    
-    def __init__(self, attrype, value, metadata):
-        self.type = attrype
-        self.value = value
-        self.metadata = metadata
-        
-
-class NGSIEntityv2():
-    
-    def __init__(self, entityid, nodetype, attributes):
-        self.id = entityid
-        self.type = nodetype
-        self.attrs = attributes
-
-
-
-class NGSIEntityLD():
-    
-    def __init__(self, entityid, nodetype, attributes, context):
-        self.context = context
-        self.id = entityid
-        self.type = nodetype
-        self.attrs = attributes
-        
-        
-        
-class NGSIEventLD():
-    
-    def __init__(self, timestamp, svc, svcpath, entities):
-        self.creationtime = timestamp
-        self.service = svc
-        self.servicePath = svcpath
-        self.entities = entities
-        
-
-class NGSIEventv2():
-    
-    def __init__(self, timestamp, svc, svcpath, entities):
-        self.creationtime = timestamp
-        self.service = svc
-        self.servicePath = svcpath
-        self.entities = entities
+### RECEIVER-SIDE FUNCTIONS ###
         
 
 
@@ -75,7 +34,10 @@ def Parse(API):
     
     isLD = False
     
+    
     json = ParseToJSON(API)
+    
+    print("Here", API)
     
     try:
         timestamp = json['timestamp']
@@ -278,12 +240,15 @@ def StructureNGSIRequest(request, body, timestamp):
             
     
         message = message + '"{}":"{}",'.format("timestamp", ts)
+        
     
         for field in request.headers:
             message = message + '"{}":"{}",'.format(field,request.headers[field].replace('"', "'"))
     
         message = message + '"Body":{}'.format(body[2:-1])
         message = message + "}\n"
+        
+        
         
     else: #BODY ONLY
         message = '{}\n'.format(body[2:-1])
@@ -376,6 +341,135 @@ def Prime(sparkcontext, sliding_window_seconds, storage):
     NGSI_event = record.map(lambda x: Parse(x))
     return NGSI_event, ssc
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+### REPLIER-SIDE FUNCTIONS ###
+
+
+def Listify(values):
+    
+    if type(values) != list:
+        values = [values]
+            
+    return values
+
+        
+        
+def ReplaceJSON(values):
+    
+    values = Listify(values)
+    f = open(rconf.BLUEPRINTFILE, "r")
+    text=f.read()
+    f.close()
+    text = text.replace("\n", " ")
+    for v in values:
+        text = text.replace(rconf.PLACEHOLDER, str(v), 1)
+        
+    return text
+        
+        
+def ReplyToBroker(values, apiURL=connectorconf.API_URL, apiMethod=connectorconf.METHOD):
+    
+    headers= {"Content-Type": connectorconf.CONTENT_TYPE, "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+    msg = ReplaceJSON(values)
+    
+    try:
+        if apiMethod == "POST":
+            reply = requests.post(apiURL, msg, headers=headers)
+        elif apiMethod == "PUT":
+            reply = requests.put(apiURL, msg, headers=headers)
+        elif apiMethod == "PATCH":
+            reply = requests.patch(apiURL, msg, headers=headers)
+        else:
+            print("Method not allowed")
+        reply = reply.text
+    except Exception as e:
+        reply = e
+        
+    return reply
+    
+    
+
+def SemistructuredReplyToBroker(values, body, apiURL=connectorconf.API_URL, apiMethod=connectorconf.METHOD):
+    
+    headers= {"Content-Type": connectorconf.CONTENT_TYPE, "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+
+    values = Listify(values)
+    for v in values:
+        body = body.replace(rconf.PLACEHOLDER, str(v), 1)
+    
+    
+    try:
+        if apiMethod == "POST":
+            reply = requests.post(apiURL, body, headers=headers)
+        elif apiMethod == "PUT":
+            reply = requests.put(apiURL, body, headers=headers)
+        elif apiMethod == "PATCH":
+            reply = requests.patch(apiURL, body, headers=headers)
+        else:
+            print("Method not allowed")
+        reply = reply.text
+    except Exception as e:
+        reply = e
+        
+    return reply
+   
+    
+def UnstructuredReplyToBroker(body, apiURL=connectorconf.API_URL, apiMethod=connectorconf.METHOD):
+    
+    
+    headers= {"Content-Type": connectorconf.CONTENT_TYPE, "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+    
+    
+    try:
+        if apiMethod == "POST":
+            reply = requests.post(apiURL, body, headers=headers)
+        elif apiMethod == "PUT":
+            reply = requests.put(apiURL, body, headers=headers)
+        elif apiMethod == "PATCH":
+            reply = requests.patch(apiURL, body, headers=headers)
+        else:
+            print("Method not allowed")
+        reply = reply.text
+    except Exception as e:
+        reply = e
+        
+    return reply
+    
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	
 
 

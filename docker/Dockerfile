@@ -33,10 +33,9 @@ RUN unzip main.zip
 
 RUN mkdir ../PySpark/
 
-RUN mv fiware-orion-pyspark-connector-main/receiver/connector_lib.py ../PySpark/
+RUN mv fiware-orion-pyspark-connector-main/receiver/orion_pyspark_connector.py ../PySpark/
 RUN mv fiware-orion-pyspark-connector-main/receiver/connectorconf.py ../PySpark/
-RUN mv fiware-orion-pyspark-connector-main/replier/replier_lib.py ../PySpark/
-RUN mv fiware-orion-pyspark-connector-main/replier/replyconf.py ../PySpark/
+RUN mv fiware-orion-pyspark-connector-main/replier/subscribing_tool.py ../PySpark/
 
 RUN rm -r fiware-orion-pyspark-connector-main
 RUN rm main.zip

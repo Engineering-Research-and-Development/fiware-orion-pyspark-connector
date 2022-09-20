@@ -12,14 +12,15 @@
 - [x] Adding NGSI-LD support to Replier **Completed on 19/04/22**
 - [x] ~~Write a definitive JSON structurer tool~~ **Objective changed on 19/04/22**
 - [x] Made a flexible request body constructor **Completed on 19/04/22**
-- [ ] Tests for NGSI-LD Support for both receiver and replier side. **Tests ASAP**
-- [ ] Test for performances **Tests ASAP**
+- [x] Tests for NGSI-LD Support for both receiver and replier side. **Completed on 26/07/2022**
+- [x] Test for performances **Completed on 26/07/2022**
 
 
 ### Medium Term
 
 - [ ] Make the connector available with a docker image **Working**
-- [ ] Subscribing tool
+- [x] Subscribing tool **Completed on 20/09/2022**
+- [x] Collapsed receiver and replier into one library and one configuration file **Completed on 20/09/2022**
 - [ ] Efficiency improvements
 - [ ] Better Socket management (automatic ports)
 - [ ] Find a **more elegant** way to keep only Spark sockets in memory without blocking the server
@@ -30,6 +31,7 @@
 
 - [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
 - [ ] Adding security to connections
+- [ ] Adding conditions in the subscription tool
 
 
 
