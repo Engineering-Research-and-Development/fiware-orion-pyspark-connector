@@ -1,8 +1,5 @@
-import connector_lib as connector
-import replier_lib as replier
+import orion_pyspark_connector as connector
 from pyspark import SparkContext, SparkConf, StorageLevel
-
-
 
 
 import os
