@@ -14,7 +14,7 @@ mv __init__.py ./package
 
 cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector/
 mv ./ci/PySpark/orion_pyspark_connector.py ./Test/package
-mv ./ci/PySpark/subscription_tool.py ./Test/package
+mv ./ci/PySpark/subscribing_tool.py ./Test/package
 
 
 ls -l ./Test/package/
