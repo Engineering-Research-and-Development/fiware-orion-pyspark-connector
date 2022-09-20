@@ -43,7 +43,7 @@ The tool is represented in the following diagram and it is made of:
 
 -   **`Connector Library`**: Set of functions to receive and reply to the context broker
 -   **`Connector configuration file`**: Configuration file to configure the connector servers and mode, class definition for NGSI Events and Parameter configuration for replier side.
--   **`Subscribing Tool`**: Optional Library browsing the available entities in the context broker and allowing an easy subscription.
+-   **`Subscribing Tool`**: Optional Library browsing the available entities in the context broker and allowing an easier subscription.
 
 
 ## License
