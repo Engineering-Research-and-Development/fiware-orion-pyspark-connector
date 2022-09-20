@@ -371,12 +371,12 @@ def Listify(values):
 def ReplaceJSON(values):
     
     values = Listify(values)
-    f = open(rconf.BLUEPRINTFILE, "r")
+    f = open(connectorconf.BLUEPRINTFILE, "r")
     text=f.read()
     f.close()
     text = text.replace("\n", " ")
     for v in values:
-        text = text.replace(rconf.PLACEHOLDER, str(v), 1)
+        text = text.replace(connectorconf.PLACEHOLDER, str(v), 1)
         
     return text
         
@@ -409,7 +409,7 @@ def SemistructuredReplyToBroker(values, body, apiURL=connectorconf.API_URL, apiM
 
     values = Listify(values)
     for v in values:
-        body = body.replace(rconf.PLACEHOLDER, str(v), 1)
+        body = body.replace(connectorconf.PLACEHOLDER, str(v), 1)
     
     
     try:
