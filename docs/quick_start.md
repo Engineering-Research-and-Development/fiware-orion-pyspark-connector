@@ -97,7 +97,7 @@ The subscribing tool is an optional tool capable of making easy subscription to 
 ```python
 import subscribing_tool as sub
 ```
-- **Remember: the subscription tool will use the connectorconf.py file! Remember to add it in the same folder**
+**Remember: the subscription tool will use the connectorconf.py file! Remember to add it in the same folder**
 - Use the following function, keeping in mind that:
    - base_url: is the base url of the context broker. Usually, it would be: "http://ipaddress:port/v2/" or "http:ipaddress:port/ngsi-ld/v1/"
    - description: is the description you would like to use to characterize your subscription
