@@ -37,7 +37,6 @@ def Parse(API):
     
     json = ParseToJSON(API)
     
-    print("Here", API)
     
     try:
         timestamp = json['timestamp']
