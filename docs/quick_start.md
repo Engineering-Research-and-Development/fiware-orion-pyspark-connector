@@ -17,7 +17,7 @@ Once installed the requirements, it is possible to use the connector by followin
 from pyspark import SparkContext
 from pyspark import SparkConf
 from pyspark import StorageLevel
-import connector_lib as connector
+import orion_pyspark_connector as connector
 ```
 - Obtain a SparkContext by configuring a SparkSession
 ```python
@@ -45,15 +45,12 @@ ssc.awaitTermination()
 
 ### Replier
 
-- Install the requirements for the replier:
-```console
-pip3 install requests
-```
-- Modify the `replyconf.py` file to change the Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path. Moreover, in this configuration file it is possible to write a custom *placeholder string* to use in the request body blueprint
 
-- In you PySpark job import the receiver library
+- Modify the `connectorconf.py` file to change the Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path. Moreover, in this configuration file it is possible to write a custom *placeholder string* to use in the request body blueprint
+
+- In you PySpark job import the connector library
 ```python
-import replier_lib as replier
+import orion_pyspark_connector as connector
 ```
 - **The replier can be used in three different modes: structured, unstructured and semi-structured.**
 
@@ -63,7 +60,7 @@ import replier_lib as replier
    - Take in account that this method is slower than the others (since files are read from disk) and it fits well when completing large bodies
    - Use the ReplyToBroker function passing the values from the algorithm
 ```python
-response = record.map(lambda x: replier.ReplyToBroker(x))
+response = record.map(lambda x: connector.ReplyToBroker(x))
 response.pprint()
 ```
 
@@ -73,7 +70,7 @@ response.pprint()
    - This method is faster than the structured one, but it fits for small request bodies
    - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes like in the following example (i.e: the replace string configured is %%PLACEHOLDER%%):
 ```python
-response = record.map(lambda x: replier.SemistructuredReplyToBroker(x, '{"example" : %%PLACEHOLDER%% }'))
+response = record.map(lambda x: connector.SemistructuredReplyToBroker(x, '{"example" : %%PLACEHOLDER%% }'))
 response.pprint()
 ```
 
@@ -86,6 +83,14 @@ response.pprint()
    - This method fits well when the algorithm returns very complex structures (i.e: an entire NGSI Entity) to insert in very small requests
    - This method is the fastest one, but it fits for small request bodies and is more error prone that the others
 ```python
-response = record.map(lambda x: replier.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }'))
+response = record.map(lambda x: connector.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }'))
 response.pprint()
 ```
+
+
+### Subscribing Tool
+
+The subscribing tool is an optional tool capable of making easy subscription to the context broker. It provides a API allowing to browse the entity space in the context broker, select one of them and then selecting the attributes to return in the subscription.
+
+**Currently, conditions are not implemented. Subscriptions with condition will be implemented later**
+To use the subscribing tool, 
