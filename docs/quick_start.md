@@ -102,7 +102,6 @@ import subscribing_tool as sub
 ```python
 sub.SubscribeToEntity(base_url, description)
 ```
-   where:
    - base_url: is the base url of the context broker. Usually, it would be: "http://ipaddress:port/v2/" or "http:ipaddress:port/ngsi-ld/v1/"
    - description: is the description you would like to use to characterize your subscription
 
