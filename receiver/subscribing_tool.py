@@ -121,7 +121,7 @@ def SubscribeToEntity(base_url, description):
         attrlist = [attr for attr in entity.attrs]
         print(attrlist)
         
-        print("Type which attributes to return in your subscription. Type 'QUIT' to stop")
+        print("Type which attributes to return in your subscription. Type 'QUIT' to stop. Type 'ALL' to insert all attributes")
         continuing = True
         returnlist = []
         while continuing:
@@ -139,6 +139,10 @@ def SubscribeToEntity(base_url, description):
                 elif string.upper() == 'QUIT':
                     print("Quitting Selection")
                     continuing = False
+                elif string.upper() == 'ALL':
+                    print("Inserting All attributes")
+                    continuing = False
+                    returnlist = attrlist
                 else:
                     print("Attribute not found, please, type it correctly. The remaining list of attributes is:", attrlist)
             except Exception as e:
