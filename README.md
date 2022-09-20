@@ -38,7 +38,7 @@ Orion PySpark Connector was created with the idea of expanding the FIWARE Orion 
 
 
 The Orion-PySpark receiver is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a PySpark job.
-The tool is represented in the following diagram and it is made of:
+The tool is represented in the above diagram and it is made of:
 
 
 -   **`Connector Library`**: Set of functions to receive and reply to the context broker
