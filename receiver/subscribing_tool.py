@@ -72,24 +72,54 @@ def CreateSubscriptionPayload(name, typ, desc, attrlist):
     return payload
     
     
+    
+    
+def CreateLDSubscriptionPayload(name, typ, desc, attrlist):
+    
+    payload = {}
+    payload['description']=desc
+    payload['@context']="https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    payload['type']='Subscription'
+    payload['entities'] = []
+    payload['entities'].append({'id':name, 'type':typ})
+    #payload['watchedAttributes'] = attrlist
+    #payload['q'] = ""
+    payload['notification'] = {}
+    #payload['notification']['http'] = {'url':'http://'+connectorconf.HTTPADDRESS+":"+str(connectorconf.HTTPPORT)}
+    payload['notification']['attributes'] = attrlist
+    payload['notification']['format'] = 'normalized'
+    payload['notification']['endpoint'] = {'uri':'http://'+connectorconf.HTTPADDRESS+":"+str(connectorconf.HTTPPORT), 'accept':'application/ld+json'}
+    
+    
+
+    payload = json.dumps(payload)
+    print(payload)
+    return payload
+    
+    
 #TODO: Create subscription Conditions
-#TODO: Browsing entità 
-#TODO: Separare il tutto
+#TODO: Add numbers for entities and attributes
+
 def SubscribeToEntity(base_url, description):
 
 
     # localhost:1026/v2/subscriptions
 
     headers= {"Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
-
+    
+    if 'ngsi-ld' in base_url:
+        isLD = True
+    else:
+        isLD = False
     
     
     #print(get_entity_request)
     select_entity = True
     try:
-        get_entities_request = base_url+"entities/"
+        get_entities_request = base_url+"entities/?type="
         reply = requests.get(get_entities_request, headers=headers)
         ents = reply.json()
+        #print(ents)
         print("Found {} entities:".format(len(ents)))
         entx = [ent['id'] for ent in ents]
         print(entx)
@@ -110,10 +140,7 @@ def SubscribeToEntity(base_url, description):
     
     try:
 
-        
-        
-
-        entity, isLD = ReturnEntityIfExists(ent)
+        entity, _ = ReturnEntityIfExists(ent)
         #print(message)
         
         print("Entity found: the attributes are the following ones:")
@@ -121,7 +148,7 @@ def SubscribeToEntity(base_url, description):
         attrlist = [attr for attr in entity.attrs]
         print(attrlist)
         
-        print("Type which attributes to return in your subscription. Type 'QUIT' to stop. Type 'ALL' to insert all attributes")
+        print("Type which attributes to return in your subscription. Type '>QUIT' to stop. Type '>ALL' to insert all attributes")
         continuing = True
         returnlist = []
         while continuing:
@@ -136,10 +163,10 @@ def SubscribeToEntity(base_url, description):
                     attrlist.remove(string)
                     returnlist.append(string)
                     
-                elif string.upper() == 'QUIT':
+                elif string.upper() == '>QUIT':
                     print("Quitting Selection")
                     continuing = False
-                elif string.upper() == 'ALL':
+                elif string.upper() == '>ALL':
                     print("Inserting All attributes")
                     continuing = False
                     returnlist = attrlist
@@ -149,17 +176,29 @@ def SubscribeToEntity(base_url, description):
                 print(e)
                 return
                 
-        payload = CreateSubscriptionPayload(entity.id, entity.type, description, returnlist)
+        
+        
+        if isLD:
+            payload = CreateLDSubscriptionPayload(entity.id, entity.type, description, returnlist)
+            headers= {"Content-Type": "application/ld+json", "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+        else:
+            payload= CreateSubscriptionPayload(entity.id, entity.type, description, returnlist)
+            headers= {"Content-Type": "application/json", "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
         
         
         
-        headers= {"Content-Type": connectorconf.CONTENT_TYPE, "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+        
         try:
             post_reply = requests.post(base_url+"subscriptions/", payload, headers=headers)
+            #print (base_url)
+            #print(post_reply)
+            #print(post_reply.text)
+            post_reply.raise_for_status()
             print("Subscription Created Succesfully")
-            print(post_reply.text)
         except Exception as e:
             print(e)
+            return
+        
         
         
     except Exception as e:
