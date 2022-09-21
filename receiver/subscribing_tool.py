@@ -100,6 +100,8 @@ def CreateLDSubscriptionPayload(name, typ, desc, attrlist):
 #TODO: Create subscription Conditions
 #TODO: Add numbers for entities and attributes
 
+
+
 def SubscribeToEntity(base_url, description):
 
 
@@ -109,29 +111,34 @@ def SubscribeToEntity(base_url, description):
     
     if 'ngsi-ld' in base_url:
         isLD = True
+        get_entities_request = base_url+"entities/?type="
     else:
         isLD = False
+        get_entities_request = base_url+"entities/"
     
     
     #print(get_entity_request)
     select_entity = True
     try:
-        get_entities_request = base_url+"entities/?type="
+        
         reply = requests.get(get_entities_request, headers=headers)
         ents = reply.json()
         #print(ents)
         print("Found {} entities:".format(len(ents)))
-        entx = [ent['id'] for ent in ents]
+        entx = [str(idx+1)+"):"+ent['id'] for idx, ent in enumerate(ents)]
         print(entx)
         
         while select_entity:
-            entity_id = str(input("Please, select an entity name from the ones listed above: "))
-            if entity_id.upper() in [ent.upper() for ent in entx]:
-                select_entity = False
-                ent = [ent for ent in ents if ent['id'].upper() == entity_id.upper()][0]
-
-            else:
-                print("Entity not Found, please, insert the correct name among this ones:\n",entx)
+            try:
+                entity_id = int(input("Please, type an entity number from the ones listed above: "))
+                if entity_id >0 and entity_id <= len(entx):
+                    select_entity = False
+                    ent = ents[entity_id -1]
+                else:
+                    print("Entity not Found, please, insert a correct number:\n",entx)
+            except Exception as e:
+                print(e)
+               
     except Exception as e:
         print(e)
         return
@@ -146,35 +153,41 @@ def SubscribeToEntity(base_url, description):
         print("Entity found: the attributes are the following ones:")
         
         attrlist = [attr for attr in entity.attrs]
-        print(attrlist)
         
-        print("Type which attributes to return in your subscription. Type '>QUIT' to stop. Type '>ALL' to insert all attributes")
+        
+        
+        print("Type the attribute number you want to add. Type '>QUIT' to stop. Type '>ALL' to insert all attributes")
         continuing = True
         returnlist = []
         while continuing:
+            showlist = [str(idx+1)+"):"+attr for idx, attr in enumerate(attrlist)]
+            print(showlist)
             try:
                 if len(attrlist) <= 0:
                     continuing = False
                     print("Attribute list is now empty, quitting selection...")
                     continue
                 string = str(input("Insert attribute name: "))
-                if string in attrlist:
-                    print("Attribute {} found. Adding to attributes".format(string))
-                    attrlist.remove(string)
-                    returnlist.append(string)
+                
                     
-                elif string.upper() == '>QUIT':
+                if string.upper() == '>QUIT':
                     print("Quitting Selection")
                     continuing = False
                 elif string.upper() == '>ALL':
                     print("Inserting All attributes")
                     continuing = False
                     returnlist = attrlist
+                elif int(string) > 0 and int(string) <= len(attrlist):
+                    index = int(string) -1
+                    print("Attribute {} found. Adding to attributes".format(attrlist[index]))
+                    returnlist.append(attrlist[index])
+                    attrlist.remove(attrlist[index])
+              
                 else:
-                    print("Attribute not found, please, type it correctly. The remaining list of attributes is:", attrlist)
+                    print("Attribute not found, please, type it correctly. The remaining list of attributes is:", showlist)
             except Exception as e:
                 print(e)
-                return
+                #return
                 
         
         
@@ -183,6 +196,7 @@ def SubscribeToEntity(base_url, description):
             headers= {"Content-Type": "application/ld+json", "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
         else:
             payload= CreateSubscriptionPayload(entity.id, entity.type, description, returnlist)
+            print(payload)
             headers= {"Content-Type": "application/json", "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
         
         
