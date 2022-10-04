@@ -4,6 +4,7 @@ import json
 
 import connectorconf
 from connectorconf import NGSIAttribute, NGSIEntityv2, NGSIEntityLD
+import sys
 
 
 
@@ -52,7 +53,7 @@ def ReturnEntityIfExists(ent):
 
 
 
-def CreateSubscriptionPayload(name, typ, desc, attrlist):
+def CreateSubscriptionPayload(name, typ, desc, attrlist, condlist):
 
     
     payload = {}
@@ -60,7 +61,7 @@ def CreateSubscriptionPayload(name, typ, desc, attrlist):
     payload['subject']={}
     payload['subject']['entities'] = []
     payload['subject']['entities'].append({'id':name, 'type':typ})
-    payload['subject']['condition'] = {'attrs':[]}
+    payload['subject']['condition'] = {'attrs':condlist}
     payload['notification'] = {}
     payload['notification']['http'] = {'url':'http://'+connectorconf.HTTPADDRESS+":"+str(connectorconf.HTTPPORT)}
     payload['notification']['attrs'] = attrlist
@@ -102,22 +103,9 @@ def CreateLDSubscriptionPayload(name, typ, desc, attrlist):
 
 
 
-def SubscribeToEntity(base_url, description):
 
+def SelectEntity(get_entities_request, headers):
 
-    # localhost:1026/v2/subscriptions
-
-    headers= {"Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
-    
-    if 'ngsi-ld' in base_url:
-        isLD = True
-        get_entities_request = base_url+"entities/?type="
-    else:
-        isLD = False
-        get_entities_request = base_url+"entities/"
-    
-    
-    #print(get_entity_request)
     select_entity = True
     try:
         
@@ -141,61 +129,108 @@ def SubscribeToEntity(base_url, description):
                
     except Exception as e:
         print(e)
-        return
+        sys.exit("An error occurred while selecting the entity")
+        
+    return ent
+    
+
+   
+def SelectAttributes(entity, mode='MONITOR'):
+
+        
+    attrlist = [attr for attr in entity.attrs]
+        
+    if mode == 'MONITOR':    
+        print("Type the attribute number you want to RETURN. Type '>QUIT' to stop. Type '>ALL' to insert all attributes")
+    elif mode == 'CONDITION':
+        print("Type the attribute number you want to set as CONDITION. Type '>QUIT' to stop. Type '>ALL' or '>QUIT' if no attribute is selected to insert all attributes")
+    continuing = True
+    returnlist = []
+    while continuing:
+        showlist = [str(idx+1)+"):"+attr for idx, attr in enumerate(attrlist)]
+        print(showlist)
+        try:
+            if len(attrlist) <= 0:
+                continuing = False
+                print("Attribute list is now empty, quitting selection...")
+                continue
+            string = str(input("Insert attribute name: "))
+                
+                    
+            if string.upper() == '>QUIT':
+                print("Quitting Selection")
+                continuing = False
+                
+                
+            elif string.upper() == '>ALL':
+                print("Inserting All attributes")
+                continuing = False
+                if mode == 'MONITOR':
+                    returnlist = attrlist
+                elif mode == 'CONDITION':
+                    returnlist = []
+                    
+                    
+            elif int(string) > 0 and int(string) <= len(attrlist):
+                index = int(string) -1
+                print("Attribute {} found. Adding to attributes".format(attrlist[index]))
+                returnlist.append(attrlist[index])
+                attrlist.remove(attrlist[index])
+              
+            else:
+                print("Attribute not found, please, type it correctly. The remaining list of attributes is:", showlist)
+        except Exception as e:
+            print(e)
+            #return
+                
+    return returnlist
+
+
+
+
+
+
+
+def SubscribeToEntity(base_url):
+
+
+    headers= {"Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+    
+    if 'ngsi-ld' in base_url:
+        isLD = True
+        get_entities_request = base_url+"entities/?type="
+    else:
+        isLD = False
+        get_entities_request = base_url+"entities/"
+    
+    
+    ent = SelectEntity(get_entities_request, headers)
         
 
     
     try:
 
         entity, _ = ReturnEntityIfExists(ent)
-        #print(message)
+
         
-        print("Entity found: the attributes are the following ones:")
+        print("Entity found!")
         
         attrlist = [attr for attr in entity.attrs]
         
+        returnlist = SelectAttributes(entity, mode='MONITOR')
+        conditionlist = SelectAttributes(entity, mode='CONDITION')       
         
-        
-        print("Type the attribute number you want to add. Type '>QUIT' to stop. Type '>ALL' to insert all attributes")
-        continuing = True
-        returnlist = []
-        while continuing:
-            showlist = [str(idx+1)+"):"+attr for idx, attr in enumerate(attrlist)]
-            print(showlist)
-            try:
-                if len(attrlist) <= 0:
-                    continuing = False
-                    print("Attribute list is now empty, quitting selection...")
-                    continue
-                string = str(input("Insert attribute name: "))
-                
-                    
-                if string.upper() == '>QUIT':
-                    print("Quitting Selection")
-                    continuing = False
-                elif string.upper() == '>ALL':
-                    print("Inserting All attributes")
-                    continuing = False
-                    returnlist = attrlist
-                elif int(string) > 0 and int(string) <= len(attrlist):
-                    index = int(string) -1
-                    print("Attribute {} found. Adding to attributes".format(attrlist[index]))
-                    returnlist.append(attrlist[index])
-                    attrlist.remove(attrlist[index])
-              
-                else:
-                    print("Attribute not found, please, type it correctly. The remaining list of attributes is:", showlist)
-            except Exception as e:
-                print(e)
-                #return
-                
-        
+        try:
+            description = str(input("Please, insert a description to add: "))
+        except Exception as e:
+            print("Your description contained some errors. Using default description")
+            description = "Default SUBTOOL description"
         
         if isLD:
-            payload = CreateLDSubscriptionPayload(entity.id, entity.type, description, returnlist)
+            payload = CreateLDSubscriptionPayload(entity.id, entity.type, description, returnlist, conditionlist)
             headers= {"Content-Type": "application/ld+json", "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
         else:
-            payload= CreateSubscriptionPayload(entity.id, entity.type, description, returnlist)
+            payload= CreateSubscriptionPayload(entity.id, entity.type, description, returnlist, conditionlist)
             print(payload)
             headers= {"Content-Type": "application/json", "Fiware-Service" : connectorconf.FIWARE_SERVICE, "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
         
@@ -204,9 +239,6 @@ def SubscribeToEntity(base_url, description):
         
         try:
             post_reply = requests.post(base_url+"subscriptions/", payload, headers=headers)
-            #print (base_url)
-            #print(post_reply)
-            #print(post_reply.text)
             post_reply.raise_for_status()
             print("Subscription Created Succesfully")
         except Exception as e:
