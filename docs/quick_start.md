@@ -101,15 +101,18 @@ import subscribing_tool as sub
 **Remember: the subscription tool will use the connectorconf.py file! Remember to add it in the same folder**
 - Use the following function, keeping in mind that:
    - base_url: is the base url of the context broker. Usually, it would be: "http://ipaddress:port/v2/" or "http://ipaddress:port/ngsi-ld/v1/"
-   - description: is the description you would like to use to characterize your subscription
 ```python
-sub.SubscribeToEntity(base_url, description)
+sub.SubscribeToEntity(base_url)
 ```
 
 - The algorithm will browse the base url, showing a list of the currently existing entities.
 - Select an entity among the existing ones by typing the name (case insensitive)
-- The algorithm will show a list of attributes
-- Type an attribute name to add it into a list of selected attributes for the subscription (case insensitive)
-   - Type QUIT to exit the selection list
-   - Type ALL to copy the whole list and exit the selection
+- The algorithm will show a numbered list of attributes 
+- Type the attribute number to add it into a list of selected attributes for the subscription
+   - Type >QUIT to exit the selection list
+   - Type >ALL to copy the whole list and exit the selection
+- Now type the attribute number to add it into a list of condition attributes for the subscription (v2 Only)
+   - Type >QUIT to exit the selection list if at least an attribute is selected
+   - Type >ALL or >QUIT if no attribute is selected to copy the whole list and exit the selection
+- Type the description you want to put
 - If the algorithm succeeds, it will show the success message and the subscription is posted on the context broker
