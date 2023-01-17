@@ -27,11 +27,11 @@ def parse_context(api_json: dict) -> Tuple[str, bool]:
     otherwise returns False.
     Context is checkable in both "Link" Header, otherwise in JSON body
     '''
-    context = json.get("Link", "")
+    context = api_json.get("Link", "")
     if context:
         return context, True
     else:
-        context = json.get("Body", {}).get("@context", "")
+        context = api_json.get("Body", {}).get("@context", "")
         if context:
             return context, True
         else:
@@ -45,7 +45,7 @@ def parse_entities(api_json: dict) -> List[Union[NGSIEntityv2, NGSIEntityLD]]:
     '''
 
     #Checking all entities in JSON
-    entities_data = json.get("Body", {}).get("data", [])
+    entities_data = api_json.get("Body", {}).get("data", [])
     entities = []
     for ent in entities_data:
         ent_id = ent.get("id")
@@ -64,7 +64,7 @@ def parse_entities(api_json: dict) -> List[Union[NGSIEntityv2, NGSIEntityLD]]:
                 attributes[key] = attribute
 
         # Checking for Linked Data Flag
-        context, is_ld = parse_context(json)
+        context, is_ld = parse_context(api_json)
         if is_ld:
             entity = NGSIEntityLD(ent_id, ent_type, attributes, context)
         else:
@@ -83,8 +83,8 @@ def parse(structured_NGSI_request : str) -> Union[NGSIEventv2, NGSIEventLD]:
     timestamp = api_json.get("timestamp", "")
     service = api_json.get("Fiware-Service", "")
     service_path = api_json.get('Fiware-Servicepath', "")
-    entities = parse_entities(json)
-    _, is_ld = parse_context(json)
+    entities = parse_entities(api_json)
+    _, is_ld = parse_context(api_json)
 
             
     if is_ld:
