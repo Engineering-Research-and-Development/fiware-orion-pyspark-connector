@@ -196,7 +196,7 @@ class SocketThread(Thread):
             self.server_socket.listen(connectorconf.MAX_CONCURRENT_CONNECTIONS)
             print('server socket opened')
             while True:    
-                (client, client_address) = self.sock.accept()
+                (client, client_address) = self.server_socket.accept()
                 if self.first_client == None:
                     self.first_client = client
                     print("Awakening Server")
