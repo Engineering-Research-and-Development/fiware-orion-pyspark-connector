@@ -349,7 +349,7 @@ def replaceJSON(values: Any) -> str:
     values = listify(values)
 
     with open(connectorconf.BLUEPRINTFILE, "r") as blueprint_file:
-        blueprint_content=blueprint_file.read()
+        blueprint_content = blueprint_file.read()
         blueprint_content = blueprint_content.replace("\n", " ")
 
         for v in values:
@@ -381,7 +381,7 @@ def sendRequest(message: str, api_url: str, api_method: str) -> str:
         return e
                 
         
-def ReplyToBroker(values: Any, api_url=connectorconf.API_URL: str, api_method=connectorconf.METHOD: str) -> str:
+def ReplyToBroker(values: Any, api_url: str = connectorconf.API_URL, api_method: str = connectorconf.METHOD) -> str:
     '''
     Function for structured and complex requests, using the 'BLUEPRINTFILE' specified in the
     configuration file and replacing values using the 'PLACEHOLDER' string.
@@ -392,7 +392,7 @@ def ReplyToBroker(values: Any, api_url=connectorconf.API_URL: str, api_method=co
     return sendRequest(message, api_url, api_method)
     
     
-def SemistructuredReplyToBroker(values: Any, body: str, api_url=connectorconf.API_URL: str, api_method=connectorconf.METHOD: str) -> str:
+def SemistructuredReplyToBroker(values: Any, body: str, api_url: str = connectorconf.API_URL, api_method: str = connectorconf.METHOD) -> str:
     '''
     Function for averagely complex requests, passing an encoded request body and some values
     that have to be replaced in body when the 'PLACEHOLDER' string is encountered.
@@ -406,7 +406,7 @@ def SemistructuredReplyToBroker(values: Any, body: str, api_url=connectorconf.AP
     return sendRequest(body, api_url, api_method)
    
     
-def UnstructuredReplyToBroker(body: str, api_url=connectorconf.API_URL: str, api_method=connectorconf.METHOD: str) -> str:
+def UnstructuredReplyToBroker(body: str, api_url: str = connectorconf.API_URL, api_method: str = connectorconf.METHOD) -> str:
     '''
     Function for simple and short requests, passing directly the request body.
     No correctness is ensured by the connector, so every character has to be checked by the user.
