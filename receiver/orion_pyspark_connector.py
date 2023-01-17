@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pyspark import SparkContext, SparkConf
 from pyspark.streaming import StreamingContext
 from pyspark.storagelevel import StorageLevel
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Type, Any
 from threading import Thread
 from datetime import datetime
 
@@ -316,7 +316,7 @@ def StartConnector():
 
 
 
-def Prime(sparkcontext, sliding_window_seconds, storage):
+def Prime(sparkcontext: Type[SparkContext], sliding_window_seconds: float, storage : Type[StorageLevel]) -> Tuple[ Union[Type[NGSIEventv2], Type[NGSIEventLD]], Type[StreamingContext]] :
 
     StartConnector()
     ssc = StreamingContext(sparkcontext, sliding_window_seconds)
@@ -333,7 +333,7 @@ def Prime(sparkcontext, sliding_window_seconds, storage):
 ### REPLIER-SIDE FUNCTIONS ###
 
 
-def listify(values):
+def listify(values: Any) -> List[Any]:
     
     if type(values) != list:
         values = [values]
@@ -341,7 +341,7 @@ def listify(values):
     return values
 
         
-def replaceJSON(values):
+def replaceJSON(values: Any) -> str:
     '''
     Function to replace values inside the 'BLUEPRINTFILE' where the 
     'PLACEHOLDER string is encountered, using the same encountering order.
@@ -358,7 +358,7 @@ def replaceJSON(values):
     return blueprint_content
 
 
-def sendRequest(message, api_url, api_method):
+def sendRequest(message: str, api_url: str, api_method: str) -> str:
     '''
     Function to send data to the context broker based on the 'api_method'
     '''
@@ -381,7 +381,7 @@ def sendRequest(message, api_url, api_method):
         return e
                 
         
-def ReplyToBroker(values, api_url=connectorconf.API_URL, api_method=connectorconf.METHOD):
+def ReplyToBroker(values: Any, api_url=connectorconf.API_URL: str, api_method=connectorconf.METHOD: str) -> str:
     '''
     Function for structured and complex requests, using the 'BLUEPRINTFILE' specified in the
     configuration file and replacing values using the 'PLACEHOLDER' string.
@@ -392,7 +392,7 @@ def ReplyToBroker(values, api_url=connectorconf.API_URL, api_method=connectorcon
     return sendRequest(message, api_url, api_method)
     
     
-def SemistructuredReplyToBroker(values, body, api_url=connectorconf.API_URL, api_method=connectorconf.METHOD):
+def SemistructuredReplyToBroker(values: Any, body: str, api_url=connectorconf.API_URL: str, api_method=connectorconf.METHOD: str) -> str:
     '''
     Function for averagely complex requests, passing an encoded request body and some values
     that have to be replaced in body when the 'PLACEHOLDER' string is encountered.
@@ -406,7 +406,7 @@ def SemistructuredReplyToBroker(values, body, api_url=connectorconf.API_URL, api
     return sendRequest(body, api_url, api_method)
    
     
-def UnstructuredReplyToBroker(body, api_url=connectorconf.API_URL, api_method=connectorconf.METHOD):
+def UnstructuredReplyToBroker(body: str, api_url=connectorconf.API_URL: str, api_method=connectorconf.METHOD: str) -> str:
     '''
     Function for simple and short requests, passing directly the request body.
     No correctness is ensured by the connector, so every character has to be checked by the user.
