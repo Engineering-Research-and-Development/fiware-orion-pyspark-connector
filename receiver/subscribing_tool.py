@@ -54,7 +54,6 @@ def ReturnEntityIfExists(ent):
 
 
 def CreateSubscriptionPayload(name, typ, desc, attrlist, condlist):
-
     
     payload = {}
     payload['description']=desc
@@ -90,7 +89,6 @@ def CreateLDSubscriptionPayload(name, typ, desc, attrlist):
     payload['notification']['attributes'] = attrlist
     payload['notification']['format'] = 'normalized'
     payload['notification']['endpoint'] = {'uri':'http://'+connectorconf.HTTPADDRESS+":"+str(connectorconf.HTTPPORT), 'accept':'application/ld+json'}
-    
     
 
     payload = json.dumps(payload)
@@ -184,10 +182,6 @@ def SelectAttributes(entity, mode='MONITOR'):
             #return
                 
     return returnlist
-
-
-
-
 
 
 
