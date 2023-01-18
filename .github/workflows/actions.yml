@@ -9,6 +9,11 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
+  # When every change was made in the "releases/" branches
+  push:
+    branches:
+      - 'releases/**'
 
 jobs:
 
@@ -88,11 +93,7 @@ jobs:
           cd /home/runner/work/fiware-orion-pyspark-connector/fiware-orion-pyspark-connector
   
   
-  
-  
-  
-  
-  
+
   
   
 
