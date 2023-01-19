@@ -5,8 +5,9 @@ import socket
 
 class ReceiverConfiguration():
     _instance = None
-    
+
     def __new__(cls):
+        
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
@@ -25,14 +26,15 @@ class ReceiverConfiguration():
         # Multi-Thread socket server allowed concurrenct connections.
         self.max_concurrent_connections = 20
 
-
+RECV_SINGLETON = ReceiverConfiguration()
 
 ### REPLIER-SIDE-CONFIGURATION ###
 
 class ReplierConfiguration():
     _instance = None
 
-    def __new__(cls):
+    def __new__(cls) :
+        
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
@@ -49,6 +51,8 @@ class ReplierConfiguration():
         # Advanced configuration for more complex requests 
         self.blueprint_file = "Test.txt"
         self.placeholder_string = "%%TOREPLACE%%"
+
+REPL_SINGLETON = ReplierConfiguration()
 
 
 ### Connector Base Classes ###
