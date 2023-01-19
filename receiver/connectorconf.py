@@ -1,5 +1,4 @@
 import socket
-from typing import Self, Type
 
 
 ### RECEIVER-SIDE-CONFIGURATION ###
@@ -7,7 +6,7 @@ from typing import Self, Type
 class ReceiverConfiguration():
     _instance = None
 
-    def __new__(cls: Type[Self]) -> Self:
+    def __new__(cls):
         
         if not cls._instance:
             cls._instance = super().__new__(cls)
@@ -34,7 +33,7 @@ class ReceiverConfiguration():
 class ReplierConfiguration():
     _instance = None
 
-    def __new__(cls: Type[Self]) -> Self:
+    def __new__(cls) :
         
         if not cls._instance:
             cls._instance = super().__new__(cls)
