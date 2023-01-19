@@ -14,8 +14,7 @@ from typing import Union, Tuple, List, Type, Any
 from threading import Thread
 from datetime import datetime
 
-import connectorconf
-from connectorconf import NGSIAttribute, NGSIEntityv2, NGSIEntityLD, NGSIEventv2, NGSIEventLD
+from connectorconf import *
 
 
 
@@ -79,7 +78,7 @@ def parse(structured_NGSI_request : str) -> Union[NGSIEventv2, NGSIEventLD]:
     A function to convert API response into NGSIEvents
     '''
     
-    api_json = json.loads(structured_NGSI_request)
+    api_json = json.loads(structured_NGSI_request.decode('utf-8'))
     timestamp = api_json.get("timestamp", "")
     service = api_json.get("Fiware-Service", "")
     service_path = api_json.get('Fiware-Servicepath', "")
@@ -132,6 +131,7 @@ class ConnectionThread(Thread):
         self.client_socket = client_socket
         self.client_address = client_address
         self.first_client = first_client
+        self.configuration = ReceiverConfiguration()
         
     
     def run(self):
@@ -146,7 +146,7 @@ class ConnectionThread(Thread):
         if self.client_socket == self.first_client:
             try:
                 while True:
-                    data = self.client_socket.recv(connectorconf.SOCKET_BUFFER)
+                    data = self.client_socket.recv(self.configuration.socket_buffer)
             except KeyboardInterrupt:
                 print('Closed Connection')
                 self.stop()   
@@ -154,7 +154,7 @@ class ConnectionThread(Thread):
         else:    
             try:
                 while True:
-                    data = self.client_socket.recv(connectorconf.SOCKET_BUFFER)
+                    data = self.client_socket.recv(self.configuration.socket_buffer)
                     if data:
                         # Sending received data to pySpark
                         self.first_client.sendall(data)
@@ -182,6 +182,7 @@ class SocketThread(Thread):
         #TODO: Fix apache client socket saving.
         self.server_thread = server_thread
         self.first_client = None
+        self.configuration = ReceiverConfiguration()
         
         
     def run(self):
@@ -193,7 +194,7 @@ class SocketThread(Thread):
         '''
 
         try:
-            self.server_socket.listen(connectorconf.MAX_CONCURRENT_CONNECTIONS)
+            self.server_socket.listen(self.configuration.max_concurrent_connections)
             print('server socket opened')
             while True:    
                 (client, client_address) = self.server_socket.accept()
@@ -219,8 +220,12 @@ def structureNGSIRequest(request: str, body: str, timestamp: str) -> str:
     is sent via CURLS (body only).
     Based on the result, it starts to build the correct message, decoding it from the HTTP Response.
     '''
+    # Loading Configuration file for request completeness
+    configuration  = ReceiverConfiguration()
+    body = body.decode('utf-8')
+
     # Case 1: Completeness (Headers + Body)
-    if connectorconf.REQUEST_COMPLETENESS:
+    if configuration.request_completeness:
         message = "{"
         
         for line in body.split(","):
@@ -235,14 +240,14 @@ def structureNGSIRequest(request: str, body: str, timestamp: str) -> str:
             message = message + '"{}":"{}",'.format(field,request.headers[field].replace('"', "'"))
     
 
-        # Cutting away binary character refuses from body
-        message = message + '"Body":{}'.format(body[2:-1])
+        # Building body of message
+        message = message + '"Body":{}'.format(body)
         message = message + "}\n"
         
 
     # Case 2: Uncompleteness (Raw Body only)
     else: 
-        message = '{}\n'.format(body[2:-1])
+        message = '{}\n'.format(body)
     
     return message
 
@@ -269,17 +274,19 @@ class OrionPysparkRequestHandler(BaseHTTPRequestHandler):
         - Set up a connection with the MultiThread Socket Server and sends received data
         - If succeeds, sends a confirmation message
         '''
+        configuration = ReceiverConfiguration()
         timestamp = datetime.now()
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         
       
         msg=structureNGSIRequest(self, str(post_data), timestamp)  
+
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_to_send.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         #TODO: Currently it is impossible to bind a fixed address since broker sends data too fast
-        socket_to_send.connect((connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT))
+        socket_to_send.connect((configuration.socket_address, configuration.socket_port))
         socket_to_send.send(msg.encode("utf-8"))
         socket_to_send.close()
         
@@ -296,16 +303,30 @@ def StartConnector():
     Function that starts the connector, hence setting up both the Multi-Thread Socket server
     and the HTTP Endpoint in "sleeping mode". It will be awakened after the first pySpark connection.
     '''
+    configuration = ReceiverConfiguration()
+    while True:
+        try:
+            socket_address = (configuration.socket_address, configuration.socket_port)
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+            s.bind(socket_address)
+            break
+        except OSError as e:
+            configuration.socket_port += 1
+        except Exception as e:
+            exit()
 
-    socket_address = (connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-    s.bind(socket_address)
-
-    server_address = (connectorconf.HTTPADDRESS, connectorconf.HTTPPORT)
-    print(server_address)
-    httpd = HTTPServer(server_address, OrionPysparkRequestHandler)
+    while True:
+        try:
+            server_address = (configuration.http_address, configuration.http_port)
+            print(server_address)
+            httpd = HTTPServer(server_address, OrionPysparkRequestHandler)
+            break
+        except OSError as e:
+            configuration.http_port += 1
+        except Exception as e:
+            exit()
 
     threadserver = ServerThread(httpd)
     threadserver.start()
@@ -319,8 +340,9 @@ def StartConnector():
 def Prime(sparkcontext: Type[SparkContext], sliding_window_seconds: float, storage : Type[StorageLevel]) -> Tuple[ Union[Type[NGSIEventv2], Type[NGSIEventLD]], Type[StreamingContext]] :
 
     StartConnector()
+    configuration = ReceiverConfiguration()
     ssc = StreamingContext(sparkcontext, sliding_window_seconds)
-    record = ssc.socketTextStream(connectorconf.SOCKETADDRESS, connectorconf.SOCKETPORT, storageLevel=storage)
+    record = ssc.socketTextStream(configuration.socket_address, configuration.socket_port, storageLevel=storage)
 
 
     NGSI_event = record.map(lambda x: parse(x))
@@ -346,14 +368,15 @@ def replaceJSON(values: Any) -> str:
     Function to replace values inside the 'BLUEPRINTFILE' where the 
     'PLACEHOLDER string is encountered, using the same encountering order.
     '''
+    conf = ReplierConfiguration()
     values = listify(values)
 
-    with open(connectorconf.BLUEPRINTFILE, "r") as blueprint_file:
+    with open(conf.blueprint_file, "r") as blueprint_file:
         blueprint_content = blueprint_file.read()
         blueprint_content = blueprint_content.replace("\n", " ")
 
         for v in values:
-            blueprint_content = blueprint_content.replace(connectorconf.PLACEHOLDER, str(v), 1)
+            blueprint_content = blueprint_content.replace(conf.placeholder_string, str(v), 1)
         
     return blueprint_content
 
@@ -362,10 +385,11 @@ def sendRequest(message: str, api_url: str, api_method: str) -> str:
     '''
     Function to send data to the context broker based on the 'api_method'
     '''
+    conf = ReplierConfiguration()
 
-    headers= {"Content-Type": connectorconf.CONTENT_TYPE, 
-              "Fiware-Service" : connectorconf.FIWARE_SERVICE,
-              "Fiware-Servicepath": connectorconf.FIWARE_SERVICEPATH}
+    headers= {"Content-Type": conf.content_type, 
+              "Fiware-Service" : conf.fiware_service,
+              "Fiware-Servicepath": conf.fiware_servicepath}
 
     try:
         if api_method == "POST":
@@ -381,7 +405,7 @@ def sendRequest(message: str, api_url: str, api_method: str) -> str:
         return e
                 
         
-def ReplyToBroker(values: Any, api_url: str = connectorconf.API_URL, api_method: str = connectorconf.METHOD) -> str:
+def ReplyToBroker(values: Any, api_url: str = ReplierConfiguration().api_url, api_method: str = ReplierConfiguration().api_method) -> str:
     '''
     Function for structured and complex requests, using the 'BLUEPRINTFILE' specified in the
     configuration file and replacing values using the 'PLACEHOLDER' string.
@@ -392,7 +416,7 @@ def ReplyToBroker(values: Any, api_url: str = connectorconf.API_URL, api_method:
     return sendRequest(message, api_url, api_method)
     
     
-def SemistructuredReplyToBroker(values: Any, body: str, api_url: str = connectorconf.API_URL, api_method: str = connectorconf.METHOD) -> str:
+def SemistructuredReplyToBroker(values: Any, body: str, api_url: str = ReplierConfiguration().api_url, api_method: str = ReplierConfiguration().api_method) -> str:
     '''
     Function for averagely complex requests, passing an encoded request body and some values
     that have to be replaced in body when the 'PLACEHOLDER' string is encountered.
@@ -401,12 +425,12 @@ def SemistructuredReplyToBroker(values: Any, body: str, api_url: str = connector
     '''
     values = listify(values)
     for v in values:
-        body = body.replace(connectorconf.PLACEHOLDER, str(v), 1)
+        body = body.replace(ReplierConfiguration().placeholder_string, str(v), 1)
         
     return sendRequest(body, api_url, api_method)
    
     
-def UnstructuredReplyToBroker(body: str, api_url: str = connectorconf.API_URL, api_method: str = connectorconf.METHOD) -> str:
+def UnstructuredReplyToBroker(body: str, api_url: str = ReplierConfiguration().api_url, api_method: str = ReplierConfiguration().api_method) -> str:
     '''
     Function for simple and short requests, passing directly the request body.
     No correctness is ensured by the connector, so every character has to be checked by the user.
