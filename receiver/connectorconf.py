@@ -5,14 +5,14 @@ import socket
 
 class ReceiverConfiguration():
     _instance = None
-
+    
     def __new__(cls):
         
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self) -> None:
+    def __init__(self):
         # Address and port of the HTTP Endpoint
         self.http_address = socket.gethostbyname(socket.gethostname())
         self.http_port = 8061
@@ -33,13 +33,13 @@ class ReceiverConfiguration():
 class ReplierConfiguration():
     _instance = None
 
-    def __new__(cls) :
+    def __new__(cls):
         
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self) -> None:
+    def __init__(self):
         # Context Broker API to send back data
         self.api_url = "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/"
         self.api_method = "PUT" #Choose among POST, PUT or PATCH
