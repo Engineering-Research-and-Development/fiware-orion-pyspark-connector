@@ -22,7 +22,7 @@
 - [x] Subscribing tool **Completed on 20/09/2022**
 - [x] Collapsed receiver and replier into one library and one configuration file **Completed on 20/09/2022**
 - [ ] Efficiency improvements
-- [ ] Better Socket management (automatic ports)
+- [x] Better Socket management (automatic ports) **Completed on 20/01/2023** 
 - [ ] Find a **more elegant** way to keep only Spark sockets in memory without blocking the server
 
 
@@ -44,5 +44,5 @@ Currently, receiver supports only subscriptions with **Normalized Format**
 ### Known Issues
 
 - [x] If the Orion Broker is continuously streaming while the connector is configuring, the multi-thread socket will save the HTTP Server socket as Apache Client, blocking the execution of the whole program. **Fixed on 14/04/22**
-- [ ] If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *\\* which is not allowed by the JSON Decoder. This will rise an exception. **Working On**
+- [x] If some special character is sent from the Orion Broker (i.e Ü or ß) to the receiver, the utf-8 conversion will send it with the escape character *\\* which is not allowed by the JSON Decoder. This will rise an exception. **Fixed On 20/01/2023**
 
