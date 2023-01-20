@@ -1,21 +1,58 @@
-HTTPADDRESS = "0.0.0.0"
-HTTPPORT = 8061
-SOCKETADDRESS = 'localhost'
-SOCKETPORT = 9998
-REQUEST_COMPLETENESS = True
-SOCKET_BUFFER = 2048
-MAX_CONCURRENT_CONNECTIONS = 20
+import socket
 
 
-API_URL = "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/"
-METHOD = "PUT" #Choose among POST, PUT or PATCH
-FIWARE_SERVICE = ""
-FIWARE_SERVICEPATH = "/"
-CONTENT_TYPE = "application/json; charset=utf-8"
-BLUEPRINTFILE = "Test.txt"
-PLACEHOLDER = "%%TOREPLACE%%"
+### RECEIVER-SIDE-CONFIGURATION ###
+
+class ReceiverConfiguration():
+    _instance = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self):
+        # Address and port of the HTTP Endpoint
+        self.http_address = socket.gethostbyname(socket.gethostname())
+        self.http_port = 8061
+        # Address and port of the Multi-Thread Socket Server ans PySpark output
+        self.socket_address = 'localhost'
+        self.socket_port = 9998
+        # Set up the connector to receive HTTP data (True) or strings (False)
+        self.request_completeness = True
+        # Socket buffer size
+        self.socket_buffer = 2048
+        # Multi-Thread socket server allowed concurrenct connections.
+        self.max_concurrent_connections = 20
 
 
+
+### REPLIER-SIDE-CONFIGURATION ###
+
+class ReplierConfiguration():
+    _instance = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self):
+        # Context Broker API to send back data
+        self.api_url = "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/"
+        self.api_method = "PUT" #Choose among POST, PUT or PATCH
+        # Context broker service and subservice
+        self.fiware_service = ""
+        self.fiware_servicepath = "/"
+        # Content Type of the request
+        self.content_type = "application/json; charset=utf-8"
+        # Advanced configuration for more complex requests 
+        self.blueprint_file = "Test.txt"
+        self.placeholder_string = "%%TOREPLACE%%"
+
+
+RECV_SINGLETON = ReceiverConfiguration()
+REPL_SINGLETON = ReplierConfiguration()
 
 ### Connector Base Classes
 

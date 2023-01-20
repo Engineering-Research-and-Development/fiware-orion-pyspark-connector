@@ -4,13 +4,12 @@
 
 Once installed the requirements, it is possible to use the connector by following these steps:
 - Load files on the same machine running the spark job
-- Modify the `connectorconf.py` file in the repository to set up the IP address and port for both the HTTP Server and the multi-threading socket. 
+- Modify the `connectorconf.py` file in the repository and search for the **ReceiverConfiguration** class to set up the IP address and port for both the HTTP Server and the multi-threading socket. 
    - If your PySpark job is running in a docker container, make sure that both the server and multi-thread socket *IP addresses* are the same of that container
    - **Don't use the same (address, port) couple for the HTPP Server and the Sockets**
-   -  Currently, the user has to make sure that the chosen ports are free. In future versions, automatic port setting is evaluated for the multi-thread socket.
    -  The "REQUEST_COMPLETENESS" field in this file allow the user to choose if obtain a raw body (JSON Format) or the whole request (with HTTP Headers) to work with a NGSIEvent Object
    -  The SOCKET_BUFFER field allow the user to increment the socket buffer to match his needs.
-   -  The MAX_CONCURRENT_CONNECTIONS field allow the user to set the maximum concurrent connections of the main socket. It is suggested to keep this number sufficiently high. **Please, remember that the number of effective concurrent connections is MAX_CONCURRENT_CONNECTIONS - 1 since 1 connection is reserved by the pyspark socket.**
+   -  The MAX_CONCURRENT_CONNECTIONS field allow the user to set the maximum concurrent connections of the main socket. It is suggested to keep this number sufficiently high. **Please, remember that the number of EFFECTIVE_CONCURRENT CONNECTIONS = (MAX_CONCURRENT_CONNECTIONS - 1) since 1 connection is reserved by the pyspark socket.**
 - Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
 - Import all PySpark functions needed for starting the Spark Streaming:
 ```python
@@ -31,14 +30,33 @@ conf = SparkConf().setAppName("YOURAPPNAME").set(YOURRESOURCEMANAGER, YOURMASTER
 sc = spark.SparkContext(conf = conf)
 ```
 with *n_nodes > 1*
-- Run the connector, passing the SparkContext, the number of seconds of your sliding window and the desired storage level:
+- Run the connector, passing the SparkContext, the number of seconds of your sliding window and the desired storage level. You can also change configuration from your code, before starting the connector:
 ```python
+# Change configuration, i.e. HTTP endpoint address and port:
+connector.RECV_SINGLETON.http_address = "localhost"
+connector.RECV_SINGLETON.http_port = 10025
+#Start the connector
 record, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, StorageLevel.MEMORY_AND_DISK_2)
 ```
-The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself.
-- Run the streaming context:
+The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself. Please, refer to NGSIv2 or NGSI-LD base classes in the `connectorconf.py` file to understand their structure.
+- Run the streaming context, like the example below:
 ```python
-# (YOUR ALGORITHM TO PROCESS record)
+
+def MyProcessFunction:
+   # (YOUR ALGORITHM TO PROCESS record)
+   return result
+   
+'''
+Processing steps:
+   - Flattening entity list from event
+   - For each entity, takes 'someAttribute' and process its value with the previously defined function
+'''
+processed_record = record.flatMap(lambda x: x.entities).map(lambda x : MyProcessFunction(x.attrs['someAttribute].value))
+
+# Sink the result to trigger mapping
+processed_record.pprint()
+
+# Start the above workflow until termination
 ssc.start()
 ssc.awaitTermination()
 ```
@@ -48,9 +66,12 @@ ssc.awaitTermination()
 
 - Modify the `connectorconf.py` file to change the Blueprint file path, the API URL and the HTTP method, choosing from "POST", "PUT" and "PATCH". Moreover you need to specify some header fields like the content-type (default application/json) and both fiware service and service_path. Moreover, in this configuration file it is possible to write a custom *placeholder string* to use in the request body blueprint
 
-- In you PySpark job import the connector library
+- In you PySpark job import the connector library and set up your configuration by accessing the replier configuration, i.e:
 ```python
 import orion_pyspark_connector as connector
+
+connector.REPL_SINGLETON.api_url = "http://localhost:1026/v2/entities/MyProduct1/attrs/price/"
+connector.REPL_SINGLETON.api_methid = "PUT" 
 ```
 - **The replier can be used in three different modes: structured, unstructured and semi-structured.**
 
