@@ -25,7 +25,7 @@ class ReceiverConfiguration():
         self.socket_buffer = 2048
         # Multi-Thread socket server allowed concurrenct connections.
         self.max_concurrent_connections = 20
-
+   
 
 
 ### REPLIER-SIDE-CONFIGURATION ###
@@ -52,7 +52,12 @@ class ReplierConfiguration():
         self.blueprint_file = "Test.txt"
         self.placeholder_string = "%%TOREPLACE%%"
 
-
+        
+        
+RECV_SINGLETON = ReceiverConfiguration()
+REPL_SINGLETON = ReplierConfiguration()
+        
+        
 ### Connector Base Classes
 
 
