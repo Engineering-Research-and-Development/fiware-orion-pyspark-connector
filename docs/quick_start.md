@@ -38,10 +38,25 @@ connector.RECV_SINGLETON.http_port = 10025
 #Start the connector
 record, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, StorageLevel.MEMORY_AND_DISK_2)
 ```
-The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself.
-- Run the streaming context:
+The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself. Please, refer to NGSIv2 or NGSI-LD base classes in the `connectorconf.py` file to understand their structure.
+- Run the streaming context, like the example below:
 ```python
-# (YOUR ALGORITHM TO PROCESS record)
+
+def MyProcessFunction:
+   # (YOUR ALGORITHM TO PROCESS record)
+   return result
+   
+'''
+Processing steps:
+   - Flattening entity list from event
+   - For each entity, takes 'someAttribute' and process its value with the previously defined function
+'''
+processed_record = record.flatMap(lambda x: x.entities).map(lambda x : MyProcessFunction(x.attrs['someAttribute].value))
+
+# Sink the result to trigger mapping
+processed_record.pprint()
+
+# Start the above workflow until termination
 ssc.start()
 ssc.awaitTermination()
 ```
