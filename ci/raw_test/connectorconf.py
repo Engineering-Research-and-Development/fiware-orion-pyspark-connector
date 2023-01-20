@@ -51,7 +51,8 @@ class ReplierConfiguration():
         self.placeholder_string = "%%TOREPLACE%%"
 
 
-
+RECV_SINGLETON = ReceiverConfiguration()
+REPL_SINGLETON = ReplierConfiguration()
 
 ### Connector Base Classes
 
