@@ -78,7 +78,7 @@ def parse(structured_NGSI_request : str) -> Union[NGSIEventv2, NGSIEventLD]:
     A function to convert API response into NGSIEvents
     '''
     
-    api_json = json.loads(structured_NGSI_request.decode('utf-8'))
+    api_json = json.loads(structured_NGSI_request)
     timestamp = api_json.get("timestamp", "")
     service = api_json.get("Fiware-Service", "")
     service_path = api_json.get('Fiware-Servicepath', "")
@@ -114,7 +114,7 @@ class ServerThread(Thread):
         try:
             while not self.awaken:
                 pass
-            print('Starting HTTP Server...')
+            print('Awakening HTTP Server...')
             self.server.serve_forever()
         except KeyboardInterrupt: 
             print('Server Stopped')
@@ -195,12 +195,11 @@ class SocketThread(Thread):
 
         try:
             self.server_socket.listen(self.configuration.max_concurrent_connections)
-            print('server socket opened')
+            print('Multi Thread Socket Server Listening')
             while True:    
                 (client, client_address) = self.server_socket.accept()
                 if self.first_client == None:
                     self.first_client = client
-                    print("Awakening Server")
                     self.server_thread.awake()
                 else:
                     connection_thread  = ConnectionThread(self.server_socket, client, client_address, self.first_client)
@@ -223,6 +222,7 @@ def structureNGSIRequest(request: str, body: str, timestamp: str) -> str:
     # Loading Configuration file for request completeness
     configuration  = RECV_SINGLETON
     body = body.decode('utf-8')
+    print(body)
 
     # Case 1: Completeness (Headers + Body)
     if configuration.request_completeness:
@@ -280,7 +280,7 @@ class OrionPysparkRequestHandler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         
       
-        msg=structureNGSIRequest(self, str(post_data), timestamp)  
+        msg=structureNGSIRequest(self, post_data, timestamp)  
 
 	    
         socket_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -316,17 +316,18 @@ def StartConnector():
             configuration.socket_port += 1
         except Exception as e:
             exit()
+    print(f"Started Multi-Thread socket servet at: {socket_address}")
 
     while True:
         try:
             server_address = (configuration.http_address, configuration.http_port)
-            print(server_address)
             httpd = HTTPServer(server_address, OrionPysparkRequestHandler)
             break
         except OSError as e:
             configuration.http_port += 1
         except Exception as e:
             exit()
+    print(f"Bound HTTP endpoint at: {server_address}")
 
     threadserver = ServerThread(httpd)
     threadserver.start()
