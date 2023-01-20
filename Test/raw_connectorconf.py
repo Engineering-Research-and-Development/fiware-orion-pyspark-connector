@@ -50,7 +50,9 @@ class ReplierConfiguration():
         self.blueprint_file = "Test.txt"
         self.placeholder_string = "%%TOREPLACE%%"
 
-
+        
+RECV_SINGLETON = ReceiverConfiguration()
+REPL_SINGLETON = ReplierConfiguration()
         
         
 ### Connector Base Classes
