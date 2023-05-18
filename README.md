@@ -1,4 +1,8 @@
 # FIWARE Orion PySpark Connector 
+
+![py-spark](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/2eec9346-b576-4f8d-84cb-ad57b49ce6f3)
+
+
 [![](https://nexus.lab.fiware.org/static/badges/chapters/core.svg)](https://www.fiware.org/developers/catalogue/)
 [![License: AGPL](https://img.shields.io/github/license/Engineering-Research-and-Development/iotagent-opcua.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![Support badge](https://img.shields.io/badge/support-stackoverflow-orange)](https://stackoverflow.com/questions/tagged/fiware+orion+pyspark+connector)
