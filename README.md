@@ -53,7 +53,7 @@ The FIWARE Orion PySpark Connector is licensed under [Affero General Public Lice
 
 © 2022 Engineering Ingegneria Informatica S.p.A.
 
-PySpark Connector has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreements No 952003 [AI REGIO](https://www.airegio-project.eu/) and 870062 [CAPRI](https://www.capri-project.com/).
+PySpark Connector has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreements No  870062 [CAPRI](https://www.capri-project.com/).
 
 
 ### Are there any legal issues with AGPL 3.0? Is it safe for me to use?
