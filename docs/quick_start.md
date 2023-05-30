@@ -10,7 +10,7 @@ Once installed the requirements, it is possible to use the connector by followin
    -  The "REQUEST_COMPLETENESS" field in this file allow the user to choose if obtain a raw body (JSON Format) or the whole request (with HTTP Headers) to work with a NGSIEvent Object
    -  The SOCKET_BUFFER field allow the user to increment the socket buffer to match his needs.
    -  The MAX_CONCURRENT_CONNECTIONS field allow the user to set the maximum concurrent connections of the main socket. It is suggested to keep this number sufficiently high. **Please, remember that the number of EFFECTIVE_CONCURRENT CONNECTIONS = (MAX_CONCURRENT_CONNECTIONS - 1) since 1 connection is reserved by the pyspark socket.**
-- Make a subscription to the Orion Broker, inserting the same HTTP server address and port you chose for the configuration file.
+- Make a subscription in the Context Broker, inserting the same HTTP server address and port you chose for the configuration file.
 - Import all PySpark functions needed for starting the Spark Streaming:
 ```python
 from pyspark import SparkContext
@@ -38,7 +38,7 @@ connector.RECV_SINGLETON.http_port = 10025
 #Start the connector
 record, streamingcontext = connector.Prime(sc, YOUR-DESIRED-NUMBER-OF-SECONDS, StorageLevel.MEMORY_AND_DISK_2)
 ```
-The connector will receive data from the orion broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself. Please, refer to NGSIv2 or NGSI-LD base classes in the `connectorconf.py` file to understand their structure.
+The connector will receive data from the broker and its bhaviour is based on both the configuration file (if it accepts only body or whole request) and the type of request arrived on the HTTPServer, automatically deciding if the request contains a NGSIv2 or NGSI-LD data. The function above returns both the stream data to be processed (via PySpark mapping) and the streaming context itself. Please, refer to NGSIv2 or NGSI-LD base classes in the `connectorconf.py` file to understand their structure.
 - Run the streaming context, like the example below:
 ```python
 
