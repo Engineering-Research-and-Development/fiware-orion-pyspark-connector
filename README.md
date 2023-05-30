@@ -11,34 +11,34 @@
 [![Coverage Status](https://coveralls.io/repos/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector/badge.svg?branch=increase-coverage-2)](https://coveralls.io/github/Engineering-Research-and-Development/fiware-orion-pyspark-connector?branch=increase-coverage-2)
 
 
-The FIWARE Orion PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Orion Context Broker and PySpark
+The FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Context Brokers and PySpark
 
 | :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | :whale: [Docker Hub](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
  
 ## Table of Contents
 
--   [What Is Orion PySpark Connector](#what-is-orion-pyspark-connector)
--   [Why Use Orion PySpark Connector](#why-use-orion-pyspark-connector)
+-   [What Is FIWARE PySpark Connector](#what-is-fiware-pyspark-connector)
+-   [Why Use FIWARE PySpark Connector](#why-use-fiware-pyspark-connector)
 -   [Requirements and installation](docs/requirements.md)
 -   [Quick start](docs/quick_start.md)
 -   [Docker](docs/docker.md)
 -   [Roadmap](docs/roadmap.md)
 
 
-## What Is Orion PySpark Connector
-Orion PySpark Connector is a FIWARE Generic Enabler (GE) made of a receiver and a replier subcomponents allowing a bidirectional communication between the FIWARE Orion Context Broker (CB) and PySpark. The component works on a low-level socket communication implementing a message passing interface between the two aforementioned counterparts. This interface is equipped with a parser function, hence permitting the creation of both NGSIv2 and NGSI-LD entities ready to use in a custom PySpark algorithm. Once data are preprocessed inside the PySpark evnironment, the component also provide a write-back interface (via REST API) to the Orion CB.
+## What Is FIWARE PySpark Connector
+FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) made of a receiver and a replier subcomponents allowing a bidirectional communication between the FIWARE Context Brokers (CB) and PySpark. The component works on a low-level socket communication implementing a message passing interface between the two aforementioned counterparts. This interface is equipped with a parser function, hence permitting the creation of both NGSIv2 and NGSI-LD entities ready to use in a custom PySpark algorithm. Once data are preprocessed inside the PySpark evnironment, the component also provide a write-back interface (via REST API) to the CBs.
 
 
-## Why Use Orion PySpark Connector
-Orion PySpark Connector was created with the idea of expanding the FIWARE Orion CB's environment to merge with python's one. Python is currently one of the most used programming languages for data analysis, providing lots of scientific libraries for data processing and visualization. Orion, on the other hand, is a powerful tool allowing the management of context elements and sending updates via subscriptions. This connector is able to open a communication path between these two instruments and to combine the advantages they provide at a little-to-none cost.
+## Why Use FIWARE PySpark Connector
+FIWARE PySpark Connector was created with the idea of expanding the FIWARE CB's environment to merge with python's one. Python is currently one of the most used programming languages for data analysis, providing lots of scientific libraries for data processing and visualization. Context brokers such as Orion, on the other hand, are powerful tools allowing the management of context elements and sending updates via subscriptions. This connector is able to open a communication path between these two instruments and to combine the advantages they provide at a little-to-none cost.
 
 
 ## Component Architecture
 ![Pysparkconnector drawio](https://user-images.githubusercontent.com/103200695/171157871-a3904c76-e961-45d5-ad01-507604944ad2.png)
 
 
-The Orion-PySpark receiver is currently a custom tool capable of receiving HTTP messages from a Orion broker and transform them to produce a batched stream of NGSI events to be processed by a PySpark job.
+The FIWARE-PySpark receiver is currently a custom tool capable of receiving HTTP messages from a context broker and transform them to produce a batched stream of NGSI events to be processed by a PySpark job.
 The tool is represented in the above diagram and it is made of:
 
 
@@ -49,7 +49,7 @@ The tool is represented in the above diagram and it is made of:
 
 ## License
 
-The FIWARE Orion PySpark Connector is licensed under [Affero General Public License (GPL) version 3](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/LICENSE.txt).
+The FIWARE PySpark Connector is licensed under [Affero General Public License (GPL) version 3](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/LICENSE.txt).
 
 © 2022 Engineering Ingegneria Informatica S.p.A.
 
