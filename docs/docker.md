@@ -17,7 +17,7 @@ hostname -I
 ```
 then change the HTTPServerAddress variable in the configuration file with the output of the command
 
-### If the orion broker runs on another docker container
+### If the Context Broker runs on another docker container
 
 To allow communication between docker containers it is necessary to start a bridge and connect. Type in terminal:
 ```console
