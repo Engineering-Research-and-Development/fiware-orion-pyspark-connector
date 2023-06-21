@@ -36,7 +36,16 @@ echo "installing python requirements: pyspark"
 pip3 install 'pyspark==3.2.1'
 echo "installing python requirements: psutil"
 pip3 install psutil
-echo "installing connector"
-pip3 install fiware-pyspark-connector
-echo "connector succesfully imported"
- 
+echo "installed every python dependency"
+echo "installing the connector"
+echo "downloading repository"
+wget https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/archive/refs/heads/main.zip
+unzip main.zip
+echo "repository downloaded and unzipped"
+mkdir ci/PySpark/
+mv fiware-orion-pyspark-connector-main/FPC/connector.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/FPC/connectorconf.py ./ci/PySpark/
+# mv fiware-orion-pyspark-connector-main/FPC/subscribing_tool.py ./ci/PySpark/
+rm -r fiware-orion-pyspark-connector-main
+rm main.zip
+echo "connector succesfully installed"
