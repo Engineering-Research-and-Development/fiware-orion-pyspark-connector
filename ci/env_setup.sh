@@ -45,6 +45,7 @@ echo "repository downloaded and unzipped"
 mkdir ci/PySpark/
 mv fiware-orion-pyspark-connector-main/FPC/connector.py ./ci/PySpark/
 mv fiware-orion-pyspark-connector-main/FPC/connectorconf.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/FPC/__init__.py ./ci/PySpark/
 mv fiware-orion-pyspark-connector-main/FPC/subscribing_tool.py ./ci/PySpark/
 rm -r fiware-orion-pyspark-connector-main
 rm main.zip
