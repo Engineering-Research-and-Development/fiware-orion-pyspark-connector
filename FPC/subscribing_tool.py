@@ -2,8 +2,8 @@ from datetime import datetime
 import requests
 import json
 
-import connectorconf
-from connectorconf import NGSIAttribute, NGSIEntityv2, NGSIEntityLD
+import FPC.connectorconf
+from FPC.connectorconf import NGSIAttribute, NGSIEntityv2, NGSIEntityLD
 import sys
 
 
