@@ -1,4 +1,4 @@
-import orion_pyspark_connector as connector
+import as connector
 from pyspark import SparkContext, SparkConf, StorageLevel
 
 import os
