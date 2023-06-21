@@ -18,9 +18,10 @@
 
 ### Medium Term
 
-- [ ] Make the connector available with a docker image **Working**
+- [x] Make a working environment available with a docker image **Completed on 21/06/2023**
 - [x] Subscribing tool **Completed on 20/09/2022**
 - [x] Collapsed receiver and replier into one library and one configuration file **Completed on 20/09/2022**
+- [x] Make the connector available as python package with pip **Completed on 21/06/2023**
 - [ ] Efficiency improvements
 - [x] Better Socket management (automatic ports) **Completed on 20/01/2023** 
 - [ ] Find a **more elegant** way to keep only Spark sockets in memory without blocking the server
