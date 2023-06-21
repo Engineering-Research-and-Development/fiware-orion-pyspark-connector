@@ -1,4 +1,4 @@
-import orion_pyspark_connector as connector
+import connector
 #import subscribing_tool as sub
 
 

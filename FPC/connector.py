@@ -14,7 +14,7 @@ from typing import Union, Tuple, List, Type, Any
 from threading import Thread
 from datetime import datetime
 
-from connectorconf import *
+from FPC.connectorconf import *
 
 
 
@@ -438,6 +438,10 @@ def UnstructuredReplyToBroker(body: str, api_url: str = REPL_SINGLETON.api_url, 
     Sends the passed message to the context broker.
     '''
     return sendRequest(body, api_url, api_method)
+
+
+def Test():
+    print(RECV_SINGLETON.http_address)
 
     
 

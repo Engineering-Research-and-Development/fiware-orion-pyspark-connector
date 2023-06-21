@@ -16,6 +16,11 @@ Once downloaded this file, open the terminal in the repository folder and run th
 pip3 install -r conn_requirements.txt
 ```
 
+Then it is possible to install the connector through the pip packet manager:
+```console
+pip3 install fiware-pyspark-connector
+```
+
 Now every required library to run the connector is ready. <br />
 **N.B:** The requirements files contains requirement for the connector and the primer. Spark itself is omitted since it is assumed that this library is already installed. If spark is needed, use the following guide:
 

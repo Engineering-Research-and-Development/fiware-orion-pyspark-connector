@@ -26,16 +26,5 @@ RUN export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 RUN pip3 install 'py4j==0.10.9.3'
 RUN pip3 install 'pyspark==3.2.1'
 RUN pip3 install psutil
+RUN pip3 install fiware-pyspark-connector
 
-RUN wget https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/archive/refs/heads/main.zip
-RUN unzip main.zip
-
-
-RUN mkdir ../PySpark/
-
-RUN mv fiware-orion-pyspark-connector-main/receiver/orion_pyspark_connector.py ../PySpark/
-RUN mv fiware-orion-pyspark-connector-main/receiver/connectorconf.py ../PySpark/
-RUN mv fiware-orion-pyspark-connector-main/receiver/subscribing_tool.py ../PySpark/
-
-RUN rm -r fiware-orion-pyspark-connector-main
-RUN rm main.zip
