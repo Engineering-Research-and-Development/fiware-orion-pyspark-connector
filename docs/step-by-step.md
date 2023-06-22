@@ -1,5 +1,9 @@
-## Step-by-Step Tutorial
-
 <p align="center">
   <a href="https://www.fiware.org/developers"><img  src="https://fiware.github.io/tutorials.IoT-over-MQTT/img/fiware.png"></a>
 </p>
+
+## FIWARE PySpark Connector Step-by-Step Tutorial
+
+This is a step-by-step tutorial on how to configure a working example to try the FIWARE pyspark connector. In this tutorial, we simulate an on-line  residual useful life prediction for batteries. To do so, a machine learning model trained on battery data is deployed as a PySpark algorithm using a spark cluster, while Orion Context Broker provide data from unseen same-type batteries. This setup allow the real-time prediction of batterie's residual useful life.
+
+### What is PySpark?
