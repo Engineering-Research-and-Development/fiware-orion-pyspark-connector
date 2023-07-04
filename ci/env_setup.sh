@@ -44,10 +44,10 @@ unzip main.zip
 echo "repository downloaded and unzipped"
 mkdir ci/PySpark/
 sed -i "s/FPC.connectorconf/connectorconf/g" fiware-orion-pyspark-connector-main/FPC/connector.py
-mv fiware-orion-pyspark-connector-main/FPC/connector.py ./ci/PySpark/
-mv fiware-orion-pyspark-connector-main/FPC/connectorconf.py ./ci/PySpark/
-mv fiware-orion-pyspark-connector-main/FPC/__init__.py ./ci/PySpark/
-mv fiware-orion-pyspark-connector-main/FPC/subscribing_tool.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/fpc/connector.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/fpc/connectorconf.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/fpc/__init__.py ./ci/PySpark/
+mv fiware-orion-pyspark-connector-main/fpc/subscribing_tool.py ./ci/PySpark/
 rm -r fiware-orion-pyspark-connector-main
 rm main.zip
 echo "connector succesfully imported"
