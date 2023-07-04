@@ -8,7 +8,7 @@ Once installed the requirements, it is possible to use the connector by followin
 from pyspark import SparkContext
 from pyspark import SparkConf
 from pyspark import StorageLevel
-from FPC import connector
+from fpc import connector
 ```
 - The connector is configured with default values. If needed, manually configure the connector using the **RECV_SINGLETON** instance of the replier configurer class:
 ```python
@@ -71,10 +71,8 @@ ssc.awaitTermination()
 
 - In you PySpark job import the connector library and set up your configuration by accessing the singleton instance of the replier configuration class, i.e:
 ```python
-from FPC import connector
+from fpc import connector
 
-connector.REPL_SINGLETON.api_url = # Insert a valid CB API URL
-connector.REPL_SINGLETON.api_method = # Choose among "POST" "PUT" "PATCH"
 connector.REPL_SINGLETON.fiware_service = # Fiware-Service Header for HTTP Requests
 connector.REPL_SINGLETON.fiware_servicepath = # Fiware-ServicePath Header for HTTP Requests
 connector.REPL_SINGLETON.content_type = # Default set to "application/json; charset=utf-8"
@@ -82,6 +80,9 @@ connector.REPL_SINGLETON.content_type = # Default set to "application/json; char
 connector.REPL_SINGLETON.blueprint_file = # Relative path to a blueprint file for complex requests
 connector.REPL_SINGLETON.placeholder_string # Placeholder string for complex requests
 ```
+**WARNING:** Due to spark workers initializing different variables, singleton instances should be modified INSIDE the processing function (i.e: *MyProcessFunction* above)
+
+
 - **The replier can be used in three different modes: structured, unstructured and semi-structured.**
 
 - *Structured mode*:
@@ -125,7 +126,7 @@ The subscribing tool is an optional tool capable of making easy subscription to 
 
 - To use the subscribing tool, import it with the following line of code:
 ```python
-from FPC import subscribing_tool as sub
+from fpc import subscribing_tool as sub
 ```
 **Remember: the subscription tool will use the same configuration of the connector. If needed, configure both the receiver and replier side**
 ```python
