@@ -121,8 +121,9 @@ response.pprint()
 
 ```python
 API_URL = "http://broker:port/....."
-API_METHOD = "PATCH / POST / PUT" 
-response = record.map(lambda x: connector.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }', API_URL, API_METHOD))
+API_METHOD = "PATCH / POST / PUT"
+message = '{"price" :' + str(x.attrs["price"].value) +' }'
+response = record.map(lambda x: connector.UnstructuredReplyToBroker(message, API_URL, API_METHOD))
 response.pprint()
 ```
 
