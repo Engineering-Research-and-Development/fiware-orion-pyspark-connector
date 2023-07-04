@@ -91,7 +91,9 @@ connector.REPL_SINGLETON.placeholder_string # Placeholder string for complex req
    - Take in account that this method is slower than the others (since files are read from disk) and it fits well when completing large bodies
    - Use the ReplyToBroker function passing the values from the algorithm
 ```python
-response = record.map(lambda x: connector.ReplyToBroker(x))
+API_URL = "http://broker:port/....."
+API_METHOD = "PATCH / POST / PUT" 
+response = record.map(lambda x: connector.ReplyToBroker(x, API_URL, API_METHOD))
 response.pprint()
 ```
 
@@ -100,8 +102,12 @@ response.pprint()
    - If the algorithm produces more than one value, make sure that the incoming values are ordered with respect to the body fields
    - This method is faster than the structured one, but it fits for small request bodies
    - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes like in the following example (i.e: the replace string configured is %%PLACEHOLDER%%):
+
 ```python
-response = record.map(lambda x: connector.SemistructuredReplyToBroker(x, '{"example" : %%PLACEHOLDER%% }'))
+API_URL = "http://broker:port/....."
+API_METHOD = "PATCH / POST / PUT" 
+body_to_pass = '{"example" : %%TOREPLACE%% }'
+response = record.map(lambda x: connector.SemistructuredReplyToBroker(x, body_to_pass, API_URL, API_METHOD))
 response.pprint()
 ```
 
@@ -112,8 +118,11 @@ response.pprint()
    - Make sure that every value x from the algorithm is casted to string by using the str() keyword
    - This method fits well when the algorithm returns very complex structures (i.e: an entire NGSI Entity) to insert in very small requests
    - This method is the fastest one, but it fits for small request bodies and is more error prone that the others
+
 ```python
-response = record.map(lambda x: connector.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }'))
+API_URL = "http://broker:port/....."
+API_METHOD = "PATCH / POST / PUT" 
+response = record.map(lambda x: connector.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }', API_URL, API_METHOD))
 response.pprint()
 ```
 
