@@ -1,8 +1,4 @@
-# cd /data/Concrete_Prediction
-# spark-submit predict.py --py-files model.pickle
-
-from FPC import connector
-#import connectorconf
+from fpc import connector
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType
@@ -30,28 +26,31 @@ sc = spark.sparkContext
 loaded_model = pickle.load(open("./model.pickle", "rb"))
 
 
-###### CONNECTOR CONFIGURATION #######
-
+###### CONNECTOR CONFIGURATION FOR MASTER - BEFORE STARTING #######
 connector.RECV_SINGLETON.http_address = "172.28.1.1"
 connector.RECV_SINGLETON.http_port = 8061
-
-
-
-
 ###########################################
 
 def Predict(iter):
-
+    
+    ###### CONNECTOR CONFIGURATION FOR WORKERS - AFTER CONNECTOR STARTED #######
     connector.REPL_SINGLETON.fiware_service = "tutorial"
     connector.REPL_SINGLETON.fiware_servicepath = "/pyspark"
     connector.REPL_SINGLETON.placeholder_string = "%%PLACEHOLDER%%"
-    
+    ###########################################
+
+    # Iterating over entities (coming from flatmap)
     for entity in iter:
+        # Picking values from OCB, converting into "horizontal" numpy array
         values = np.array([val.value for val in entity.attrs.values()]).reshape(1, -1)
+        # Creating a pandas dataframe to speed up data preparation
         df = pd.DataFrame(values, columns=list(entity.attrs.keys()))
+        # Dropping target column and taking prediction single value
         record = df.drop('strength', axis=1).to_numpy().reshape(1,-1)
         prediction = loaded_model.predict(record)[0]
+        # Computing absolute error between ground truth and predicted value
         MAE = np.abs(df['strength'].to_numpy() - prediction)
+        # Preparing body for request, sending to CB
         body = '''{"predicted_strength": {"value": %%PLACEHOLDER%% }, "prediction_error" : {"value": %%PLACEHOLDER%% }}'''
         response = connector.SemistructuredReplyToBroker([prediction, MAE], body, "http://172.28.2.1:1026/v2/entities/Concrete/attrs/", "PATCH")
         print(response)
@@ -67,16 +66,8 @@ except Exception as e:
     print(e)
 
 
-
+# Run until killed
 ssc.start()
 ssc.awaitTermination()
 
-'''
-while True:
-    try:
-        time.sleep(600)
-    except Exception as e:
-        #f.close()
-        sys.exit(0)
-'''
 
