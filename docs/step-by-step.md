@@ -17,11 +17,24 @@ The **FIWARE PySpark Connector** is a FIWARE Generic Enabler (GE) that facilitat
 ## Tutorial Introduction
 
 For this tutorial, a docker-compose is provided with all necessary components:
-- A *Spark Cluster*
+- A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
+    - numpy
+    - scipy
+    - simpy
+    - pandas
+    - scikit-learn
+    - matplotlib
+    - seaborn
+    - fiware-pyspark-connector
 - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
 - A *MongoDB* database
+Other needed libraries can be installed if needed, extension is explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository
 
-  Moreover, the following components
+Moreover, the following components are suggested to speed up operations:
+- [Postman](https://www.postman.com/)
+  - Postman can be installed using snap on linux, using `sudo snap install postman`
+- [Robo 3T](https://robomongo.org/)
+  - In the same way, Robo 3T can be installed in linux using `sudo snap install robo3t-snap`
 
 
 
