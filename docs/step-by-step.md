@@ -16,7 +16,13 @@ The **FIWARE PySpark Connector** is a FIWARE Generic Enabler (GE) that facilitat
 
 ## Tutorial Introduction
 
-For this tutorial, a docker-compose is provided with all necessary components:
+### What is this tutorial?
+
+
+### Preparing the toolkit
+All [**resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) for this tutorial are provided.
+
+In the above-linked folder, it is possible to find a docker-compose with all necessary components:
 - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
     - numpy
     - scipy
