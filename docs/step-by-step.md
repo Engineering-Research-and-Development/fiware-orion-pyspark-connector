@@ -24,12 +24,31 @@ This cement industry knew with large times the need of creating a machine learni
 
 Having such dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
 
+Here, we set up our tutorial: we are providing a service capable of making near-real-time inference on data provided by a context broker. We have our trained model and all we want is to use it to predict concrete strength based on data the industry provides. Focus was mainly put on the interaction between Orion and PySpark (where the inference algorithm runs), hence in explaining how the *fiware-pyspark-connector* can be used to make this interaction possible.
+
+Therefore, this tutorial **is NOT covering**
+- Data Ingestion through Agents
+- Data Pipelines. In short, the training and prediction algorithms are tuned to work well together and data are considered already clean
+- Data Visualization
 
 
 ### Preparing the toolkit
-In the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder it is possible to find a set of instruments necessary to set up the inference environment.
 
-The first tool is a docker-compose containing the necessary FIWARE/Apache components:
+This tutorial needs few tools to be up and running.
+
+First of all, the following components are suggested to speed up operations:
+- [Postman](https://www.postman.com/)
+  - Postman can be installed by running the executable on Windows and using snap on Linux: `sudo snap install postman`
+  - It is useful to make requests to the context broker without using curl.
+  - *Strongly* suggested
+- [Robo 3T](https://robomongo.org/)
+  - In the same way, Robo 3T can be installed on linux using the command `sudo snap install robo3t-snap`
+  - It is useful to rapidly explore and query mongo, but it is not so strongly suggested as postman
+
+
+Then the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder it is possible to find a set of instruments necessary to set up the inference environment.
+
+The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
 - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
     - numpy
     - scipy
@@ -41,15 +60,21 @@ The first tool is a docker-compose containing the necessary FIWARE/Apache compon
     - **pyspark**
     - **fiware-pyspark-connector**
 - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
-- A *MongoDB* database
-Other needed libraries can be installed if needed, extension is explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository
+- A *MongoDB* database (for Orion)
+Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
 
-Moreover, the following components are suggested to speed up operations:
-- [Postman](https://www.postman.com/)
-  - Postman can be installed using snap on linux, using `sudo snap install postman`
-- [Robo 3T](https://robomongo.org/)
-  - In the same way, Robo 3T can be installed in linux using `sudo snap install robo3t-snap`
+Second, the **"Jobs"** Folder. In this folder there are:
+- The *Concrete_Training* folder , containing:
+  - a minimal source code used for training (for curious, data exploration phase is offline)
+  - the .csv dataset
+- The *Concrete_Prediction* folder, with:
+  - the inference source code, the one that is explained in the next sections
+  - the .csv dataset
+ 
+In the end, a **Postman Repository** with all the necessary API to get ready.
 
+
+## Get Started!
 
 
 
