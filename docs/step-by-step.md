@@ -74,8 +74,7 @@ Second, the **"Jobs"** Folder. In this folder there are:
 Finally, a **Postman Repository** with all the necessary API to get ready.
 
 
-## Get Started!
-
+## Architecture
 
 
 
