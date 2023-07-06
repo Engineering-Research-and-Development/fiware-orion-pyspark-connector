@@ -46,7 +46,7 @@ First of all, the following components are suggested to speed up operations:
   - It is useful to rapidly explore and query mongo, but it is not so strongly suggested as postman
 
 
-Then the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder it is possible to find a set of instruments necessary to set up the inference environment.
+Then, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder, it is possible to find some necessary tools to set up our working inference environment.
 
 The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
 - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
