@@ -57,8 +57,8 @@ The first thing is a **docker-compose** containing the necessary FIWARE/Apache c
     - scikit-learn
     - matplotlib
     - seaborn
-    - **pyspark**
-    - **fiware-pyspark-connector**
+    - *pyspark*
+    - ***fiware-pyspark-connector***
 - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
 - A *MongoDB* database (for Orion)
 Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
