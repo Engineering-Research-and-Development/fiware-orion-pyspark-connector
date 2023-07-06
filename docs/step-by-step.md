@@ -71,7 +71,7 @@ Second, the **"Jobs"** Folder. In this folder there are:
   - the inference source code, the one that is explained in the next sections
   - the .csv dataset
  
-In the end, a **Postman Repository** with all the necessary API to get ready.
+Finally, a **Postman Repository** with all the necessary API to get ready.
 
 
 ## Get Started!
