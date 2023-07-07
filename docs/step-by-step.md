@@ -76,6 +76,9 @@ Finally, a **Postman Repository** with all the necessary API to get ready.
 
 ## Architecture
 
+<p align="center">
+  <img  src="https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/2a975b11-60d7-43a4-b6f9-626f8a1ef273">
+</p>
 
-![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/c589fd18-de6b-45a3-83bf-fa5c0065aadc)
+
 
