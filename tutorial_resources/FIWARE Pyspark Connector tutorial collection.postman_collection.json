@@ -182,7 +182,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"description\": \"Subscription to connector\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"id\": \"Concrete\",\n        \"type\": \"Material\"\n      }\n    ],\n    \"condition\": {\n      \"attrs\": [\"cement\"]\n    }\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://172.28.1.1:8061\"\n    },\n    \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n  },\n  \"expires\": \"2099-01-01T14:00:00.00Z\"\n}",
+					"raw": "{\n  \"description\": \"Subscription to connector\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"id\": \"Concrete\",\n        \"type\": \"Material\"\n      }\n    ],\n    \"condition\": {\n      \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n    }\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://172.28.1.1:8061\"\n    },\n    \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n  },\n  \"expires\": \"2099-01-01T14:00:00.00Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
