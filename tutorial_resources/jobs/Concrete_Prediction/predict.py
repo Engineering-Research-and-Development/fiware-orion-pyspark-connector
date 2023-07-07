@@ -57,7 +57,7 @@ def PredictAndComputeError(x, y):
 def InjectAndPredict(iter):
     # Function injected into workers to work on RDDs
     
-    ###### CONNECTOR CONFIGURATION INJECT #######
+    ###### CONNECTOR CONFIGURATION INJECTION #######
     connector.REPL_SINGLETON.fiware_service = "tutorial"
     connector.REPL_SINGLETON.fiware_servicepath = "/pyspark"
     connector.REPL_SINGLETON.placeholder_string = "%%PLACEHOLDER%%"
