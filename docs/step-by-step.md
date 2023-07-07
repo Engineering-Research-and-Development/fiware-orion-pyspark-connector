@@ -80,5 +80,5 @@ Finally, a **Postman Repository** with all the necessary API to get ready.
   <img  src="https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/2a975b11-60d7-43a4-b6f9-626f8a1ef273">
 </p>
 
-
+The above figure explains the overall architecture set up in the tutorial.
 
