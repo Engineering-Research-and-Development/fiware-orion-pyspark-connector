@@ -63,7 +63,6 @@ Then, in the [**tutorial_resources**](https://github.com/Engineering-Research-an
   - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
   - A *MongoDB* database (for Orion)
 
-
 - Second, the **"Jobs"** Folder. In this folder there are:
   - The *Concrete_Training* folder , containing:
     - a minimal source code used for training (for curious, data exploration phase is offline)
