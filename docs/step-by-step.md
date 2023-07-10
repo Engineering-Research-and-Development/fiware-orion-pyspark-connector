@@ -47,31 +47,32 @@ First of all, the following components are suggested to speed up operations:
 
 
 Then, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder, it is possible to find some necessary tools to set up our working inference environment.
-The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
-- A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
-    - numpy
-    - scipy
-    - simpy
-    - pandas
-    - scikit-learn
-    - matplotlib
-    - seaborn
-    - *pyspark*
-    - ***fiware-pyspark-connector***
-- The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
-- A *MongoDB* database (for Orion)
+
+- The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
+  - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
+      - numpy
+      - scipy
+      - simpy
+      - pandas
+      - scikit-learn
+      - matplotlib
+      - seaborn
+      - *pyspark*
+      - ***fiware-pyspark-connector***
+  - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
+  - A *MongoDB* database (for Orion)
 
 Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
 
-Second, the **"Jobs"** Folder. In this folder there are:
-- The *Concrete_Training* folder , containing:
-  - a minimal source code used for training (for curious, data exploration phase is offline)
-  - the .csv dataset
-- The *Concrete_Prediction* folder, with:
-  - the inference source code, the one that is explained in the next sections
-  - the .csv dataset
+- Second, the **"Jobs"** Folder. In this folder there are:
+  - The *Concrete_Training* folder , containing:
+    - a minimal source code used for training (for curious, data exploration phase is offline)
+    - the .csv dataset
+  - The *Concrete_Prediction* folder, with:
+    - the inference source code, the one that is explained in the next sections
+    - the .csv dataset
   
-Finally, a **Postman Repository** with all the necessary API to get ready.
+- Finally, a **Postman Repository** with all the necessary API to get ready.
 
 
 ## Architecture
