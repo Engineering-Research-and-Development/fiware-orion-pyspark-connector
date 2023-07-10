@@ -20,9 +20,9 @@ The **FIWARE PySpark Connector** is a FIWARE Generic Enabler (GE) that facilitat
 
 This sci-fi real-world use case is set up in the mineral industry and, in particular, in a cement industry that wants to produce an hi-quality concrete. One of the most important features for a good concrete is the *concrete compressive strength (MPa)*, that is a feature nonlinearly bound with other characteristics, such as the age and the quantity of each ingredents.
 
-This cement industry knew with large times the need of creating a machine learning model to compute the perfect recipe (that's why is sci-fi), so they collected a fair amount of recipes experiments in a [dataset](https://www.kaggle.com/datasets/vinayakshanawad/cement-manufacturing-concrete-dataset). This dataset encompasses a list of ingredients, expressed as density ($Kg/m^3$), and the age (days) as input features, and the concrete strength (MPa) as output feature.
+This cement industry knew with large times the need of creating a machine learning model to compute the perfect recipe, so they collected a fair amount of recipes experiments in a [dataset](https://www.kaggle.com/datasets/vinayakshanawad/cement-manufacturing-concrete-dataset) (*that's why sci-fi use case*). This dataset encompasses a list of ingredients, expressed as density ($Kg/m^3$), and the age (days) as input features, and the concrete strength (MPa) as output feature.
 
-Having such dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
+Having such a dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
 
 Here, we set up our tutorial: we are providing a service capable of making near-real-time inference on data provided by a context broker. We have our trained model and all we want is to use it to predict concrete strength based on data the industry provides. Focus was mainly put on the interaction between Orion and PySpark (where the inference algorithm runs), hence in explaining how the *fiware-pyspark-connector* can be used to make this interaction possible.
 
@@ -47,7 +47,6 @@ First of all, the following components are suggested to speed up operations:
 
 
 Then, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder, it is possible to find some necessary tools to set up our working inference environment.
-
 The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
 - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
     - numpy
@@ -62,7 +61,6 @@ The first thing is a **docker-compose** containing the necessary FIWARE/Apache c
 - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
 - A *MongoDB* database (for Orion)
 Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
-
 Second, the **"Jobs"** Folder. In this folder there are:
 - The *Concrete_Training* folder , containing:
   - a minimal source code used for training (for curious, data exploration phase is offline)
@@ -70,7 +68,6 @@ Second, the **"Jobs"** Folder. In this folder there are:
 - The *Concrete_Prediction* folder, with:
   - the inference source code, the one that is explained in the next sections
   - the .csv dataset
- 
 Finally, a **Postman Repository** with all the necessary API to get ready.
 
 
