@@ -85,7 +85,7 @@ The above figure explains the overall architecture set up in the tutorial.
 
 
 <p align="center">
-  <img width=532 heigth=725 src="https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/ac557edd-e959-468c-85fe-d87a87ae959a">
+  <img src="https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/ac557edd-e959-468c-85fe-d87a87ae959a">
 </p>
 
 
