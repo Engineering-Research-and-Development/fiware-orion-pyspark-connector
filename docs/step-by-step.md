@@ -115,7 +115,7 @@ The figure below shows the detailed process of connector setup, followed by data
    
 - **Third Phase: Data Processing**
   - Spark driver maps the RDD contaning NGSIEvent object to a worker
-    - Map function contains the custom processing function
+    - Map function uses a custom processing function, taking an RDD as input and returning custom function's output as "mapped" RDD
   - Result is returned as RDD.
   - If needed, other processing steps can be done
  
