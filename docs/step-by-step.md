@@ -80,8 +80,51 @@ Then, in the [**tutorial_resources**](https://github.com/Engineering-Research-an
   <img  src="https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/2a975b11-60d7-43a4-b6f9-626f8a1ef273">
 </p>
 
-The above figure explains the overall architecture set up in the tutorial.
+The above figure explains the overall architecture set up in the tutorial and how each component communicate with the others. In particular, it is possible to see that the context broker sends data to the driver machine, while workers are in charge to write back computation results (if any). In this scheme, we set up fixed ip addresses (using docker network) in order to speed up tutorial setup. Shown IPs, however, are not mandatory: it is possible to get any machine IPs and use that when configuring the connector.
+
+
+### How the FIWARE PySpark Connector Works
+
+The mechanism behind the pyspark connector is quite simple: it sets up a simple HTTP server to receive notifications from Orion and then pushes it inside PySpark using the [SocketTextStream](https://spark.apache.org/docs/3.1.1/api/python/reference/api/pyspark.streaming.StreamingContext.socketTextStream.html) function that creates an input TCP source for building *Resilient Distributed Datasets* (RDDs), the streaming data unit of pyspark. 
+The figure below shows the detailed process of connector setup, followed by data reception, management, processing and sinking.
 
 ![SequenceDiagram](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/1e2618d4-6641-4ced-b412-305c1db4bff0)
+
+- **First Phase: Setup (or handshaking)**
+  - (PRE) A PySpark session is already started
+  - Function *Prime* from fiware pyspark connector is called.
+    - Connector's HTTP server starts in sleeping phase
+    - Connector's Multi-Thread Socket Server (MTSS) starts, remaining in listening phase
+    - Spark Streaming context is initialized
+    - pyspark's SocketTextStream function creates a TCP input with any available local IPs and Port, connecting to MTSS
+    - MTSS saves pyspark's TCP socket as "first client"
+    - MTSS awakens HTTP Server
+  - Streaming Context and RDD channel are returned
+
+- **Second Phase: Data Reception**
+  - (PRE) Connector's HTTP Server is subscribed to Orion for an entity  
+  - (PRE) An attribute of the [subscribed](https://github.com/FIWARE/tutorials.Subscriptions) entity changed
+  - Orion sends a notification to Connector's HTTP Server
+  - HTTP Server structures the incoming HTTP packet into a string message
+  - HTTP Server open a random socket and sends incoming message to MTSS's central socket
+  - MTSS's central socket receive the message and opens a new Thread to handle this connection
+  - MTSS's turns the message to PySpark SocketTextStream
+  - PySpark maps the incoming message to a worker machine
+    - PySpark worker parses string message in a NGSIEvent object
+  - NGSIEvent is now available as RDD
+   
+- **Third Phase: Data Processing**
+  - Spark driver maps the RDD contaning NGSIEvent object to a worker
+    - Map function contains the custom processing function
+  - Result is returned as RDD.
+  - If needed, other processing steps can be done
+ 
+- **Fourth Phase: Data Write-back**
+  - Spark driver calls the *forEachRDD* function, then passes each rdd to the *forEachPartition* function, hence mapping the last result to a worker
+    - using *forEachRDD* is used as RDD sink (since pyspark is lazy, all operations are performed only when a sink operation is performed)
+    - using *forEachPartition* allow to set up connector parameters only once, then it iterates on incoming RDDs
+    - *forEachPartition* needs a callback function that uses an iterator as argument
+  - Connector sends a POST/PATCH/PUT request to orion
+  - Connector shows Orion response
 
 
