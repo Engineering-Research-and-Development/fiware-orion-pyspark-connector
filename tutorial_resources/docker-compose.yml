@@ -2,6 +2,7 @@ version: "3.3"
 services:
   spark-master:
     image: quay.io/darthfinal3/fiware-pyspark-connector
+    container_name: pyspark_master
     ports:
       - "9090:8080"
       - "7077:7077"
@@ -23,6 +24,7 @@ services:
       
   spark-worker-a:
     image: quay.io/darthfinal3/fiware-pyspark-connector
+    container_name: pyspark_worker_a
     ports:
       - "9091:8080"
       - "7000:7000"
@@ -50,6 +52,7 @@ services:
        
   spark-worker-b:
     image: quay.io/darthfinal3/fiware-pyspark-connector
+    container_name: pyspark_worker_b
     ports:
       - "9092:8080"
       - "7001:7000"
@@ -76,6 +79,7 @@ services:
         
   demo-database:
     image: postgres:11.7-alpine
+    container_name: pyspark_postgres
     ports: 
       - "5432:5432"
     environment: 
@@ -90,6 +94,7 @@ services:
           
   orion:
     hostname: orion
+    container_name: pyspark_orion
     image: fiware/orion:latest
     ports:
       - "1026:1026"
@@ -111,6 +116,7 @@ services:
   orion_mongo:
     hostname: orion_mongo
     image: mongo:4.2
+    container_name: pyspark_orion_mongo
     ports:
       - "27017:27017"
     volumes:
