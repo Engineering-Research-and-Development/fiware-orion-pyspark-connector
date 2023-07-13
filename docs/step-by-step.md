@@ -1,4 +1,4 @@
-![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/c8ab3000-c388-4f9d-84b5-95c9c772d1e7)<p align="center">
+<p align="center">
   <a href="https://www.fiware.org/developers"><img  src="https://fiware.github.io/tutorials.IoT-over-MQTT/img/fiware.png"></a>
 </p>
 
