@@ -171,7 +171,9 @@ spark-submit predict.py --py-files model.pickle
 The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. However, A deeper comprehension of what was done is necessary.
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
 Configuration file contains some class definition and default configuration values. Here's an example (figures may be dated and may not correspond to latest version of the connector):
+
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/41d2c7f0-c0d8-4b7b-a7fe-b06292182221)
+
 The above figure displays the Replier configuration class. It contains the following values:
 - *http_address:* IP of the HTTP server, defaultly set to host's IP
 - *http_port:* port of the HTTP server, defaultly set to 8061
