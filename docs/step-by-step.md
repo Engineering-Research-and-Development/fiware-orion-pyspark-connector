@@ -166,6 +166,17 @@ spark-submit predict.py --py-files model.pickle
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/841747ac-f5aa-4a6f-9887-85a0a41664e0)
 
 
-### Get Deeper
+### Get Deeper: How to use FIWARE PySpark Connector
+
 The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. However, A deeper comprehension of what was done is necessary.
-To start getting confidence
+To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
+Configuration file contains some class definition and default configuration values. Here's an example (figures may be dated and may not correspond to latest version of the connector):
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/41d2c7f0-c0d8-4b7b-a7fe-b06292182221)
+The above figure displays the Replier configuration class. It contains the following values:
+- *http_address:* IP of the HTTP server, defaultly set to host's IP
+- *http_port:* port of the HTTP server, defaultly set to 8061
+- *socket_address:* IP address of the main socket in the Multi-Thread Socket Server, default value is'localhost'
+- *socket_port:* = port of the main socket in the Multi-Thread Socket Server, default value is 9998
+- *request_completeness:* setting to abilitate parsing functionalities to convert the incoming HTTP request in NGSIEvent Object, otherwise they are treated as strings. Default value is True
+- *socket_buffer:* value that sets how large are messages exchanged in the MTSS. Default value is 2048, usually it is suitable for most cases
+- *max_concurrent_connections:* value setting how many concurrent connections are allowed by MTSS. Default value is 20
