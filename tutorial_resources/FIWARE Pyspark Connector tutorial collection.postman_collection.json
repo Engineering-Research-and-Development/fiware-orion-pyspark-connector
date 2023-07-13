@@ -141,7 +141,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": " {\n\n      \"cement\": {\"value\": 141.3, \"type\":\"number\"},\n      \"slag\": {\"value\": 212, \"type\":\"number\"},\n      \"ash\": {\"value\": 0, \"type\":\"number\"},\n      \"water\": {\"value\": 203, \"type\":\"number\"},\n      \"superplastic\": {\"value\": 0, \"type\":\"number\"},\n      \"coarseagg\": {\"value\": 971.8, \"type\":\"number\"},\n      \"fineagg\": {\"value\": 748.50, \"type\":\"number\"},\n      \"age\": {\"value\": 28, \"type\":\"number\"},\n      \"strength\": {\"value\": 29.89, \"type\":\"number\"}\n\n}"
+					"raw": " {\n\n      \"cement\": {\"value\": 141.31, \"type\":\"number\"},\n      \"slag\": {\"value\": 212, \"type\":\"number\"},\n      \"ash\": {\"value\": 0, \"type\":\"number\"},\n      \"water\": {\"value\": 203, \"type\":\"number\"},\n      \"superplastic\": {\"value\": 0, \"type\":\"number\"},\n      \"coarseagg\": {\"value\": 971.8, \"type\":\"number\"},\n      \"fineagg\": {\"value\": 748.50, \"type\":\"number\"},\n      \"age\": {\"value\": 28, \"type\":\"number\"},\n      \"strength\": {\"value\": 29.89, \"type\":\"number\"}\n\n}"
 				},
 				"url": {
 					"raw": "http://172.28.2.1:1026/v2/entities/Concrete/attrs",
@@ -182,7 +182,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"description\": \"Subscription to connector\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"id\": \"Concrete\",\n        \"type\": \"Material\"\n      }\n    ],\n    \"condition\": {\n      \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n    }\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://172.28.1.1:8061\"\n    },\n    \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n  },\n  \"expires\": \"2099-01-01T14:00:00.00Z\"\n}",
+					"raw": "{\n  \"description\": \"Subscription to connector\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"id\": \"Concrete\",\n        \"type\": \"Material\"\n      }\n    ],\n    \"condition\": {\n      \"attrs\": [\"age\", \"ash\", \"cement\", \"fineagg\", \"coarseagg\", \"slag\", \"strength\", \"superplastic\", \"water\"]\n    }\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://172.28.1.1:8061\"\n    },\n    \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n  },\n  \"expires\": \"2099-01-01T14:00:00.00Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
