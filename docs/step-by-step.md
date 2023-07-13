@@ -162,4 +162,10 @@ spark-submit predict.py --py-files model.pickle
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/2848cd37-7a8e-442d-abab-bb99c568f799)
 - Send the API to Orion.
 - To obtain a prediction, now, it is only necessary to change some values in the entity. Use the **Test Prediction** API changing some values. You can both use random values or search for a valid input in the dataset contained in *"jobs/Concrete_Training/concrete_dataset.csv"* file.
+- After updating the entity, the spark job should print some lines such as:
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/841747ac-f5aa-4a6f-9887-85a0a41664e0)
 
+
+### Get Deeper
+The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. However, A deeper comprehension of what was done is necessary.
+To start getting confidence
