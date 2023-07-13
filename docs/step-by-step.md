@@ -1,4 +1,4 @@
-<p align="center">
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/c8ab3000-c388-4f9d-84b5-95c9c772d1e7)<p align="center">
   <a href="https://www.fiware.org/developers"><img  src="https://fiware.github.io/tutorials.IoT-over-MQTT/img/fiware.png"></a>
 </p>
 
@@ -13,65 +13,6 @@ This is a step-by-step tutorial on how to configure a working example to try the
 
 The **FIWARE PySpark Connector** is a FIWARE Generic Enabler (GE) that facilitates two-way communication between the FIWARE Context Brokers (CB) and PySpark. It consists of two subcomponents, a receiver and a replier, which enable bidirectional data exchange. The connector operates at a low-level socket level, establishing a message passing interface between the CBs and PySpark. This interface includes a parser function, allowing for the creation of NGSIv2 and NGSI-LD entities that can be seamlessly integrated into custom PySpark algorithms. Furthermore, once data is processed within the PySpark environment, the connector offers a write-back interface via a REST API, enabling data to be sent back to the CBs.
 
-
-## Tutorial Introduction
-
-### Explaining the background scenario
-
-This sci-fi real-world use case is set up in the mineral industry and, in particular, in a cement industry that wants to produce an hi-quality concrete. One of the most important features for a good concrete is the *concrete compressive strength (MPa)*, that is a feature nonlinearly bound with other characteristics, such as the age and the quantity of each ingredents.
-
-This cement industry knew with large times the need of creating a machine learning model to compute the perfect recipe, so they collected a fair amount of recipes experiments in a [dataset](https://www.kaggle.com/datasets/vinayakshanawad/cement-manufacturing-concrete-dataset) (*that's why sci-fi use case*). This dataset encompasses a list of ingredients, expressed as density ($Kg/m^3$), and the age (days) as input features, and the concrete strength (MPa) as output feature.
-
-Having such a dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
-
-Here, we set up our tutorial: we are providing a service capable of making near-real-time inference on data provided by a context broker. We have our trained model and all we want is to use it to predict concrete strength based on data the industry provides. Focus was mainly put on the interaction between Orion and PySpark (where the inference algorithm runs), hence in explaining how the *fiware-pyspark-connector* can be used to make this interaction possible.
-
-Therefore, this tutorial **is NOT covering**
-- Data Ingestion through Agents
-- Data Pipelines. In short, the training and prediction algorithms are tuned to work well together and data are considered already clean
-- Data Visualization
-
-
-### Preparing the toolkit
-
-This tutorial needs few tools to be up and running.
-
-First of all, the following components are suggested to speed up operations:
-- [Postman](https://www.postman.com/)
-  - Postman can be installed by running the executable on Windows and using snap on Linux: `sudo snap install postman`
-  - It is useful to make requests to the context broker without using curl.
-  - *Strongly* suggested
-- [Robo 3T](https://robomongo.org/)
-  - In the same way, Robo 3T can be installed on linux using the command `sudo snap install robo3t-snap`
-  - It is useful to rapidly explore and query mongo, but it is not so strongly suggested as postman
-
-
-Then, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder, it is possible to find some necessary tools to set up our working inference environment.
-
-- The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
-  - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
-      - numpy
-      - scipy
-      - simpy
-      - pandas
-      - scikit-learn
-      - matplotlib
-      - seaborn
-      - *pyspark*
-      - ***fiware-pyspark-connector***
-      - Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
-  - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
-  - A *MongoDB* database (for Orion)
-
-- Second, the **"Jobs"** Folder. In this folder there are:
-  - The *Concrete_Training* folder , containing:
-    - a minimal source code used for training (for curious, data exploration phase is offline)
-    - the .csv dataset
-  - The *Concrete_Prediction* folder, with:
-    - the inference source code, the one that is explained in the next sections
-    - the .csv dataset
-  
-- Finally, a **Postman Repository** with all the necessary API to get ready.
 
 
 ## Architecture
@@ -127,4 +68,98 @@ The figure below shows the detailed process of connector setup, followed by data
   - Connector sends a POST/PATCH/PUT request to orion
   - Connector shows Orion response
 
+
+## Tutorial
+
+### Explaining the background scenario
+
+This sci-fi real-world use case is set up in the mineral industry and, in particular, in a cement industry that wants to produce an hi-quality concrete. One of the most important features for a good concrete is the *concrete compressive strength (MPa)*, that is a feature nonlinearly bound with other characteristics, such as the age and the quantity of each ingredents.
+
+This cement industry knew with large times the need of creating a machine learning model to compute the perfect recipe, so they collected a fair amount of recipes experiments in a [dataset](https://www.kaggle.com/datasets/vinayakshanawad/cement-manufacturing-concrete-dataset) (*that's why sci-fi use case*). This dataset encompasses a list of ingredients, expressed as density ($Kg/m^3$), and the age (days) as input features, and the concrete strength (MPa) as output feature.
+
+Having such a dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
+
+Here, we set up our tutorial: we are providing a service capable of making near-real-time inference on data provided by a context broker. We have our trained model and all we want is to use it to predict concrete strength based on data the industry provides. Focus was mainly put on the interaction between Orion and PySpark (where the inference algorithm runs), hence in explaining how the *fiware-pyspark-connector* can be used to make this interaction possible.
+
+Therefore, this tutorial **is NOT covering**
+- Data Ingestion through Agents
+- Data Pipelines. In short, the training and prediction algorithms are tuned to work well together and data are considered already clean
+- Data Visualization
+
+
+### Preparing the toolkit
+
+This tutorial needs few tools to be up and running.
+
+The first tool it is necessary to install [Docker](https://docs.docker.com/engine/install/) with [docker-compose](https://docs.docker.com/compose/). They are both mandatory tools to run the tutorial.
+
+Then, to speed up operations, the following components are also suggested:
+- [Postman](https://www.postman.com/)
+  - Postman can be installed by running the executable on Windows and using snap on Linux: `sudo snap install postman`
+  - It is useful to make requests to the context broker without using curl.
+  - *Strongly* suggested
+- [Robo 3T](https://robomongo.org/)
+  - In the same way, Robo 3T can be installed on linux using the command `sudo snap install robo3t-snap`
+  - It is useful to rapidly explore and query mongo, but it is not so strongly suggested as postman
+
+
+Finally, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder, it is possible to find the resources to set up our working inference environment.
+
+- The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
+  - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
+      - numpy
+      - scipy
+      - simpy
+      - pandas
+      - scikit-learn
+      - matplotlib
+      - seaborn
+      - *pyspark*
+      - ***fiware-pyspark-connector***
+      - Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
+  - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
+  - A *MongoDB* database (for Orion)
+
+- Second, the **"Jobs"** Folder. In this folder there are:
+  - The *Concrete_Training* folder , containing:
+    - a minimal source code used for training (for curious, data exploration phase is offline)
+    - the .csv dataset
+  - The *Concrete_Prediction* folder, with:
+    - the inference source code, the one that is explained in the next sections
+    - the .csv dataset
+  
+- Finally, a **Postman Repository** with all the necessary API to get ready.
+
+
+### Get Started!
+
+- First step to get started is to download the tutorial resource folder on your machine. It is possible to do it by using the github download zip function or cloning the repository via: 
+```git clone https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector.git```
+- Browse the newly downloaded folfer and search tutorial_resources one. Open the terminal in this folder, then use docker-compose to start the environment.
+```docker compose up -d```
+- While images are pulling and containers are building, open Postman and import the tutorial collection findable in the same folder containing the docker-compose. In the upper right part of the postman window it is possible to find an "import" button, click it and then select the *FIWARE Pyspark Connector tutorial collection.postman_collection.json* file.
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/867a7662-0261-4d21-8a03-d5906317998b)
+- Once the collection is imported, check if Orion is up by using the **Get Data Entity** API.
+  - Notice in the below figure that all collection's API contains both the **FIWARE-SERVICE** and **FIWARE-SERVICEPATH** headers set.
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/ad577be6-b245-4eda-a9c4-48e840338f81)
+- If you get a positive response status (200 OK), then orion is ready.
+- Open the **Create Data Entity** API and send it. It will create the entity where inputs and outputs are stored. In particular
+  - All ingredent quantity / age features are inputs
+  - "strength" attribyute will be used as input for this tutorial. It is the ground truth variable, used to compute the prediction error
+  - "predicted_strength" attribute and "prediction_error" attributes will be used to store the outputs of our prediction algorithm
+- Once the entity is created, it is possible to start the prediction algorithm. Open a new terminal and type:
+```cmd
+docker exec -it pyspark_master bash
+# Now all commands are run inside the container
+cd ./data/Concrete_Prediction
+spark-submit predict.py --py-files model.pickle
+```
+- The following terminal strings indicate that connector is up and running:
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/9c58d901-1e72-4c7c-b8ca-1f27573276a2)
+- Pick the ip and port of the HTTP endpoint (in image above, 172.28.1.1 and  8061)
+- Return in postman and search for **Connector Subscription** API.
+- Under notification, change the url using the same IP and port previously displayed
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/2848cd37-7a8e-442d-abab-bb99c568f799)
+- Send the API to Orion.
+- To obtain a prediction, now, it is only necessary to change some values in the entity. Use the **Test Prediction** API changing some values. You can both use random values or search for a valid input in the dataset contained in *"jobs/Concrete_Training/concrete_dataset.csv"* file.
 
