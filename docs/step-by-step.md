@@ -166,13 +166,10 @@ spark-submit predict.py --py-files model.pickle
 - After updating the entity, the spark job should print some lines such as:
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/841747ac-f5aa-4a6f-9887-85a0a41664e0)
 
-
-### Get Deeper: How to use FIWARE PySpark Connector
-
-The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. This subsection provides deeper comprehension of what it is necessary to do with custom algorithms to achieve those results.
+Until now, we just explained how FIWARE PySpark connector works, after being correctly configured and used. Next part of this tutorial provides deeper comprehension of what it is necessary to do with custom algorithms to achieve those results.
 
 
-### Configuration File
+### Configuration
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
 Configuration file contains some class definition and default configuration values. Here's an example: 
 
@@ -207,7 +204,7 @@ The below diagram is a scheme showing how classes are linked together:
 
 
 
-### How to build an integrated algorithm
+### Building an integrated algorithm
 
 This subsection wants to dive inside the code contained in [**predict.py**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/tutorial_resources/jobs/Concrete_Prediction/predict.py) to understand how to integrate your custom algorithm with the FIWARE PySpark connector.
 
