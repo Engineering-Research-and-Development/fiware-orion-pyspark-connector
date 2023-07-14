@@ -170,9 +170,10 @@ spark-submit predict.py --py-files model.pickle
 
 The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. However, A deeper comprehension of what was done is necessary.
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
-Configuration file contains some class definition and default configuration values. Here's an example (figures may be dated and may not correspond to latest version of the connector):
+Configuration file contains some class definition and default configuration values. Here's an example: 
 
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/41d2c7f0-c0d8-4b7b-a7fe-b06292182221)
+(figures may be dated and may not correspond to latest version of the connector)
 
 The above figure displays the Replier configuration class. It contains the following values:
 - *http_address:* IP of the HTTP server, defaultly set to host's IP
@@ -182,3 +183,13 @@ The above figure displays the Replier configuration class. It contains the follo
 - *request_completeness:* setting to abilitate parsing functionalities to convert the incoming HTTP request in NGSIEvent Object, otherwise they are treated as strings. Default value is True
 - *socket_buffer:* value that sets how large are messages exchanged in the MTSS. Default value is 2048, usually it is suitable for most cases
 - *max_concurrent_connections:* value setting how many concurrent connections are allowed by MTSS. Default value is 20
+
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/0d7c38cd-98cc-4877-8e14-ee5ea0202f8b)
+
+This one, instead, is the Replier configuragion class. It contains the following attributes:
+- *fiware_service:* value for the "Fiware-Service" header for an HTTP request [see above](#get-started)
+- *fiware_servicepath:* value corresponding to the "Fiware-ServicePath" header of the HTTP Request
+- *content_type:* attribute expressing content type for request. Default value is "application/json; charset=utf-8"
+- *blueprint_file:* name of a "skeleton" request file to be completed with processed values. Useful for complex requests.
+- *placeholder_string:* attribute containing a placeholder string that will be replaced with processed values. It can be used in combination with the blueprint file to easily build POST/PUT/PATCH requests to Orion
+
