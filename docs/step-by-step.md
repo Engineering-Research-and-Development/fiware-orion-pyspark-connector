@@ -236,7 +236,7 @@ connector.RECV_SINGLETON.http_port = 8061
 
 **Step 3: Implement Data Mapping in Data Preparation Function**
 
-In order to integrate data coming from OCB, it is necessary to understand how they will be structured in the FIWARE PySpark Connector. Its configuration file i
+A data preparation function is structured like the following one:
 ```python
 def PrepareData(entity):
     '''
@@ -255,3 +255,4 @@ def PrepareData(entity):
     y = df['strength'].to_numpy()
     return x, y
 ```
+It takes a NGSIEntity (v2) from an NGSI Event and extracts its attributes to build a data unit to be processed by the model. Notice that, since the subscription has not included the output attributes, it was only necessary to separate input features (ingredients, age) and strength in x and y values.
