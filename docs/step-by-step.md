@@ -174,7 +174,7 @@ To start getting familiar with FIWARE pyspark connector, let's speak of its conf
 Configuration file contains some class definition and default configuration values. Here's an example: 
 
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/41d2c7f0-c0d8-4b7b-a7fe-b06292182221)
-(figures may be dated and may not correspond to latest version of the connector)
+(figure above may be dated and may not correspond to latest version of the connector)
 
 The above figure displays the Replier configuration class. It contains the following values:
 - *http_address:* IP of the HTTP server, defaultly set to host's IP
@@ -186,6 +186,8 @@ The above figure displays the Replier configuration class. It contains the follo
 - *max_concurrent_connections:* value setting how many concurrent connections are allowed by MTSS. Default value is 20
 
 ![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/0d7c38cd-98cc-4877-8e14-ee5ea0202f8b)
+(figure above may be dated and may not correspond to latest version of the connector)
+
 
 This one, instead, is the Replier configuragion class. It contains the following attributes:
 - *fiware_service:* value for the "Fiware-Service" header for an HTTP request [see above](#get-started)
@@ -194,3 +196,12 @@ This one, instead, is the Replier configuragion class. It contains the following
 - *blueprint_file:* name of a "skeleton" request file to be completed with processed values. Useful for complex requests.
 - *placeholder_string:* attribute containing a placeholder string that will be replaced with processed values. It can be used in combination with the blueprint file to easily build POST/PUT/PATCH requests to Orion
 
+It is useful to know the configuration file since it contains both values usually not worthy to be changed (i.e.: socket buffer) but also values that may be changed runtime, if necessary. This configuration mechanism, in fact, allow an easy set up of the connector without worrying too much about some technical issues, but also allow a user to change configuration runtime. It is also useful to take in account that the environment in which the connector works is a spark cluster. This means that default configuration values are correctly held by both master (driver) and workers, however any change of configuration attributes during execution may not be consistent throughout the cluster. Usually, the *Replier* configuration runs only on driver, meaning that it is not necessary to worry about propagating new values into workers. However, since replier configuration is mainly used by workers, it will be necessary to change values only in functions.
+
+
+#### How to build an integrated algorithm
+
+This subsection wants to dive inside the code contained in [**predict.py**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/tutorial_resources/jobs/Concrete_Prediction/predict.py) to understand how to integrate your custom algorithm with the FIWARE PySpark connector.
+
+- **Step 1: Start a Spark Session**
+  First and foremost
