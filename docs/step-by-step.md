@@ -256,3 +256,17 @@ def PrepareData(entity):
     return x, y
 ```
 It takes a NGSIEntity (v2) from an NGSI Event and extracts its attributes to build a data unit to be processed by the model. Notice that, since the subscription has not included the output attributes, it was only necessary to separate input features (ingredients, age) and strength in x and y values.
+
+**Step 4: Reuse your prediction function**
+
+
+```python
+def PredictAndComputeError(x, y):
+    # Function already built to predict data, left as is.
+    
+    prediction = loaded_model.predict(x)[0]
+    # Computing absolute error between ground truth and predicted value
+    MAE = np.abs(y - prediction)
+    return prediction, MAE
+```
+
