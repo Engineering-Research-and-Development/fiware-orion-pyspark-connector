@@ -168,6 +168,7 @@ spark-submit predict.py --py-files model.pickle
 
 ### Get Deeper: How to use FIWARE PySpark Connector
 
+#### Configuration File
 The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. However, A deeper comprehension of what was done is necessary.
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
 Configuration file contains some class definition and default configuration values. Here's an example: 
