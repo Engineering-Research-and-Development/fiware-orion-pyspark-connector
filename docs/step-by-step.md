@@ -65,6 +65,7 @@ The figure below shows the detailed process of connector setup, followed by data
     - using *forEachRDD* is used as RDD sink (since pyspark is lazy, all operations are performed only when a sink operation is performed)
     - using *forEachPartition* allow to set up connector parameters only once, then it iterates on incoming RDDs
     - *forEachPartition* needs a callback function that uses an iterator as argument
+  - Spark driver sinks the data flux, mapping to worker an output function
   - Connector sends a POST/PATCH/PUT request to orion
   - Connector shows Orion response
 
@@ -168,8 +169,10 @@ spark-submit predict.py --py-files model.pickle
 
 ### Get Deeper: How to use FIWARE PySpark Connector
 
+The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. This subsection provides deeper comprehension of what it is necessary to do with custom algorithms to achieve those results.
+
+
 #### Configuration File
-The previous subsection just explained how FIWARE PySpark connector works, after being correctly configured and used. However, A deeper comprehension of what was done is necessary.
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
 Configuration file contains some class definition and default configuration values. Here's an example: 
 
@@ -198,6 +201,11 @@ This one, instead, is the Replier configuragion class. It contains the following
 
 It is useful to know the configuration file since it contains both values usually not worthy to be changed (i.e.: socket buffer) but also values that may be changed runtime, if necessary. This configuration mechanism, in fact, allow an easy set up of the connector without worrying too much about some technical issues, but also allow a user to change configuration runtime. It is also useful to take in account that the environment in which the connector works is a spark cluster. This means that default configuration values are correctly held by both master (driver) and workers, however any change of configuration attributes during execution may not be consistent throughout the cluster. Usually, the *Replier* configuration runs only on driver, meaning that it is not necessary to worry about propagating new values into workers. However, since replier configuration is mainly used by workers, it will be necessary to change values only in functions.
 
+Moreover, configuration files contains base classes used for parsing raw HTTP Requests into object. Knowing how classes are structured helps using NGSI Entity Objects to manipulate data.
+The below diagram is a scheme showing how classes are linked together:
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/90fe1e10-ea0b-483b-9b0c-132f61b7f276)
+
+
 
 #### How to build an integrated algorithm
 
@@ -224,4 +232,26 @@ Using few lines of code, it is possible to set any value for the receiver config
 connector.RECV_SINGLETON.http_address = "172.28.1.1"
 connector.RECV_SINGLETON.http_port = 8061
 ###########################################
+```
+
+**Step 3: Implement Data Mapping in Data Preparation Function**
+
+In order to integrate data coming from OCB, it is necessary to understand how they will be structured in the FIWARE PySpark Connector. Its configuration file i
+```python
+def PrepareData(entity):
+    '''
+    Function to prepare data for prediction.
+    It was adapted to prepare data from an NGSI Entity
+    '''
+    
+    ###### Lines of code necessary to pick attributes from an NGSI Entity and build a dataframe #####
+    # Picking values from OCB, converting into "horizontal" numpy array
+    values = np.array([val.value for val in entity.attrs.values()]).reshape(1, -1)
+    # Creating a pandas dataframe to speed up data preparation
+    df = pd.DataFrame(values, columns=list(entity.attrs.keys()))
+    #################################################################################################
+    # Dropping target column and taking prediction single value
+    x = df.drop('strength', axis=1).to_numpy().reshape(1,-1)
+    y = df['strength'].to_numpy()
+    return x, y
 ```
