@@ -1,7 +1,6 @@
 from fpc import connector
 
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType
 from pyspark import SparkContext, SparkConf, StorageLevel
 import time
 from datetime import datetime
