@@ -204,4 +204,5 @@ It is useful to know the configuration file since it contains both values usuall
 This subsection wants to dive inside the code contained in [**predict.py**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/tutorial_resources/jobs/Concrete_Prediction/predict.py) to understand how to integrate your custom algorithm with the FIWARE PySpark connector.
 
 - **Step 1: Start a Spark Session**
+  
   First and foremost
