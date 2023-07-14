@@ -205,4 +205,9 @@ This subsection wants to dive inside the code contained in [**predict.py**](http
 
 - **Step 1: Start a Spark Session**
   
-  First and foremost
+First and foremost, to use pyspark it is important to import PySpark libraries, the FIWARE PySpark Connector library and create or get a spark session to use:
+
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/0f98ba3a-b3f5-4a38-acda-d1fdd3bdf98d)
+
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/4a8541d5-930e-46c9-a0ce-86343213f0d9)
+Once getting the spark session, giving a name to the application and connecting to a master node (in this case local machine), we link the session to the *spark* variable, hence we are able to obtain the sparkContext which is the connection to the Spark Cluster that allows the creation of RDDs.
