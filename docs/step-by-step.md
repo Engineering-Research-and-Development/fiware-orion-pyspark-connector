@@ -203,7 +203,7 @@ It is useful to know the configuration file since it contains both values usuall
 
 Moreover, configuration files contains base classes used for parsing raw HTTP Requests into object. Knowing how classes are structured helps using NGSI Entity Objects to manipulate data.
 The below diagram is a scheme showing how classes are linked together:
-![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/90fe1e10-ea0b-483b-9b0c-132f61b7f276)
+![image](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/assets/103200695/c50ca52c-419d-4789-8d64-f99ed7b4ea12)
 
 
 
