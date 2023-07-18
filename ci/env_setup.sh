@@ -44,7 +44,7 @@ unzip main.zip
 echo "repository downloaded and unzipped"
 mkdir ci/PySpark/
 mkdir ci/PySpark/fpc
-sed -i "s/FPC.connectorconf/connectorconf/g" fiware-orion-pyspark-connector-main/fpc/connector.py
+sed -i "s/fpc.connectorconf/connectorconf/g" fiware-orion-pyspark-connector-main/fpc/connector.py
 mv fiware-orion-pyspark-connector-main/fpc/connector.py ./ci/PySpark/
 mv fiware-orion-pyspark-connector-main/fpc/connectorconf.py ./ci/PySpark/fpc
 mv fiware-orion-pyspark-connector-main/fpc/__init__.py ./ci/PySpark/
