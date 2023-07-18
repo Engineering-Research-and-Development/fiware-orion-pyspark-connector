@@ -1,4 +1,4 @@
-from connector
+import connector
 from pyspark import SparkContext, SparkConf, StorageLevel
 
 import os
