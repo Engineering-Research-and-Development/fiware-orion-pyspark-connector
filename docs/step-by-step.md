@@ -6,6 +6,7 @@
 
 This is a step-by-step tutorial on how to configure a working example to try the FIWARE pyspark connector. In this tutorial, we simulate an on-line  residual useful life prediction for batteries. To do so, a machine learning model trained on battery data is deployed as a PySpark algorithm using a spark cluster, while an Orion Context Broker provides data from unseen same-type batteries. This setup allows the real-time prediction of battery residual useful lifes.
 
+**TUTORIAL STATUS: UPDATED TO LAST VERSION**
 
 ## What are PySpark and FIWARE PySpark Connector?
 
@@ -321,3 +322,18 @@ def InjectAndPredict(iter):
 ```
 
 The use of the *foreachPartition* function is related to the setup of a connection. It is an efficient function that maps RDD partitions to workers, moreover it is also suggested as best practice when enstablishing connections. In this case we are making only REST calls to the context brokers, however if needed, you can integrate FIWARE PySpark Connector with other systems that may require a connection. In the first part of this function, we define the Replier's configuration. Since workers are different machines, it is necessary to explicitly define those configuration inside the mapped function. In this case, we have changed the *Fiware-Service* and *Fiware-ServicePath* headers, moreover we also defined a different placeholder String.
+
+Then, each RDD is processed by the iterator inside. We prepare data and make our predictions as explained above. In the end, we prepare a simple body skeleton to populate with our results and use the *SemistructuredReplyToBroker* replier function (explained [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/quick_start.md#replier)) to update orion.
+
+Well done, we have closed the loop!
+
+
+## Summary and Conclusion
+
+The above tutorial explained:
+- Some PySpark concept
+- The architecture of the FIWARE PySpark Connector and how data flow into it
+- How to integrate a custom near-realtime algorithm with Orion trhough the FIWARE PySpark Connector
+
+The FIWARE PySpark Connector is currently under development. New features can be added, other may become deprecated and/or deleted. This means that it may happen that some figures are not updated every time. Check the above status to ensure the tutorial is aligned with the last version.
+Please, use the [Issues](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/issues) or the [StackOverflow](https://stackoverflow.com/questions/tagged/fiware+orion+pyspark) channel to ask for help or suggest new features!
