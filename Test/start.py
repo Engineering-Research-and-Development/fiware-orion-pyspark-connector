@@ -1,4 +1,4 @@
-import connector
+from fpc import connector
 from pyspark import SparkContext, SparkConf, StorageLevel
 
 import os
