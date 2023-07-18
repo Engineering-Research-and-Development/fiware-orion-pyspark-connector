@@ -8,7 +8,7 @@ Once installed the requirements, it is possible to use the connector by followin
 from pyspark import SparkContext
 from pyspark import SparkConf
 from pyspark import StorageLevel
-from FPC import connector
+from fpc import connector
 ```
 - The connector is configured with default values. If needed, manually configure the connector using the **RECV_SINGLETON** instance of the replier configurer class:
 ```python
@@ -71,10 +71,8 @@ ssc.awaitTermination()
 
 - In you PySpark job import the connector library and set up your configuration by accessing the singleton instance of the replier configuration class, i.e:
 ```python
-from FPC import connector
+from fpc import connector
 
-connector.REPL_SINGLETON.api_url = # Insert a valid CB API URL
-connector.REPL_SINGLETON.api_method = # Choose among "POST" "PUT" "PATCH"
 connector.REPL_SINGLETON.fiware_service = # Fiware-Service Header for HTTP Requests
 connector.REPL_SINGLETON.fiware_servicepath = # Fiware-ServicePath Header for HTTP Requests
 connector.REPL_SINGLETON.content_type = # Default set to "application/json; charset=utf-8"
@@ -82,6 +80,9 @@ connector.REPL_SINGLETON.content_type = # Default set to "application/json; char
 connector.REPL_SINGLETON.blueprint_file = # Relative path to a blueprint file for complex requests
 connector.REPL_SINGLETON.placeholder_string # Placeholder string for complex requests
 ```
+**WARNING:** Due to spark workers initializing different variables, singleton instances should be modified INSIDE the processing function (i.e: *MyProcessFunction* above)
+
+
 - **The replier can be used in three different modes: structured, unstructured and semi-structured.**
 
 - *Structured mode*:
@@ -90,7 +91,9 @@ connector.REPL_SINGLETON.placeholder_string # Placeholder string for complex req
    - Take in account that this method is slower than the others (since files are read from disk) and it fits well when completing large bodies
    - Use the ReplyToBroker function passing the values from the algorithm
 ```python
-response = record.map(lambda x: connector.ReplyToBroker(x))
+API_URL = "http://broker:port/....."
+API_METHOD = "PATCH / POST / PUT" 
+response = record.map(lambda x: connector.ReplyToBroker(x, API_URL, API_METHOD))
 response.pprint()
 ```
 
@@ -99,8 +102,12 @@ response.pprint()
    - If the algorithm produces more than one value, make sure that the incoming values are ordered with respect to the body fields
    - This method is faster than the structured one, but it fits for small request bodies
    - In case of JSON bodies, remember that properties and string fields must be enclosed in double quotes, so the whole body should be enclosed in single quotes like in the following example (i.e: the replace string configured is %%PLACEHOLDER%%):
+
 ```python
-response = record.map(lambda x: connector.SemistructuredReplyToBroker(x, '{"example" : %%PLACEHOLDER%% }'))
+API_URL = "http://broker:port/....."
+API_METHOD = "PATCH / POST / PUT" 
+body_to_pass = '{"example" : %%TOREPLACE%% }'
+response = record.map(lambda x: connector.SemistructuredReplyToBroker(x, body_to_pass, API_URL, API_METHOD))
 response.pprint()
 ```
 
@@ -111,8 +118,12 @@ response.pprint()
    - Make sure that every value x from the algorithm is casted to string by using the str() keyword
    - This method fits well when the algorithm returns very complex structures (i.e: an entire NGSI Entity) to insert in very small requests
    - This method is the fastest one, but it fits for small request bodies and is more error prone that the others
+
 ```python
-response = record.map(lambda x: connector.UnstructuredReplyToBroker('{"price" :' + str(x.attrs["price"].value) +' }'))
+API_URL = "http://broker:port/....."
+API_METHOD = "PATCH / POST / PUT"
+message = '{"price" :' + str(x.attrs["price"].value) +' }'
+response = record.map(lambda x: connector.UnstructuredReplyToBroker(message, API_URL, API_METHOD))
 response.pprint()
 ```
 
@@ -125,7 +136,7 @@ The subscribing tool is an optional tool capable of making easy subscription to 
 
 - To use the subscribing tool, import it with the following line of code:
 ```python
-from FPC import subscribing_tool as sub
+from fpc import subscribing_tool as sub
 ```
 **Remember: the subscription tool will use the same configuration of the connector. If needed, configure both the receiver and replier side**
 ```python

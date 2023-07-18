@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "43eaf342-5e98-4471-9498-cb8a0fbff6e6",
+		"name": "FIWARE Pyspark Connector tutorial collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20344132"
+	},
+	"item": [
+		{
+			"name": "Get Data Entity",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Fiware-Service",
+						"value": "tutorial",
+						"type": "text"
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/pyspark",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://172.28.2.1:1026/v2/entities/Concrete",
+					"protocol": "http",
+					"host": [
+						"172",
+						"28",
+						"2",
+						"1"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"entities",
+						"Concrete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Fiware-Service",
+						"value": "tutorial",
+						"type": "text"
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/pyspark",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://172.28.2.1:1026/v2/subscriptions",
+					"protocol": "http",
+					"host": [
+						"172",
+						"28",
+						"2",
+						"1"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Data Entity",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Fiware-Service",
+						"value": "tutorial",
+						"type": "text"
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/pyspark",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n      \"id\":\"Concrete\", \n      \"type\":\"Material\",\n      \"cement\": {\"value\": 0, \"type\":\"number\"},\n      \"slag\": {\"value\": 1, \"type\":\"number\"},\n      \"ash\": {\"value\": 2, \"type\":\"number\"},\n      \"water\": {\"value\": 3, \"type\":\"number\"},\n      \"superplastic\": {\"value\": 4, \"type\":\"number\"},\n      \"coarseagg\": {\"value\": 5, \"type\":\"number\"},\n      \"fineagg\": {\"value\": 6, \"type\":\"number\"},\n      \"age\": {\"value\": 7, \"type\":\"number\"},\n      \"strength\": {\"value\": 8, \"type\":\"number\"},\n      \"predicted_strength\": {\"value\": 9, \"type\":\"number\"},\n      \"prediction_error\": {\"value\": 10, \"type\":\"number\"}\n\n}"
+				},
+				"url": {
+					"raw": "http://172.28.2.1:1026/v2/entities/",
+					"protocol": "http",
+					"host": [
+						"172",
+						"28",
+						"2",
+						"1"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"entities",
+						""
+					]
+				},
+				"description": "This example adds a new **Product** entity to the context.\n\nNew entities can be added by making a POST request to the `/v2/entities/` endpoint.\n\nThe request will **fail** if any of the attributes already exist in the context.\n\nAny entity must have a `id` and `type` attributes, each additional attributes are optional \nand will depend on the system being described. Each additional attribute should also have a \ndefined `type` and a `value` attribute. The product has been assigned a unique `id` following\nthe NGSI-LD  [draft recommendation](https://docbox.etsi.org/ISG/CIM/Open/ISG_CIM_NGSI-LD_API_Draft_for_public_review.pdf)  and has been assigned `type=Product`.\n\n---\nSubsequent requests using the same `id` will result in an error response."
+			},
+			"response": []
+		},
+		{
+			"name": "Test Prediction",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Fiware-Service",
+						"value": "tutorial",
+						"type": "text"
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/pyspark",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n\n      \"cement\": {\"value\": 141.31, \"type\":\"number\"},\n      \"slag\": {\"value\": 212, \"type\":\"number\"},\n      \"ash\": {\"value\": 0, \"type\":\"number\"},\n      \"water\": {\"value\": 203, \"type\":\"number\"},\n      \"superplastic\": {\"value\": 0, \"type\":\"number\"},\n      \"coarseagg\": {\"value\": 971.8, \"type\":\"number\"},\n      \"fineagg\": {\"value\": 748.50, \"type\":\"number\"},\n      \"age\": {\"value\": 28, \"type\":\"number\"},\n      \"strength\": {\"value\": 29.89, \"type\":\"number\"}\n\n}"
+				},
+				"url": {
+					"raw": "http://172.28.2.1:1026/v2/entities/Concrete/attrs",
+					"protocol": "http",
+					"host": [
+						"172",
+						"28",
+						"2",
+						"1"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"entities",
+						"Concrete",
+						"attrs"
+					]
+				},
+				"description": "This example adds a new **Product** entity to the context.\n\nNew entities can be added by making a POST request to the `/v2/entities/` endpoint.\n\nThe request will **fail** if any of the attributes already exist in the context.\n\nAny entity must have a `id` and `type` attributes, each additional attributes are optional \nand will depend on the system being described. Each additional attribute should also have a \ndefined `type` and a `value` attribute. The product has been assigned a unique `id` following\nthe NGSI-LD  [draft recommendation](https://docbox.etsi.org/ISG/CIM/Open/ISG_CIM_NGSI-LD_API_Draft_for_public_review.pdf)  and has been assigned `type=Product`.\n\n---\nSubsequent requests using the same `id` will result in an error response."
+			},
+			"response": []
+		},
+		{
+			"name": "Connector subscription",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Fiware-Service",
+						"value": "tutorial",
+						"type": "text"
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/pyspark",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"description\": \"Subscription to connector\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"id\": \"Concrete\",\n        \"type\": \"Material\"\n      }\n    ],\n    \"condition\": {\n      \"attrs\": [\"age\", \"ash\", \"cement\", \"fineagg\", \"coarseagg\", \"slag\", \"strength\", \"superplastic\", \"water\"]\n    }\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://172.28.1.1:8061\"\n    },\n    \"exceptAttrs\": [\"predicted_strength\", \"prediction_error\"]\n  },\n  \"expires\": \"2099-01-01T14:00:00.00Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.28.2.1:1026/v2/subscriptions",
+					"protocol": "http",
+					"host": [
+						"172",
+						"28",
+						"2",
+						"1"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
