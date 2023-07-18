@@ -71,7 +71,7 @@ The figure below shows the detailed process of connector setup, followed by data
   - Connector shows Orion response
 
 
-## Tutorial: How to Use the FIWARE PySpark Connector
+## Deploying the provided material
 
 ### Explaining the background scenario
 
@@ -170,7 +170,7 @@ spark-submit predict.py --py-files model.pickle
 Until now, we just explained how FIWARE PySpark connector works, after being correctly configured and used. Next part of this tutorial provides deeper comprehension of what it is necessary to do with custom algorithms to achieve those results.
 
 
-## Tutorial: How to Develop an NGSI-Integrated Custom Algorithm with FIWARE PySpark Connector
+## How to Develop an NGSI-Integrated Custom Algorithm with FIWARE PySpark Connector
 
 ### Configuration
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
@@ -332,6 +332,7 @@ Well done, we have closed the loop!
 
 The above tutorial explained:
 - Some PySpark concept
+- How to deploy a minimal application using the FIWARE PySpark Connector through docker
 - The architecture of the FIWARE PySpark Connector and how data flow into it
 - How to integrate a custom near-realtime algorithm with Orion trhough the FIWARE PySpark Connector
 
