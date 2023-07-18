@@ -1,0 +1,88 @@
+version: "3.3"
+services:
+  spark-master:
+    image: quay.io/darthfinal3/fiware-pyspark-connector
+    container_name: pyspark_master
+    ports:
+      - "9090:8080"
+      - "7077:7077"
+    volumes:
+       - ./apps:/opt/spark-apps
+       - ./data:/opt/spark-data
+       - ./jobs:/opt/spark/data
+    environment:
+      - SPARK_LOCAL_IP=spark-master
+      - SPARK_WORKLOAD=master
+    networks:
+      pyspark_net:
+        ipv4_address: 172.28.1.1
+    logging:
+      options:
+          max-size : "200m"
+      
+      
+  spark-worker-a:
+    image: quay.io/darthfinal3/fiware-pyspark-connector
+    container_name: pyspark_worker_a
+    ports:
+      - "9091:8080"
+      - "7000:7000"
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_DRIVER_MEMORY=1G
+      - SPARK_EXECUTOR_MEMORY=1G
+      - SPARK_WORKLOAD=worker
+      - SPARK_LOCAL_IP=spark-worker-a
+    volumes:
+       - ./apps:/opt/spark-apps:rw
+       - ./data:/opt/spark-data:rw
+    networks:
+      pyspark_net:
+        ipv4_address: 172.28.1.2
+    logging:
+      options:
+          max-size : "200m"
+          
+       
+       
+  spark-worker-b:
+    image: quay.io/darthfinal3/fiware-pyspark-connector
+    container_name: pyspark_worker_b
+    ports:
+      - "9092:8080"
+      - "7001:7000"
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_DRIVER_MEMORY=1G
+      - SPARK_EXECUTOR_MEMORY=1G
+      - SPARK_WORKLOAD=worker
+      - SPARK_LOCAL_IP=spark-worker-b
+    volumes:
+        - ./apps:/opt/spark-apps:rw
+        - ./data:/opt/spark-data:rw
+    networks:
+      pyspark_net:
+        ipv4_address: 172.28.1.3
+    logging:
+      options:
+          max-size : "200m"
+          
+        
+ 
+networks:
+  pyspark_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+    
+    
+   
