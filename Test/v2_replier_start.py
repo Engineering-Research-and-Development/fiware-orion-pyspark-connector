@@ -2,9 +2,9 @@ import connector
 #import subscribing_tool as sub
 
 
-response = connector.UnstructuredReplyToBroker('{ "value" :' + str(20) +' }',  "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/", "PUT")
-response2 = connector.SemistructuredReplyToBroker("20", '{"value" : %%TOREPLACE%% }',  "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/", "PUT")
-response3 = connector.ReplyToBroker("20",  "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/", "PUT")
+response = connector.UnstructuredReplyToBroker('{ "value" :' + str(20) +' }',  "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/", "PATCH")
+response2 = connector.SemistructuredReplyToBroker("20", '{"value" : %%TOREPLACE%% }',  "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/", "PATCH")
+response3 = connector.ReplyToBroker("20",  "http://localhost:1026/v2/entities/urn:ngsi-ld:Product:010/attrs/price/", "PATCH")
 
 
 msg = '{"timestamp":"2022-06-17T09:58:34.152716","Host":"10.0.2.15:8061","User-Agent":"orion/3.6.0 libcurl/7.61.1","Fiware-Servicepath":"/","Accept":"application/json","Content-Length":"260","Content-Type":"application/json; charset=utf-8","Fiware-Correlator":"49330d2c-ee13-11ec-be47-0242ac130002; cbnotif=1","Ngsiv2-AttrsFormat":"normalized","Body":{"subscriptionId":"62a8907ec8eef3395b17eafd","data":[{"id":"urn:ngsi-ld:Product:010","type":"Product","name":{"type":"Text","value":"Lemonade","metadata":{}},"price":{"type":"Number","value":20,"metadata":{}},"size":{"type":"Text","value":"S","metadata":{}}}]}}'
