@@ -1,7 +1,9 @@
 ## Docker
 #### THIS SECTION IS STILL WORK IN PROGRESS
 
-This connector is available with a docker image containing a working pyspark environment. <br />
+This connector is available with a docker image containing a working pyspark environment. The environment consists of a spark node with a set of data analysis libraries.<br />
+
+
 The docker image is available downloading it with the command:
 ```console
 docker pull quay.io/darthfinal3/fiware-pyspark-connector
@@ -17,6 +19,22 @@ docker exec -it pyspark_master bash
 hostname -I
 ```
 and use the IP address to set the HTTPServer endpoint configuration
+
+This image contains a minimal set of popular data analysis libraries, such as:
+- numpy
+- pandas
+- matplotlib
+- seaborn
+- scipy
+- simpy
+- scikit-learn
+And also contains the connector's library itself, with its dependencies:
+- fiware-pyspark-connector
+  - py4j
+  - pyspark
+  - requests
+  - psutil
+ 
 
 ### Running Through Docker-Compose
 
@@ -83,3 +101,30 @@ networks:
 ```    
 
 This docker compose configures two kind of nodes and a network. Each configuration is self-explainable. The only thing to remark is the additional folder mapping provided (./jobs:/opt/spark/data). Before launching the docker-compose, it is necessary to create a *jobs* folder in which to put the algorithms, otherwise the folder is created in restricted access mode and cannot be modified runtime. It is possible to add as much pyspark workers as needed and allocate the desired amount of resources for each of them.
+
+By using docker compose it is possible to expand the number of libraries to install by adding commands in docker compose:
+
+```yaml
+version: "3.3"
+services:
+  spark-master:
+    image: quay.io/REPOACCOUNT/fiware-pyspark-connector
+    container_name: pyspark_master
+    command: bash -c "pip3 install library"
+    ports:
+      - "9090:8080"
+      - "7077:7077"
+    volumes:
+       - ./apps:/opt/spark-apps
+       - ./data:/opt/spark-data
+       - ./jobs:/opt/spark/data
+    environment:
+      - SPARK_LOCAL_IP=spark-master
+      - SPARK_WORKLOAD=master
+    networks:
+      pyspark_net:
+        ipv4_address: 172.28.1.1
+    logging:
+      options:
+          max-size : "200m"
+```
