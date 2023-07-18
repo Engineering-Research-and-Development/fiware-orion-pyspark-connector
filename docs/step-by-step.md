@@ -170,7 +170,7 @@ spark-submit predict.py --py-files model.pickle
 Until now, we just explained how FIWARE PySpark connector works, after being correctly configured and used. Next part of this tutorial provides deeper comprehension of what it is necessary to do with custom algorithms to achieve those results.
 
 
-## Tutorial: How to Develop an NGSI-Integrated Custom Algorithm with FIWARE PySPark Connector
+## Tutorial: How to Develop an NGSI-Integrated Custom Algorithm with FIWARE PySpark Connector
 
 ### Configuration
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
