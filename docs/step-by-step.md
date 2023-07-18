@@ -70,7 +70,7 @@ The figure below shows the detailed process of connector setup, followed by data
   - Connector shows Orion response
 
 
-## Tutorial
+## Tutorial: How to Use the FIWARE PySpark Connector
 
 ### Explaining the background scenario
 
@@ -169,6 +169,8 @@ spark-submit predict.py --py-files model.pickle
 Until now, we just explained how FIWARE PySpark connector works, after being correctly configured and used. Next part of this tutorial provides deeper comprehension of what it is necessary to do with custom algorithms to achieve those results.
 
 
+## Tutorial: How to Develop an NGSI-Integrated Custom Algorithm with FIWARE PySPark Connector
+
 ### Configuration
 To start getting familiar with FIWARE pyspark connector, let's speak of its configuration file.
 Configuration file contains some class definition and default configuration values. Here's an example: 
@@ -252,10 +254,11 @@ def PrepareData(entity):
     y = df['strength'].to_numpy()
     return x, y
 ```
-It takes a NGSIEntity (v2) from an NGSI Event and extracts its attributes to build a data unit to be processed by the model. Notice that, since the subscription has not included the output attributes, it was only necessary to separate input features (ingredients, age) and strength in x and y values.
+It takes a NGSIEntity (v2) from an NGSI Event and extracts its attributes to build a data unit to be processed by the model. Notice that, since the subscription has not included the output attributes, it was only necessary to separate input features (ingredients, age) and strength in x and y values. Hence, it is only sufficient to add some line of code to map data, then you can re-use every data cleaning / transformation / quality check implemented before.
 
 **Step 4: Reuse your prediction function**
 
+As shown below, this function is a quite agnostic prediction function. It simply loads a model, predicts an output based on inputs, then uses the ground truth to compute the mean absolute error. Since data were mapped before, it is not necessary to add lines of code in this part.
 
 ```python
 def PredictAndComputeError(x, y):
@@ -267,3 +270,54 @@ def PredictAndComputeError(x, y):
     return prediction, MAE
 ```
 
+**Step 5: Define Worker Mapping in PySpark**
+
+Now is necessary to define some mapping functions to work with RDDs. This is the most tricky part of all FIWARE PySpark Connecto integration and it will be explained point by point.
+
+```python
+try:
+    event, ssc = connector.Prime(sc, 1 , StorageLevel.MEMORY_AND_DISK_2)
+    entity = event.flatMap(lambda x: x.entities)
+    entity.foreachRDD(lambda rdd: rdd.foreachPartition(InjectAndPredict))
+except Exception as e:
+    print(e)
+
+# Run until killed
+ssc.start()
+ssc.awaitTermination()
+```
+
+- First of all, we are in the try-catch block. Here it is necessary to start the [Spark Streaming Context](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.streaming.StreamingContext.html) This is done thanks the *Prime* function in connector's library. This function requires three arguments, which are the spark context, the duration (in seconds) of the receiving window, and a [Storage Level])https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.StorageLevel.html= in which data are stored during execution. Check the link for the list of possible storage levels and their meaning. Since PySpark streaming is based on the concept of DStreams (Discretized Streams), that are continuous RDDs of the same type catched and processed within a time window, we setup the connector to process those data every x seconds. The *Prime* function returns the DStream channel of NGSIEvents and the streaming context itself, created inside the connector. Those two objects are used in later steps.
+- Since we don't know how many events are catched in a second and how many entities are contained in each NGSIEvent, we flatten the DStream channel to be a list of entities captured in the time window defined before. In this way, we are able to capture each entity update, passing from an "Event Context" to the Entity itself.
+- For each RDD contained in the result of the *FlatMap* function (so each entity) we sink our data. PySpark Streaming is defined *lazy*, meaning that all operations are performed only when data are sunk. Some ways to sink data are the *foreachRDD* function or the *pprint* one. The first function is able to map RDDs to workers and perform operations, while pprint only sinks data showing them to terminal. Each RDD is processed by *foreachPartition* that requires a callback function, in this case named *InjectAndPredict* (it is shown in the following step).
+- Once defined the flow of data (it can be even more complex), the streaming context is started and will process data until termination.
+
+
+**Step 6: Callback Function Definition**
+
+Last, but not least, it is necessary to define the *foreachPartition*'s callback function: *InjectAndPredict*. This function is the "control point" of the entities coming from the previous step and performs all operations sinking the PySpark stream.
+
+```python
+def InjectAndPredict(iter):
+    # Function injected into workers to work on RDDs
+    
+    ###### CONNECTOR CONFIGURATION INJECTION #######
+    connector.REPL_SINGLETON.fiware_service = "tutorial"
+    connector.REPL_SINGLETON.fiware_servicepath = "/pyspark"
+    connector.REPL_SINGLETON.placeholder_string = "%%PLACEHOLDER%%"
+    ###########################################
+
+    # Iterating over entities (coming from flatmap)
+    for entity in iter:
+        
+        x, y = PrepareData(entity)
+        prediction, MAE = PredictAndComputeError(x, y)
+
+        # Preparing body for request, sending to CB
+        body = '''{"predicted_strength": {"value": %%PLACEHOLDER%% }, "prediction_error" : {"value": %%PLACEHOLDER%% }}'''
+        response = connector.SemistructuredReplyToBroker([prediction, MAE], body, "http://172.28.2.1:1026/v2/entities/Concrete/attrs/", "PATCH")
+        print(response)
+    return response
+```
+
+The use of the *foreachPartition* function is related to the setup of a connection. It is an efficient function that maps RDD partitions to workers, moreover it is also suggested as best practice when enstablishing connections. In this case we are making only REST calls to the context brokers, however if needed, you can integrate FIWARE PySpark Connector with other systems that may require a connection. In the first part of this function, we define the Replier's configuration. Since workers are different machines, it is necessary to explicitly define those configuration inside the mapped function. In this case, we have changed the *Fiware-Service* and *Fiware-ServicePath* headers, moreover we also defined a different placeholder String.
