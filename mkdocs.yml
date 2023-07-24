@@ -19,4 +19,5 @@ pages:
   - "Home": "index.md"
   - "User & Programmers Manual": "quick_start.md"
   - "Docker": "docker.md"
+  - "Step by Step tutorial": "step-by-step.md"
   - "Roadmap": "roadmap.md"
