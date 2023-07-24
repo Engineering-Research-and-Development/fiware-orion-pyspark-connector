@@ -20,11 +20,11 @@ The FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) creating a data br
 
 -   [What Is FIWARE PySpark Connector](#what-is-fiware-pyspark-connector)
 -   [Why Use FIWARE PySpark Connector](#why-use-fiware-pyspark-connector)
--   [Requirements and installation](docs/requirements.md)
--   [Quick start](docs/quick_start.md)
--   [Docker](docs/docker.md)
--   [Step-by-Step Tutorial](docs/step_by_step.md)
--   [Roadmap](docs/roadmap.md)
+-   [Requirements and installation](requirements.md)
+-   [Quick start](quick_start.md)
+-   [Docker](docker.md)
+-   [Step-by-Step Tutorial](step_by_step.md)
+-   [Roadmap](roadmap.md)
 
 
 ## What Is FIWARE PySpark Connector
