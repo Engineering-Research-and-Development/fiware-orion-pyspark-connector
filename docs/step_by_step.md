@@ -79,7 +79,7 @@ This sci-fi real-world use case is set up in the mineral industry and, in partic
 
 This cement industry knew with large times the need of creating a machine learning model to compute the perfect recipe, so they collected a fair amount of recipes experiments in a [dataset](https://www.kaggle.com/datasets/vinayakshanawad/cement-manufacturing-concrete-dataset) (*that's why sci-fi use case*). This dataset encompasses a list of ingredients, expressed as density ($Kg/m^3$), and the age (days) as input features, and the concrete strength (MPa) as output feature.
 
-Having such a dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
+Having such a dataset, they decided to train a machine learning model, namely a Random Forest Regressor, able to predict the concrete strenght. Training code is available [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/main/tutorial_resources/jobs/Concrete_Training). Once the model is trained, it is ready for inference.
 
 Here, we set up our tutorial: we are providing a service capable of making near-real-time inference on data provided by a context broker. We have our trained model and all we want is to use it to predict concrete strength based on data the industry provides. Focus was mainly put on the interaction between Orion and PySpark (where the inference algorithm runs), hence in explaining how the *fiware-pyspark-connector* can be used to make this interaction possible.
 
@@ -105,7 +105,7 @@ Then, to speed up operations, the following components are also suggested:
   - It is useful to rapidly explore and query mongo, but it is not so strongly suggested as postman
 
 
-Finally, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/step-by-step/tutorial_resources) folder, it is possible to find the resources to set up our working inference environment.
+Finally, in the [**tutorial_resources**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/tree/main/tutorial_resources) folder, it is possible to find the resources to set up our working inference environment.
 
 - The first thing is a **docker-compose** containing the necessary FIWARE/Apache components:
   - A *Spark Cluster* with a master node and two workers, containing the following python libraries and their dependencies:
@@ -118,7 +118,7 @@ Finally, in the [**tutorial_resources**](https://github.com/Engineering-Research
       - seaborn
       - *pyspark*
       - ***fiware-pyspark-connector***
-      - Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/docker.md) section of this repository.
+      - Other libraries can be installed on need, as explained in the [Docker](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/docker.md) section of this repository.
   - The [*Orion Context Broker*](https://fiware-orion.readthedocs.io/en/master/)
   - A *MongoDB* database (for Orion)
 
@@ -209,7 +209,7 @@ The below diagram is a scheme showing how classes are linked together:
 
 ### Building an integrated algorithm
 
-This subsection wants to dive inside the code contained in [**predict.py**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/tutorial_resources/jobs/Concrete_Prediction/predict.py) to understand how to integrate your custom algorithm with the FIWARE PySpark connector.
+This subsection wants to dive inside the code contained in [**predict.py**](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/tutorial_resources/jobs/Concrete_Prediction/predict.py) to understand how to integrate your custom algorithm with the FIWARE PySpark connector.
 
 - **Step 1: Start a Spark Session**
   
@@ -323,7 +323,7 @@ def InjectAndPredict(iter):
 
 The use of the *foreachPartition* function is related to the setup of a connection. It is an efficient function that maps RDD partitions to workers, moreover it is also suggested as best practice when enstablishing connections. In this case we are making only REST calls to the context brokers, however if needed, you can integrate FIWARE PySpark Connector with other systems that may require a connection. In the first part of this function, we define the Replier's configuration. Since workers are different machines, it is necessary to explicitly define those configuration inside the mapped function. In this case, we have changed the *Fiware-Service* and *Fiware-ServicePath* headers, moreover we also defined a different placeholder String.
 
-Then, each RDD is processed by the iterator inside. We prepare data and make our predictions as explained above. In the end, we prepare a simple body skeleton to populate with our results and use the *SemistructuredReplyToBroker* replier function (explained [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/step-by-step/docs/quick_start.md#replier)) to update orion.
+Then, each RDD is processed by the iterator inside. We prepare data and make our predictions as explained above. In the end, we prepare a simple body skeleton to populate with our results and use the *SemistructuredReplyToBroker* replier function (explained [here](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/quick_start.md#replier)) to update orion.
 
 Well done, we have closed the loop!
 
@@ -331,7 +331,7 @@ Well done, we have closed the loop!
 ## Summary and Conclusion
 
 The above tutorial explained:
-- Some PySpark concept
+- Some PySpark concepts
 - How to deploy a minimal application using the FIWARE PySpark Connector through docker
 - The architecture of the FIWARE PySpark Connector and how data flow into it
 - How to integrate a custom near-realtime algorithm with Orion trhough the FIWARE PySpark Connector
