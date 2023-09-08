@@ -32,6 +32,7 @@
 
 - [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
 - [ ] Include support for NGSI-LD temporal API
+- [ ] Include support for brokering systems such as Kafka or ActiveMQ
 - [ ] Adding security to connections
 - [ ] Adding conditions in the subscription tool
 
