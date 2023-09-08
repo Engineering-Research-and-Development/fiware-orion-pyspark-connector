@@ -34,7 +34,7 @@ The figure below shows the detailed process of connector setup, followed by data
 
 - **First Phase: Setup (or handshaking)**
   - (PRE) A PySpark session is already started
-  - Function *Prime* from fiware pyspark connector is called.
+  - Function *Prime* from FIWARE PySpark connector is called.
     - Connector's HTTP server starts in sleeping phase
     - Connector's Multi-Thread Socket Server (MTSS) starts, remaining in listening phase
     - Spark Streaming context is initialized
