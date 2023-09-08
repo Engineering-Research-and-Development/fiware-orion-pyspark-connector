@@ -31,6 +31,7 @@
 ### Long Term
 
 - [ ] Evolving this "SISO" connector in a "MIMO" one to support multiple spark jobs
+- [ ] Include support for NGSI-LD temporal API
 - [ ] Adding security to connections
 - [ ] Adding conditions in the subscription tool
 
