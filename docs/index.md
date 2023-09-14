@@ -2,7 +2,7 @@
 
 
 The FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) creating a data bridge between the FIWARE Context Brokers and PySpark.
-
+<br/>
 This project is part of [FIWARE](https://www.fiware.org/) For more information check the [FIWARE Catalogue](https://github.com/FIWARE/catalogue/tree/master/core)
 
  
