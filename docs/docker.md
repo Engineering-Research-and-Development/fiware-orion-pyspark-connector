@@ -54,7 +54,7 @@ services:
        - ./apps:/opt/spark-apps
        - ./data:/opt/spark-data
        - ./jobs:/opt/spark/data
-    environment:
+    env_file:
       - master.env
     networks:
       pyspark_net:
