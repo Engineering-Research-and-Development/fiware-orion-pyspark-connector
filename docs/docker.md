@@ -55,8 +55,7 @@ services:
        - ./data:/opt/spark-data
        - ./jobs:/opt/spark/data
     environment:
-      - SPARK_LOCAL_IP=spark-master
-      - SPARK_WORKLOAD=master
+      - master.env
     networks:
       pyspark_net:
         ipv4_address: 172.28.1.1
@@ -73,14 +72,8 @@ services:
       - "7000:7000"
     depends_on:
       - spark-master
-    environment:
-      - SPARK_MASTER=spark://spark-master:7077
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_DRIVER_MEMORY=1G
-      - SPARK_EXECUTOR_MEMORY=1G
-      - SPARK_WORKLOAD=worker
-      - SPARK_LOCAL_IP=spark-worker-x
+    env_file:
+      - worker.env
     volumes:
        - ./apps:/opt/spark-apps:rw
        - ./data:/opt/spark-data:rw
@@ -100,12 +93,26 @@ networks:
         - subnet: 172.28.0.0/16
 ```    
 
-This docker compose configures two kind of nodes and a network. Each configuration is self-explainable. The only thing to remark is the additional folder mapping provided (./jobs:/opt/spark/data).
-<br/>
-**WARNING**:
-Before launching the docker-compose, it is necessary to create a *jobs* folder in which to put the algorithms, otherwise the folder is created in restricted access mode and cannot be modified runtime. 
-<br/>
-It is possible to add as much pyspark workers as needed and allocate the desired amount of resources for each of them.
+This docker compose configures two kind of nodes and a network. Two environment files are provided, one for the master node, the other for worker nodes. In particular, master node configuration is useful to set up the spark cluster master node IP and workload, while the worker nodes can be configured to allocate a precise amount of resources, as it follows:
+
+- **SPARK_MASTER:** Spark master url
+- **SPARK_WORKER_CORES:** Number of cpu cores allocated for the worker
+- **SPARK_WORKER_MEMORY:** Amount of ram allocated for the worker (format: 512M, 1G, etc.)
+- **SPARK_DRIVER_MEMORY:** Amount of ram allocated for the driver programs (format: 512M, 1G, etc.)
+- **SPARK_EXECUTOR_MEMORY:** Amount of ram allocated for the executor programs (format: 512M, 1G, etc.)
+- **SPARK_WORKLOAD:** The spark workload to run (can be any of master, worker, submit; for workers use **worker**) 
+- **SPARK_LOCAL_IP:** local ip for worker, usually the container name
+
+It is possible to set up any amount of workers, even with different configurations. To do that, copy the "worker template" from the above docker compose and customize it following the criteria explained in the above list.
+
+Said so, the installation folder should have the following structure:
+
+- **INSTALLATION_FOLDER**
+- ------ worker.env
+- ------ master.env
+- ------ jobs
+
+Where the two env files are the ones needed to inject `env` variables in docker compose, while the **jobs** folder is the one used to load the algorithms you want to run with the pyspark connector. **WARNING: the jobs folder is mandatory, otherwise the docker compose will create a not modifiable folder**
 
 By using docker compose it is possible to expand the number of libraries to install by adding commands in docker compose:
 
@@ -123,9 +130,8 @@ services:
        - ./apps:/opt/spark-apps
        - ./data:/opt/spark-data
        - ./jobs:/opt/spark/data
-    environment:
-      - SPARK_LOCAL_IP=spark-master
-      - SPARK_WORKLOAD=master
+    env_file:
+      - master.env
     networks:
       pyspark_net:
         ipv4_address: 172.28.1.1
