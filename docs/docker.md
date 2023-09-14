@@ -10,7 +10,7 @@ docker pull quay.io/fiware/fiware-pyspark-connector
 ```
 Then run the docker image with the following command
 ```console
-docker run -it --name pyspark_master --mount src="PATH_TO_AN_EXISTING_DIRECTORY",dst=/PySpark,type=bind quay.io/darthfinal3/fiware-pyspark-connector
+docker run -it --name pyspark_master --mount src="PATH_TO_AN_EXISTING_DIRECTORY",dst=/PySpark,type=bind quay.io/fiware/fiware-pyspark-connector
 ```
 By running this command, docker creates a container with the chosen name. Then it is possible to mount the connector by simply passing algorithm files in the chosen source directory, findable inside the docker in the /PySpark directory. In this way, it is easy to change connector configuration or processing steps by simply chaning the custom pyspark algorithm from the local machine. <br />
 Since the docker container has its own ip address, you need to configure HTTP Server address of the receiver properly. To check the ip address of your docker, run the following command *inside* the container:
