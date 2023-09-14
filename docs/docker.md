@@ -107,10 +107,10 @@ It is possible to set up any amount of workers, even with different configuratio
 
 Said so, the installation folder should have the following structure:
 
-**INSTALLATION_FOLDER**
-|------ worker.env
-| ------ master.env
-| ------ jobs
+**INSTALLATION_FOLDER** <br\>
+|------ worker.env <br\>
+| ------ master.env <br\>
+| ------ jobs <br\>
 
 Where the two env files are the ones needed to inject `env` variables in docker compose, while the **jobs** folder is the one used to load the algorithms you want to run with the pyspark connector. **WARNING: the jobs folder is mandatory, otherwise the docker compose will create a not modifiable folder**
 
