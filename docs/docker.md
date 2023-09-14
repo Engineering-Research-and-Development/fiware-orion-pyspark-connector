@@ -100,7 +100,12 @@ networks:
         - subnet: 172.28.0.0/16
 ```    
 
-This docker compose configures two kind of nodes and a network. Each configuration is self-explainable. The only thing to remark is the additional folder mapping provided (./jobs:/opt/spark/data). Before launching the docker-compose, it is necessary to create a *jobs* folder in which to put the algorithms, otherwise the folder is created in restricted access mode and cannot be modified runtime. It is possible to add as much pyspark workers as needed and allocate the desired amount of resources for each of them.
+This docker compose configures two kind of nodes and a network. Each configuration is self-explainable. The only thing to remark is the additional folder mapping provided (./jobs:/opt/spark/data).
+<br/>
+**WARNING**:
+Before launching the docker-compose, it is necessary to create a *jobs* folder in which to put the algorithms, otherwise the folder is created in restricted access mode and cannot be modified runtime. 
+<br/>
+It is possible to add as much pyspark workers as needed and allocate the desired amount of resources for each of them.
 
 By using docker compose it is possible to expand the number of libraries to install by adding commands in docker compose:
 
