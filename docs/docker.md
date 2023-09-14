@@ -6,7 +6,7 @@ This connector is available with a docker image containing a working pyspark env
 
 The docker image is available downloading it with the command:
 ```console
-docker pull quay.io/darthfinal3/fiware-pyspark-connector
+docker pull quay.io/fiware/fiware-pyspark-connector
 ```
 Then run the docker image with the following command
 ```console
@@ -45,7 +45,7 @@ The preferred way to run the connector is trhough docker-compose. In this way it
 version: "3.3"
 services:
   spark-master:
-    image: quay.io/REPOACCOUNT/fiware-pyspark-connector
+    image: quay.io/fiware/fiware-pyspark-connector
     container_name: pyspark_master
     ports:
       - "9090:8080"
@@ -65,7 +65,7 @@ services:
       
       
   spark-worker-x:
-    image: quay.io/REPOACCOUNT/fiware-pyspark-connector
+    image: quay.io/fiware/fiware-pyspark-connector
     container_name: pyspark_worker_a
     ports:
       - "9091:8080"
@@ -120,7 +120,7 @@ By using docker compose it is possible to expand the number of libraries to inst
 version: "3.3"
 services:
   spark-master:
-    image: quay.io/REPOACCOUNT/fiware-pyspark-connector
+    image: quay.io/fiware/fiware-pyspark-connector
     container_name: pyspark_master
     command: bash -c "pip3 install library"
     ports:
