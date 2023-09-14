@@ -24,7 +24,7 @@ This project is part of [FIWARE](https://www.fiware.org/) For more information c
 - [Why Use FIWARE PySpark Connector](#why-use-fiware-pyspark-connector)
 - [Quick start](docs/quick_start.md)
 - [Requirements and installation](docs/requirements.md)
- - [Docker](docs/docker.md)
+  - [Docker](docs/docker.md)
 - [Step-by-Step Tutorial](docs/step_by_step.md)
 - [Roadmap](docs/roadmap.md)
 
