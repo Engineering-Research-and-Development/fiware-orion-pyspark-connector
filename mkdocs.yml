@@ -18,6 +18,7 @@ google_analytics: ["UA-198735649-1", "fiware-orion-pyspark-connector.readthedocs
 pages:
   - "Home": "index.md"
   - "User & Programmers Manual": "quick_start.md"
-  - "Docker": "docker.md"
+  - "Standalone Installation": "requirements.md"
+  - "Install with Docker": "docker.md"
   - "Step by Step Tutorial": "step_by_step.md"
   - "Roadmap": "roadmap.md"
