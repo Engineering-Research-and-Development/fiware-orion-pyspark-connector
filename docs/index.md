@@ -5,8 +5,6 @@ The FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) creating a data br
 <br/>
 This project is part of [FIWARE](https://www.fiware.org/) For more information check the [FIWARE Catalogue](https://github.com/FIWARE/catalogue/tree/master/core)
 
- 
-## Table of Contents
 
 - [What Is FIWARE PySpark Connector](#what-is-fiware-pyspark-connector)
 - [Why Use FIWARE PySpark Connector](#why-use-fiware-pyspark-connector)
@@ -17,6 +15,8 @@ This project is part of [FIWARE](https://www.fiware.org/) For more information c
 - [User Documentation](quick_start.md)
 - [Step-by-Step Tutorial](step_by_step.md)
 - [Roadmap](roadmap.md)
+
+
 
 ## What Is FIWARE PySpark Connector
 FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) made of a receiver and a replier subcomponents allowing a bidirectional communication between the FIWARE Context Brokers (CB) and PySpark. The component works on a low-level socket communication implementing a message passing interface between the two aforementioned counterparts. This interface is equipped with a parser function, hence permitting the creation of both NGSIv2 and NGSI-LD entities ready to use in a custom PySpark algorithm. Once data are preprocessed inside the PySpark evnironment, the component also provide a write-back interface (via REST API) to the CBs.
