@@ -3,7 +3,11 @@
 
 [![](https://nexus.lab.fiware.org/static/badges/chapters/core.svg)](https://www.fiware.org/developers/catalogue/)
 [![License: AGPL](https://img.shields.io/github/license/Engineering-Research-and-Development/iotagent-opcua.svg)](https://opensource.org/licenses/AGPL-3.0)
-[![Support badge](https://img.shields.io/badge/support-stackoverflow-orange)](https://stackoverflow.com/questions/tagged/fiware+orion+pyspark+connector)
+[![Support badge](https://img.shields.io/badge/tag-fiware+pyspark-orange.svg?logo=stackoverflow)](https://stackoverflow.com/questions/tagged/fiware+pyspark)
+<br/>
+[![Quay badge](https://img.shields.io/badge/quay.io-fiware%2Fpyspark--connector-grey?logo=red%20hat&labelColor=EE0000)](https://quay.io/repository/fiware/pyspark-connector)
+[![Docker badge](https://img.shields.io/badge/docker-rdlabengpa%2fiware--orion--pyspark--connector-blue?logo=docker)](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector)
+<br/>
 [![Documentation badge](https://readthedocs.org/projects/fiware-orion-pyspark-connector/badge/?version=latest)](https://fiware-orion-pyspark-connector.readthedocs.io)
 ![Status](https://nexus.lab.fiware.org/repository/raw/public/badges/statuses/incubating.svg)
 [![CI](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/workflows/CI/badge.svg)](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/actions?query=workflow%3ACI)
@@ -15,8 +19,8 @@ The FIWARE PySpark Connector is a FIWARE Generic Enabler (GE) creating a data br
 <br/>
 This project is part of [FIWARE](https://www.fiware.org/) For more information check the [FIWARE Catalogue](https://github.com/FIWARE/catalogue/tree/master/core)
 
-| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | :whale: [Docker Hub](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| :books: [Documentation](https://fiware-orion-pyspark-connector.readthedocs.io/en/latest/) | <img style="height:1em" src="https://quay.io/static/img/quay_favicon.png"/> [quay.io](https://quay.io/repository/fiware/pyspark-connector)  | :whale: [Docker Hub](https://hub.docker.com/r/rdlabengpa/fiware-orion-pyspark-connector) | :dart: [Roadmap](https://github.com/Engineering-Research-and-Development/fiware-orion-pyspark-connector/blob/main/docs/roadmap.md) |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --- |
  
 ## Table of Contents
 
