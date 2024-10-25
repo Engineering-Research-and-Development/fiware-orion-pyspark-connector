@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   spark-master:
-    image: quay.io/darthfinal3/fiware-pyspark-connector
+    image: quay.io/fiware/fiware-pyspark-connector
     container_name: pyspark_master
     ports:
       - "9090:8080"
@@ -22,7 +22,7 @@ services:
       
       
   spark-worker-a:
-    image: quay.io/darthfinal3/fiware-pyspark-connector
+    image: quay.io/fiware/fiware-pyspark-connector
     container_name: pyspark_worker_a
     ports:
       - "9091:8080"
@@ -50,7 +50,7 @@ services:
        
        
   spark-worker-b:
-    image: quay.io/darthfinal3/fiware-pyspark-connector
+    image: quay.io/fiware/fiware-pyspark-connector
     container_name: pyspark_worker_b
     ports:
       - "9092:8080"
